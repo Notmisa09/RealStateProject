@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-    @if (Model.HasError)
+    @if (Model.HasError == true)
     {
         <script>
             Swal.fire({
@@ -38,16 +38,17 @@
     <div class="container-fluid">
         <form method="post" asp-action="Index" asp-controller="User" class="mx-auto borde shadow-lg p-4">
             <img class="profileimage col-4 offset-4 mb-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF1pCT_TWm-0ZR-fGkqZDoN1lltAAZZIPkJg&s" />
-            <h4 class="text-center mb-4">Login</h4> 
+            <h4 class="text-center mb-4">Login</h4>
+            
             <div class="mb-3">
-                <label asp-for="Email" class="form-label">User Name</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control">
             </div>
             <div class="mb-3">
                 <label asp-for="Password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
-                
-                <a id="emailHelp" class="form-text mt-3">Forget password ?</a>
+                <input asp-for="Password" class="form-control">
+
+                <a class="form-text mt-3">Forget password ?</a>
                 <a class="form-text">You don't have an account yet?</a>
             </div>
 
