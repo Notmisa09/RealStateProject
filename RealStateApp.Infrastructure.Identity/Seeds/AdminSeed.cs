@@ -16,6 +16,7 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             adminuser.PhoneNumberConfirmed = true;
             adminuser.Email = "adminuser@gmail.com";
             adminuser.EmailConfirmed = true;
+            adminuser.IsActive = true;
 
            
             if(userManager.Users.All(u => u.Id != adminuser.Id))
