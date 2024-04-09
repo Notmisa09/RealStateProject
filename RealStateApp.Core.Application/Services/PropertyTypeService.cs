@@ -6,7 +6,7 @@ using RealStateApp.Core.Domain.Entities;
 
 namespace RealStateApp.Core.Application.Services
 {
-    public class PorpertyTypeService : GenericService<PropertyTypeViewModel, PropertyTypeAddViewModel, PropertyType>, IPropertyTypeService
+    public class PropertyTypeService : GenericService<PropertyTypeViewModel, PropertyTypeAddViewModel, PropertyType>, IPropertyTypeService
     {
         private readonly IMapper _mapper;
         private readonly IBaseRepository<PropertyType> _repository;
