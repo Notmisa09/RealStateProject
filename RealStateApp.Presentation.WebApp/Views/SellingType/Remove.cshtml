@@ -1,0 +1,21 @@
+﻿@using RealStateApp.Core.Application.ViewModels.SellingTypes;
+@model SellingTypeAddViewModel;
+
+@{
+    ViewData["Title"] = "Remove";
+}
+
+<div class="container-fluid">
+    <div class="col-4 offset-4">
+        <div class="card">
+            <form method="post" asp-controller="PropertyType" asp-action="RemoveTrue">
+                <div class="card-text">
+                    @Model.SellingTypeName
+                    @Model.Description
+                </div>
+                <button class="btn btn-danger">Delete</button>
+                <a class="btn btn-warning">Go Back</a>
+            </form>
+        </div>
+    </div>
+</div>

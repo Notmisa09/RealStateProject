@@ -1,4 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos
+@using RealStateApp.Core.Application.Helpers;
+@using RealStateApp.Core.Application.Enum;
+@inject IHttpContextAccessor httpContex;
+
+@{
+    var user = httpContex.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var admin = RolesEnum.Admin.ToString();
+    var client = RolesEnum.Client.ToString();
+    var agent = RolesEnum.Agent.ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +19,7 @@
     <title>@ViewData["Title"] - RealStateApp.Presentation.WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/table.css" />
     <link rel="stylesheet" href="~/RealStateApp.Presentation.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -18,20 +31,39 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Inicia Sesion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Unete a la app</a>
-                        </li>
+                        
+                        @if (user != null)
+                        {
+                            if (user.Roles.Contains(admin))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mantenimiento de tipo de propiedades</a>
+                                </li>   
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
+                                </li>   
+                            }
+                        }
+                        
+                        @if (user == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Agentes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Inicia Sesion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Unete a la app</a>
+                            </li>   
+                        }
+
                     </ul>
                 </div>
             </div>
@@ -43,14 +75,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - RealStateApp.Presentation.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

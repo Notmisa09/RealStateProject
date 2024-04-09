@@ -15,7 +15,5 @@ namespace RealStateApp.Core.Application.Services
             _repository = repository;
             _mapper = mapper;
         }
-
-
     }
 }

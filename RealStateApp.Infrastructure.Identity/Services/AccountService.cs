@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RealStateApp.Core.Application.Dto.Acccount;
@@ -9,6 +10,7 @@ using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
 using RealStateApp.Core.Application.Dto.Email;
 using RealStateApp.Core.Application.Dto.JWT;
+using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Domain.Settings;
 using RealStateApp.Infrastructure.Identity.Entities;
@@ -38,6 +40,36 @@ namespace RealStateApp.Infrastructure.Identity.Services
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+        }
+        
+       //GETALLUSERS
+        public async Task<List<AuthenticationResponse>> GetAllUsers()
+        {
+
+            var userList = await _userManager.Users.ToListAsync();
+            List<AuthenticationResponse> DtoUserList = new();
+            foreach (var user in userList)
+            {
+                var userDto = new AuthenticationResponse();
+
+                userDto.ImageUrl = user.ImageURl;
+                userDto.FirstName = user.Name;
+                userDto.LastName = user.LastName;
+                userDto.IsActive = user.IsActive;
+                userDto.Email = user.Email;
+                userDto.PhoneNumber = user.PhoneNumber;
+                userDto.Id = user.Id;
+                userDto.Roles = _userManager.GetRolesAsync(user).Result.ToList();
+                DtoUserList.Add(userDto);
+            }
+            return DtoUserList;
+        }
+
+        //GETALL
+        public async Task<List<AuthenticationResponse>> FilterByUser(string Roles)
+        {
+            var userlist = await GetAllUsers();
+            return userlist = userlist.Where(u => u.Roles.Contains(Roles)).ToList();
         }
 
         //RESETPASSWORD

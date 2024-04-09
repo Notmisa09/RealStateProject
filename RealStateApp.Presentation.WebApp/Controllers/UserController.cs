@@ -42,7 +42,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 }
                 else if (result.Roles.Contains(RolesEnum.Admin.ToString()))
                 {
-                    return RedirectToRoute(new { controller = "Admin", action = "DashBoard" });
+                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
                 }
             }
 
@@ -79,8 +79,5 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             var instance = Singleton.GetInstance("");
             return RedirectToAction("Index");
         }
-
-
-
     }
 }
