@@ -1,4 +1,5 @@
 ﻿using Swashbuckle.AspNetCore.SwaggerUI;
+using RealStateApp.Presentation.API.Middlewares;
 
 namespace RealStateApp.Presentation.API.Extensions
 {
@@ -10,9 +11,14 @@ namespace RealStateApp.Presentation.API.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant"); //Modificar nombre segun Misa
                 options.DefaultModelRendering(ModelRendering.Model);
             });
+        }
+        
+        public static void UseErrorHandlingMiddleware(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ErrorHandlerMiddlewares>();
         }
     }
 }
