@@ -20,9 +20,9 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //SAVE
-        public async Task<IActionResult> Save(int Id)
+        public IActionResult Save()
         {
-            return View(await _sellingTypeService.GetById(Id));
+            return View("Save",new SellingTypeAddViewModel());
         }
 
         [HttpPost]
@@ -39,15 +39,15 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         //EDIT
         public async Task<IActionResult> Edit(int Id)
         {
-            return View(await _sellingTypeService.GetById(Id));
+            return View("Save",await _sellingTypeService.GetById(Id));
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(SellingTypeAddViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return View("Register", vm);
+                return View("Save", vm);
             }
             await _sellingTypeService.Update(vm, vm.Id);
             return RedirectToAction("Index");

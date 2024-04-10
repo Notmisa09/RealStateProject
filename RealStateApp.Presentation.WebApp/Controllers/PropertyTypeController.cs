@@ -13,11 +13,13 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             _propertyTypeService = propertyTypeService;
         }
 
+        //PROPERTY GETALL
         public async Task<IActionResult> Index()
         {
             return View(await _propertyTypeService.GeAll());
         }
 
+        //PROPERTY SAVE
         public IActionResult Save()
         {
             return View("Save",new PropertyTypeAddViewModel());
@@ -30,6 +32,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return RedirectToRoute(new { controller= "PropertyType", action="Index" });
         }
 
+
+        //PROPERTY TYPE EDIT
         public async Task<IActionResult> Edit(int Id)
         {
             return View("Save",await _propertyTypeService.GetById(Id)); 
@@ -38,14 +42,15 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(PropertyTypeAddViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("Save", vm);
             }
             await _propertyTypeService.Update(vm, vm.Id);
             return RedirectToAction("Index");
         }
-
+        
+        //PROPERTY TYPE REMOVE
         public async Task<IActionResult> Remove(int Id)
         {
             return View(await _propertyTypeService.GetById(Id));

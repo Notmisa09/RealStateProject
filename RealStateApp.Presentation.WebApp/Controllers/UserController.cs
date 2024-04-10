@@ -19,6 +19,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             _userService = userService;
         }
 
+        //LOGIN
         public IActionResult Index()
         {
             return View(new LoginViewModel());
@@ -55,6 +56,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return RedirectToAction("Home", "Index");
         }
 
+        //REGISTER USER
         public IActionResult Register()
         {
             return View(new SaveUserViewModel());
@@ -97,9 +99,9 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
 
         //RESET PASSWORD
-        public IActionResult ResetPassword(string Tokne)
+        public IActionResult ResetPassword(string Token)
         {
-            return View(new ResetPasswordViewModel { Token = Tokne });
+            return View(new ResetPasswordViewModel { Token = Token });
         }
 
         [HttpPost]
@@ -118,5 +120,32 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
+
+
+        //FORGOT PASSWORD
+        public IActionResult ForgotPassword()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        {
+            ForgotPasswordViewModel vm = new();
+            vm.Email = email;
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var origin = Request.Headers["origin"];
+            ServiceResult response = await _userService.ForgotPasswordAsync(vm, origin);
+            if (response.HasError)
+            {
+                vm.Error = response.Error;
+                vm.HasError = response.HasError;
+                return View("Index", vm);
+            }
+            return RedirectToRoute(new { controller = "User", action = "Index" });
+        }   
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -134,7 +135,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 return $"No user registered under this {user.Email}";
             }
 
-            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token ));
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
@@ -189,7 +190,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
 
         }
 
-        //CREATE DEV AND CLIENT
+        //CREATE DEV 
         public async Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request)
         {
             ServiceResult response = new();
@@ -307,6 +308,11 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 PhoneNumber = request.PhoneNumber
             };
 
+            if(UserRole == RolesEnum.Client.ToString())
+            {
+                user.IsActive = true;
+            }
+
             var result = await _userManager.CreateAsync(user, request.Password);
 
             if (result.Succeeded)
@@ -360,6 +366,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
 
         #region PrivateMethods
 
+        //SENDFORGOTURI
         private async Task<string> SendForgotPasswordUri(AppUser user, string origin)
         {
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -371,14 +378,15 @@ namespace RealStateApp.Infrastructure.Identity.Services
             return verificationUri;
         }
 
-        private async Task<string> SendVerificationUri(AppUser user , string origin)
+        //SENDVERIFICATIONURI
+        private async Task<string> SendVerificationUri(AppUser user, string origin)
         {
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var route = "User/ResetPassword";
+            var route = "User/ConfirmEmail";
             var Uri = new Uri(string.Concat($"{origin}/", route));
             var verificationUri = QueryHelpers.AddQueryString(Uri.ToString(), "userId", user.Id);
-            verificationUri = QueryHelpers.AddQueryString(Uri.ToString(), "Token", code);
+            verificationUri = QueryHelpers.AddQueryString(verificationUri, "Token", code);
 
             return verificationUri;
         }

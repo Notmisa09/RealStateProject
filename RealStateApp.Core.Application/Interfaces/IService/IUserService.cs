@@ -11,7 +11,7 @@ namespace RealStateApp.Core.Application.Interfaces.IService
         Task SignOutAsync();
         Task<AuthenticationResponse> LoginAync(LoginViewModel vm);
         Task<string> ConfrimEmailAsync(string UserId, string token);
-        Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest vm, string origin);
+        Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm, string origin);
         Task<ServiceResult> RegigsterAsync(SaveUserViewModel vm, string origin, string UserRole);
         Task<string> ConfirmEmailAsync(string UserId, string token);
         Task<ServiceResult> ResetPasswordAsync(ResetPasswordViewModel vm);

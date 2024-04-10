@@ -50,7 +50,7 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
 
         public async Task UpdateAsync(T entity, int Id)
         {
-            var entry = _context.Set<T>().FindAsync(Id);
+            var entry = await _context.Set<T>().FindAsync(Id);
             _context.Entry(entry).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();  
         }

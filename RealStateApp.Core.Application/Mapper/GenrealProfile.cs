@@ -3,7 +3,9 @@ using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
+using RealStateApp.Core.Application.ViewModels.Improvements;
 using RealStateApp.Core.Application.ViewModels.PropertyType;
+using RealStateApp.Core.Application.ViewModels.SellingTypes;
 using RealStateApp.Core.Application.ViewModels.User;
 using RealStateApp.Core.Domain.Entities;
 
@@ -41,12 +43,35 @@ public class GenrealProfile : Profile
 
         CreateMap<PropertyType, PropertyTypeAddViewModel>()
             .ReverseMap()
-            .ForMember(p => p.Id , opt => opt.Ignore()) 
-            .ForMember(p => p.Property, opt => opt.Ignore());
+            .ForMember(p => p.Property, opt => opt.Ignore())
+            .ForMember(p => p.PropertiesAmount, opt => opt.Ignore());
 
         CreateMap<PropertyType, PropertyTypeViewModel>()
             .ReverseMap()
             .ForMember(p => p.Property, opt => opt.Ignore());
+        #endregion
+
+        #region SellingType
+
+        CreateMap<SellingType, SellingTypeVeiwModel>()
+            .ReverseMap()
+            .ForMember(x => x.Properties, opt => opt.Ignore());
+
+        CreateMap<SellingType, SellingTypeAddViewModel>()
+            .ReverseMap()
+            .ForMember(x => x.Properties, opt => opt.Ignore());
+        #endregion
+
+        #region Improvements
+
+        CreateMap<Improvements, ImprovementsAddViewModel>()
+            .ReverseMap()
+            .ForMember(x => x.PropertyImprovements, opt => opt.Ignore());
+
+        CreateMap<Improvements, ImprovemetnsViewModel>()
+            .ReverseMap()
+            .ForMember(x => x.PropertyImprovements, opt => opt.Ignore());
+
         #endregion
     }
 }

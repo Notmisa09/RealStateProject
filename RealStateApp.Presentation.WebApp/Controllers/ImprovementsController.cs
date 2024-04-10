@@ -33,7 +33,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View(vm);
             }
             await _imprevementService.Add(vm);
-            return RedirectToRoute(new { controller = "SellingType", action = "Index" });
+            return RedirectToRoute(new { controller = "Improvements", action = "Index" });
         }
 
         public async Task<IActionResult> Edit(int Id)
@@ -44,7 +44,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ImprovementsAddViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("Save", vm);
             }

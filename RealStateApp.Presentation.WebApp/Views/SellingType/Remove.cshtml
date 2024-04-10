@@ -12,8 +12,9 @@
                 <div class="card-text">
                     @Model.SellingTypeName
                     @Model.Description
+                    <input type="hidden" asp-for="Id" />
                 </div>
-                <button asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
                 <a asp-controller="SellingType" asp-action="Index" class="btn btn-warning">Go Back</a>
             </form>
         </div>

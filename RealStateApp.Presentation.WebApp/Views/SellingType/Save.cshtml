@@ -3,16 +3,16 @@
 
 @{
     ViewData["Title"] = "SellingType Save";
-    bool EditMode = Model != null && Model.Id == 0;
+    bool EditMode = Model != null && Model.Id != 0;
 }
 
 <div class="container-fluid">
     <div class="col-4 offset-4">
         <div class="card">
             <div class="card-header">
-                <strong>@(EditMode ? $"Edit your pruducer {Model.SellingTypeName}" : "Add a new User")</strong>
-
+                <strong>@(EditMode ? $"Edit your selling type  {Model.SellingTypeName}" : "Add your selling type")</strong>
             </div>
+
             <div class="card-body">
                 <form method="post" asp-controller="SellingType" asp-action=@(EditMode ? "Edit" : "Save")>
                     <div class="mb-3">
@@ -29,8 +29,8 @@
 
                     <a asp-controller="SellingType" asp-action="Index" class="btn btn-warning">Go back</a>
                     <button type="submit" class="btn btn-primary">Save</button>
-
                 </form>
+
             </div>
         </div>
     </div>

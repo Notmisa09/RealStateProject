@@ -44,7 +44,7 @@ namespace RealStateApp.Core.Application.Services
             return await _accountService.ConfirmAccountAysnc(UserId , token);
         }
 
-        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest vm , string origin)
+        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm , string origin)
         {
             ForgotPasswordRequest resetRequest = _mapper.Map<ForgotPasswordRequest>(vm);
             return await _accountService.ForgotPasswordAsync(resetRequest, origin);
