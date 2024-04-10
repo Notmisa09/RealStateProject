@@ -228,7 +228,10 @@ namespace RealStateApp.Infrastructure.Identity.Services
         //AUTHENTICATE ACCOUNT
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
-            AuthenticationResponse response = new();
+            AuthenticationResponse response = new()
+            {
+                HasError = false
+            };
 
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
@@ -239,7 +242,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 response.HasError = true;
                 response.Error = $"Invalid credentials for {request.Email}";

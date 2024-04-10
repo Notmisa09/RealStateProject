@@ -20,6 +20,13 @@ namespace RealStateApp.Core.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
+        {
+           var list = await _accountService.FilterByUser(Roles);
+           var newlist = _mapper.Map<List<UserViewModel>>(list);
+           return newlist;
+        }
+
         public async Task<AuthenticationResponse> LoginAync(LoginViewModel vm)
         {
             AuthenticationRequest loginrequest = _mapper.Map<AuthenticationRequest>(vm);
@@ -55,7 +62,7 @@ namespace RealStateApp.Core.Application.Services
             return await _accountService.ConfirmAccountAysnc(UserId, token);
         }
 
-        public async Task<ServiceResult> ResetPasswordAsync(ResetPasswordViewModel vm, string origin)
+        public async Task<ServiceResult> ResetPasswordAsync(ResetPasswordViewModel vm)
         {
             ResetPasswordRequest resetRequest = _mapper.Map<ResetPasswordRequest>(vm);
             return await _accountService.ResetPasswordAsync(resetRequest);

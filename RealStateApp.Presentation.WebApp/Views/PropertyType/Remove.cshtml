@@ -14,7 +14,7 @@
                         @Model.PropertyName
                         @Model.Description
                     </div>
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button asp-route-id="@Model.Id" type="submit" class="btn btn-danger">Delete</button>
                     <a asp-controller="PropertyType" asp-action="Index" class="btn btn-warning">Go Back</a>
                 </form>
             </div>

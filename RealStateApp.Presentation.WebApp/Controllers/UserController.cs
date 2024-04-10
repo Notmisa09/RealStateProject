@@ -79,5 +79,44 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             var instance = Singleton.GetInstance("");
             return RedirectToAction("Index");
         }
+
+        //CONFIRM EMAIL
+        public async Task<IActionResult> ConfirmEmailAsync(string UserId, string token)
+        {
+            string response = await _userService.ConfirmEmailAsync(UserId, token);
+            return View("ConfirmEmail", response);
+        }
+
+        //LOGOUT
+        public async Task<IActionResult> LogOut()
+        {
+            await _userService.SignOutAsync();
+            HttpContext.Session.Remove("user");
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+
+
+        //RESET PASSWORD
+        public IActionResult ResetPassword(string Tokne)
+        {
+            return View(new ResetPasswordViewModel { Token = Tokne });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ResetPassword", vm);
+            }
+            ServiceResult response = await _userService.ResetPasswordAsync(vm);
+            if (response.HasError)
+            {
+                vm.Error = response.Error;
+                vm.HasError = response.HasError;
+                return View("ResetPassword", vm);
+            }
+            return RedirectToRoute(new { controller = "User", action = "Index" });
+        }
     }
 }

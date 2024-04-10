@@ -2,6 +2,7 @@
 {
     public class PropertyAddViewModel
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string AgentId { get; set; }
         public string AgentEmail { get; set; }

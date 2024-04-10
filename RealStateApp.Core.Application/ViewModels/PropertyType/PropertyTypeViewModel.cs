@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RealStateApp.Core.Application.ViewModels.PropertyType
+﻿namespace RealStateApp.Core.Application.ViewModels.PropertyType
 {
     public class PropertyTypeViewModel
     {

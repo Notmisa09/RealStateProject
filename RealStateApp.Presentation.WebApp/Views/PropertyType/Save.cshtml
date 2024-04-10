@@ -10,25 +10,26 @@
     <div class="col-4 offset-4" >
         <div class="card">
             <div class="card-header">
-                <strong>@(editMode ? $"Edit your pruducer {Model.PropertyName}" : "Add a new User")</strong>
+                <strong>@(editMode ? $"Edit your property type {Model.PropertyName}" : "Add a new property type")</strong>
 
             </div>
             <div class="card-body">
                 <form method="post" asp-controller="PropertyType" asp-action=@(editMode ? "Edit" : "Save")>
                     <div class="mb-3">
-                        <label asp-for="PropertyName" class="form-label text-dark">Nombre: </label>
+                        <label asp-for="PropertyName" class="form-label text-dark">Nombre del tipo de propiedad </label>
                         <input asp-for="PropertyName" class="form-control" style="background-color: white; color: black;" />
                         <span asp-validation-for="PropertyName" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Description" class="form-label text-dark">Apellido: </label>
-                        <input asp-for="Description" class="form-control" style="background-color: white; color: black;" />
+                        <label asp-for="Description" class="form-label text-dark">Descripcion</label>
+                        <textarea asp-for="Description" class="form-control" style="background-color: white; color: black;" ></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
-                    <a asp-controller="PropertyType" asp-action="Index" class="btn btn-primary">@editMode ? "Edit" : "Create"</a>
-                    <button type="submit" class="btn btn-warning">Go back</button>
+                    <a asp-controller="PropertyType" asp-action="Index" class="btn btn-warning">Go back</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
+
                 </form>
             </div>
         </div>

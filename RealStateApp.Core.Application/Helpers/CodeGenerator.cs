@@ -14,9 +14,8 @@ namespace RealStateApp.Core.Application.Helpers
                stringbuild.Append(randomnumber);
             }
 
-            string buildnumber = stringbuild.ToString();
-            return buildnumber;
-
+            Id = stringbuild.ToString();
+            return Id;
         }
     }
 }

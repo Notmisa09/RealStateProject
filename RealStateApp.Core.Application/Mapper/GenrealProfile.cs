@@ -22,7 +22,8 @@ public class GenrealProfile : Profile
         CreateMap<RegisterRequest, SaveUserViewModel>()
             .ForMember(r => r.Error, opt => opt.Ignore())
             .ForMember(r => r.HasError, opt => opt.Ignore())
-            .ReverseMap();
+            .ReverseMap()
+            .ForMember(r => r.FirstName, src => src.MapFrom(x => x.FirstName));
 
         CreateMap<ForgotPasswordRequest, ForgotPasswordViewModel>()
             .ForMember(r => r.Error, opt => opt.Ignore())
@@ -40,12 +41,12 @@ public class GenrealProfile : Profile
 
         CreateMap<PropertyType, PropertyTypeAddViewModel>()
             .ReverseMap()
+            .ForMember(p => p.Id , opt => opt.Ignore()) 
             .ForMember(p => p.Property, opt => opt.Ignore());
 
         CreateMap<PropertyType, PropertyTypeViewModel>()
             .ReverseMap()
             .ForMember(p => p.Property, opt => opt.Ignore());
-        
         #endregion
     }
 }

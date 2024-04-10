@@ -8,7 +8,7 @@
         Task<List<ViewModel>> GeAll();
         Task<AddViewModel> Add(AddViewModel vm);
         Task Update(AddViewModel vm, int Id);
-        Task<AddViewModel> GetById (int id);
+        Task<AddViewModel> GetById (dynamic id);
         Task Remove(int Id);
 
     }

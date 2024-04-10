@@ -40,11 +40,20 @@
                             if (user.Roles.Contains(admin))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mantenimiento de tipo de propiedades</a>
-                                </li>   
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mantenimiento de tipo de tipo propiedades</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SellingType" asp-action="Index">Mantenimiento de tipo de tipo de ventas</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
-                                </li>   
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mejoras</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                                </li>
                             }
                         }
                         
@@ -54,7 +63,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Agentes</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Agents">Agentes</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Inicia Sesion</a>

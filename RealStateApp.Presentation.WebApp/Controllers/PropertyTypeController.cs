@@ -26,12 +26,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(PropertyTypeAddViewModel vm)
         {
-            if (ModelState.IsValid)
-            {
-                return View(vm);
-            }
             await _propertyTypeService.Add(vm);
-            return RedirectToAction("Index");
+            return RedirectToRoute(new { controller= "PropertyType", action="Index" });
         }
 
         public async Task<IActionResult> Edit(int Id)
@@ -52,7 +48,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> Remove(int Id)
         {
-            return View(await _propertyTypeService.GetById(Id ));
+            return View(await _propertyTypeService.GetById(Id));
         }
 
         [HttpPost]

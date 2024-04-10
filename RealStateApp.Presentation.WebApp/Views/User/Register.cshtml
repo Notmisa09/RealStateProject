@@ -6,7 +6,6 @@
     ViewData["Title"] = "Register";
     var clientoption = RolesEnum.Client.ToString();
     var agentoption = RolesEnum.Agent.ToString();
-
 }
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -35,17 +34,17 @@
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card" style="background-color: white;">
-                <div class="card-header text-light text-center bg-black">
-                    <h4>Registro de nuevo usuario</h4>
+                <div class="card-header  text-center bg-black">
+                    <h4 class="text-light">Registro de nuevo usuario</h4>
                 </div>
                 <div class="card-body">
 
                     <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
 
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label text-dark">Nombre: </label>
-                            <input asp-for="Name" class="form-control" style="background-color: white; color: black;" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <label asp-for="FirstName" class="form-label text-dark">Nombre: </label>
+                            <input asp-for="FirstName" class="form-control" style="background-color: white; color: black;" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
@@ -74,9 +73,9 @@
 
                         <div class="mb-3">
                             <label class="form-label text-dark">Choose your role: </label>
-                            <select class="form-control">
-                                <option name="" value="@clientoption">Cliente</option>
-                                <option name="" value="@agentoption">Agente</option>
+                            <select class="form-control" name="Role">
+                                <option value="@clientoption">Cliente</option>
+                                <option value="@agentoption">Agente</option>
                             </select>
                         </div>
 
@@ -100,3 +99,46 @@
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        width: 60%;
+        background-color: white;
+        margin: auto;
+        margin-top: 5%;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-bottom: none;
+        margin-bottom: 20px;
+        padding-bottom: 0;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        background-color: #6c63ff;
+        border: none;
+    }
+
+    .btn-warning {
+        border-radius: 10px;
+        background-color: #ffb74d;
+        border: none;
+    }
+
+    .text-danger {
+        color: red;
+    }
+</style>

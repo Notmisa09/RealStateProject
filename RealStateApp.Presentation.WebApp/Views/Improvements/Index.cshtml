@@ -1,5 +1,5 @@
-﻿@using RealStateApp.Core.Application.ViewModels.PropertyType;
-@model List<PropertyTypeViewModel>;
+﻿@using RealStateApp.Core.Application.ViewModels.Improvements;
+@model List<ImprovemetnsViewModel>;
 
 <head>
     <link rel="stylesheet" href="~/css/table.css" />
@@ -24,7 +24,7 @@
                             @foreach (var propertyType in Model)
                             {
                                 <tr>
-                                    <td>@propertyType.PropertyName</td>
+                                    <td>@propertyType.ImprovementName</td>
                                     <td>@propertyType.Description</td>
                                     <td>
                                         <a asp-route-Id="@propertyType.Id" asp-controller="PropertyType" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
