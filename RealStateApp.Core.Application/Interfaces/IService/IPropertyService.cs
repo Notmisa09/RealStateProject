@@ -5,6 +5,6 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IPropertyService : IGenericService<PropertyViewModel, PropertyAddViewModel , Properties>
     {
-
+        Task<List<PropertyViewModel>> GeAllWithIncludeByAgent();
     }
 }

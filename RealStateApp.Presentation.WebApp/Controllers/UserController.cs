@@ -37,9 +37,9 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             if(result != null && result.HasError != true)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user", result);
-                if (result.Roles.Contains(RolesEnum.Client.ToString()))
+                if (result.Roles.Contains(RolesEnum.Agent.ToString()))
                 {
-                    return RedirectToRoute(new { controller = "Client", action = "Home" });
+                    return RedirectToRoute(new { controller = "Agent", action = "Index" });
                 }
                 else if (result.Roles.Contains(RolesEnum.Admin.ToString()))
                 {

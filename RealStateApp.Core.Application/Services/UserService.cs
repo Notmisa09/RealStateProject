@@ -20,6 +20,23 @@ namespace RealStateApp.Core.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<ServiceResult> UpdateUserAsync(SaveUserViewModel vm)
+        {
+            ServiceResult response = new();
+            var user = _mapper.Map<RegisterRequest>(vm);
+            response = await _accountService.Update(user);
+            return response;
+
+        }                                                                                                       
+
+        public async Task<SaveUserViewModel> GetById(string Id)
+        {
+            var user = await _accountService.GetUserById(Id);
+            var vm = _mapper.Map<SaveUserViewModel>(user);
+            return vm;
+            
+        }
+
         public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
         {
            var list = await _accountService.FilterByUser(Roles);

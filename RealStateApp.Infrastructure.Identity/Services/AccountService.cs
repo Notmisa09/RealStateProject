@@ -42,16 +42,84 @@ namespace RealStateApp.Infrastructure.Identity.Services
             _signInManager = signInManager;
             _emailService = emailService;
         }
-        
-       //GETALLUSERS
-        public async Task<List<AuthenticationResponse>> GetAllUsers()
+
+        //UPDATE USER
+        public async Task<ServiceResult> Update(RegisterRequest request)
+        {
+            ServiceResult respponse = new();
+            AppUser user = new AppUser
+            {
+                Name = request.FirstName,
+                LastName = request.LastName,
+                ImageURl = request.ImageURL,
+                UserName = request.UserName,
+                PhoneNumber = request.PhoneNumber,
+                Email = request.Email,
+                Id = request.Id,
+                IsActive = request.IsActive,
+            };
+
+            if (request.Password != null)
+            {
+                var Token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                await _userManager.ResetPasswordAsync(user, Token, request.Password);
+            }
+            var result = await _userManager.UpdateAsync(user);
+            if(!result.Succeeded)
+            {
+                respponse.HasError = true;
+                respponse.Error = $"There was an error while trying to update the user{user.UserName}";
+            }
+            return respponse;
+        }
+
+        //GETBYID
+        public async Task<DtoAccount> GetUserById (string Id)
+        {
+           var user = await _userManager.FindByIdAsync(Id);
+            DtoAccount dto = new()
+            {
+                Id = Id,
+                FirstName = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                IsActive = user.IsActive,
+                ImageURl = user.ImageURl,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Password = user.PasswordHash,
+            };
+            return dto;
+        }
+
+
+        //CHANGE USER STATUS
+        public async Task<ServiceResult> ChangeUserStatus(RegisterRequest request)
+        {
+            ServiceResult response = new();
+            var userget = await _userManager.FindByIdAsync(request.Id);
+            {
+                userget.IsActive = request.IsActive;
+            }
+            var result = await _userManager.UpdateAsync(userget);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"There was an error while trying to update the user{userget.UserName}";
+            }
+            return response;
+        }
+
+
+        //GETALLUSERS
+        public async Task<List<DtoAccount>> GetAllUsers()
         {
 
             var userList = await _userManager.Users.ToListAsync();
-            List<AuthenticationResponse> DtoUserList = new();
+            List<DtoAccount> DtoUserList = new();
             foreach (var user in userList)
             {
-                var userDto = new AuthenticationResponse();
+                var userDto = new DtoAccount();
 
                 userDto.ImageUrl = user.ImageURl;
                 userDto.FirstName = user.Name;
@@ -67,7 +135,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //GETALL
-        public async Task<List<AuthenticationResponse>> FilterByUser(string Roles)
+        public async Task<List<DtoAccount>> FilterByUser(string Roles)
         {
             var userlist = await GetAllUsers();
             return userlist = userlist.Where(u => u.Roles.Contains(Roles)).ToList();

@@ -8,8 +8,11 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IAccountService
     {
-        Task<List<AuthenticationResponse>> GetAllUsers();
-        Task<List<AuthenticationResponse>> FilterByUser(string Roles);
+        Task<ServiceResult> ChangeUserStatus(RegisterRequest request);
+        Task<ServiceResult> Update(RegisterRequest request);
+        Task<DtoAccount> GetUserById(string Id);
+        Task<List<DtoAccount>> GetAllUsers();
+        Task<List<DtoAccount>> FilterByUser(string Roles);
         Task<string> ConfirmAccountAysnc(string uesrId, string token);
         Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
         Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request);

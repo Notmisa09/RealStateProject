@@ -7,5 +7,6 @@
         Task RemoveAsync(T entity);   
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity, int Id);
+        Task<List<T>> GetAllWithInclude(List<string> properties);
     }
 }
