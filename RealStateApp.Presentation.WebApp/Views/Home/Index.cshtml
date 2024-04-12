@@ -43,48 +43,26 @@
 </section>
 
 <section id="Property-section" class="mt-5">
-    <h2 class="col-6 offset-4">~Houses && Apartments available~</h2>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="card">
-                <img class="card-img-top" src="https://www.ecoprops.co.za/images/slide-1.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <p class="card-text">
-                        <i class="fa-solid fa-location-dot"></i> House for sale in Sabana Perdida, Santo Domingo Norte
-                        <br>
-                        Code: 161531
-                        <br>
-                        Price: RD$ 5,000,000
-                        <br>
-                        <i class="fa-solid fa-bed"></i>: 5
-                        <br>
-                        <i class="fa-solid fa-sink"></i>: 3
-                        <br>
-                        Size: 241mt
-                    </p>
-                    <a href="#" class="btn btn-primary">Learn more</a>
-                </div>
-            </div>
-
-            <div class="card ms-4" style="width: 18rem;">
-                <img src="https://www.ecoprops.co.za/images/slide-1.jpg" class=" imgproduct card-img-top img-fluid" alt="Producto">
-                <div class="card-body">
-                    <p class="card-text">
-                        <i class="fa-solid fa-location-dot"></i>  House for sale in Sabana Perdida, Santo Domingo Norte
-                        <br>
-                        Code: 161531
-                        <br>
-                        Price: RD$ 5,000,000
-                        <br>
-                        <i class="fa-solid fa-bed"></i>: 5
-                        <br>
-                        <i class="fa-solid fa-sink"></i> : 3
-                        <br>
-                        Size: 241mt
-                    </p>
-                    <a href="#" class="btn btn-dark">Learn more</a>
-                </div>
+    @foreach (var item in Model)
+    {
+        <div class="card ms-4" style="width: 18rem;">
+            <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
+            <div class="card-body">
+                <p class="card-text">
+                    <i class="fa-solid fa-location-dot"></i> @item.Location
+                    <br>
+                    Code: @item.Id
+                    <br>
+                    Price: RD$ @item.Price
+                    <br>
+                    <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                    <br>
+                    <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
+                    <br>
+                    Size: @item.Meters
+                </p>
+                <a class="btn btn-dark">Details</a>
             </div>
         </div>
-    </div>
+    }
 </section>

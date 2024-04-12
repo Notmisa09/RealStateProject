@@ -10,27 +10,24 @@ namespace RealStateApp.Presentation.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
+        private readonly IPropertyService _propertyService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, IPropertyService propertyService)
         {
+            _propertyService = propertyService;
             _userService = userService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _propertyService.GeAllWithInclude());
         }
 
         public async Task<IActionResult> Agents()
         {
             return View(await _userService.GeAllByUsers(RolesEnum.Agent.ToString()));
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        
     }
 }

@@ -84,6 +84,7 @@ namespace RealStateApp.Core.Application.Services
                 BathroomsAmount = x.BathroomsAmount,
                 BedroomsAmount = x.BedroomsAmount,
                 Description = x.Description,
+                Meters = x.Meters,
                 Price = x.Price,
 
             }).ToList();
@@ -101,10 +102,12 @@ namespace RealStateApp.Core.Application.Services
                 PropertyTypeName = x.PropertyType.PropertyTypeName,
                 SellingTypeName = x.SellingType.SellingTypeName,
                 SellingTypeId = x.SellingTypeId,
+                Location = x.Location,
                 PropertyTypeId = x.PropertyTypeId,
                 BathroomsAmount = x.BathroomsAmount,
                 BedroomsAmount = x.BedroomsAmount,
                 Description = x.Description,
+                Meters = x.Meters,
                 Price = x.Price,
 
             }).ToList();

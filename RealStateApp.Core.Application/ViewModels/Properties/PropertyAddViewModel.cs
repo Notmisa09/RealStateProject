@@ -10,6 +10,7 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public decimal Price { get; set; }
         public int BedroomsAmount { get; set; }
         public int BathroomsAmount { get; set; }
+        public decimal Meters { get; set; }
         public string Description { get; set; }
         public string? AgentEmail { get; set; }
         public string? AgentPhoneNumber { get; set; }

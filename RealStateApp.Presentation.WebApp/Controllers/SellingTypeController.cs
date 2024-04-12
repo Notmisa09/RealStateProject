@@ -33,7 +33,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View(vm);    
             }
             await _sellingTypeService.Add(vm);
-            return RedirectToRoute(new { controller= "SellingTypeName" , action="Index"});
+            return RedirectToAction("Index");
         }
 
         //EDIT

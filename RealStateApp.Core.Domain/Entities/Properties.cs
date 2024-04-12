@@ -8,6 +8,7 @@
         public int BathroomsAmount { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+        public decimal Meters { get; set; }
 
         //NAV PROPERTIES
         public string AgentId { get; set; }

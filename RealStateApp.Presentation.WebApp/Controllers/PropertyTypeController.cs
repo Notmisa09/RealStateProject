@@ -29,7 +29,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         public async Task<IActionResult> Save(PropertyTypeAddViewModel vm)
         {
             await _propertyTypeService.Add(vm);
-            return RedirectToRoute(new { controller= "PropertyName", action="Index" });
+            return RedirectToRoute(new { controller= "PropertyType", action="Index" });
         }
 
 

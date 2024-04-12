@@ -1,0 +1,56 @@
+﻿@using RealStateApp.Core.Application.ViewModels.User;
+@model List<UserViewModel>;
+
+<head>
+    <link rel="stylesheet" href="~/css/table.css" />
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+</head>
+
+<div class="container-fluid">
+    <a asp-controller="Improvements" asp-action="Save" class="btn btn-primary">Register</a>
+    <div class="card mt-2">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Cant.Propiedades</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var agents in Model)
+                        {
+                            <tr>
+                                @if (agents.ImageURL == null)
+                                {
+                                    <td>
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnB8SJzsxM_KKbFNf-er2X-WiEdHMHXuz6w&usqp=CAU"
+                                             class="rounded-circle" style="width: 35px; height: 35px;" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><img src="@agents.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;"/></td>
+
+                                }
+                                <td>@agents.FirstName</td>
+                                <td>@agents.LastName</td>
+                                <td>@agents.Email</td>
+                                <td>0</td>
+                                <td>
+                                    <a asp-route-Id="@agents.Id" asp-controller="Admin" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                    <a asp-route-Id="@agents.Id" asp-controller="Improvements" asp-action="Edit" class="btn btn-outline-warning">Change Status</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,15 +10,15 @@
     <div class="col-4 offset-4" >
         <div class="card">
             <div class="card-header">
-                <strong>@(editMode ? $"Edit your property type {Model.PropertyName}" : "Add a new property type")</strong>
+                <strong>@(editMode ? $"Edit your property type {Model.PropertyTypeName}" : "Add a new property type")</strong>
             </div>
 
             <div class="card-body">
                 <form method="post" asp-controller="PropertyType" asp-action=@(editMode ? "Edit" : "Save")>
                     <div class="mb-3">
-                        <label asp-for="PropertyName" class="form-label text-dark">Nombre del tipo de propiedad </label>
-                        <input asp-for="PropertyName" class="form-control" style="background-color: white; color: black;" />
-                        <span asp-validation-for="PropertyName" class="text-danger"></span>
+                        <label asp-for="PropertyTypeName" class="form-label text-dark">Nombre del tipo de propiedad </label>
+                        <input asp-for="PropertyTypeName" class="form-control" style="background-color: white; color: black;" />
+                        <span asp-validation-for="PropertyTypeName" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
