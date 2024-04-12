@@ -4,7 +4,7 @@ namespace RealStateApp.Core.Domain.Entities
 {
     public class ClientPropertyFav : BaseEntity
     {
-        public string User {  get; set; }
+        public string UserId {  get; set; }
         public string PropertyId { get; set; }
     }
 }

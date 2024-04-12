@@ -25,7 +25,7 @@ namespace RealStateApp.Core.Application.Services
             return vm; 
         }
 
-        public virtual async Task<List<ViewModel>> GeAll()
+        public virtual async Task<List<ViewModel>> GetAll()
         {
            var list = await _repository.GetAllAsync();
            return _mapper.Map<List<ViewModel>>(list);

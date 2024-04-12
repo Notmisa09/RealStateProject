@@ -1,9 +1,11 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
 using RealStateApp.Core.Application.ViewModels.Improvements;
+using RealStateApp.Core.Application.ViewModels.Properties;
 using RealStateApp.Core.Application.ViewModels.PropertyType;
 using RealStateApp.Core.Application.ViewModels.SellingTypes;
 using RealStateApp.Core.Application.ViewModels.User;
@@ -91,5 +93,20 @@ public class GenrealProfile : Profile
             .ForMember(x => x.PropertyImprovements, opt => opt.Ignore());
 
         #endregion
+
+        #region Properties
+
+        CreateMap<Properties, PropertyAddViewModel>()
+            .ForMember(p => p.Improvements, opt => opt.Ignore())
+            .ForMember(p => p.formFile, opt => opt.Ignore())
+            .ReverseMap();
+
+        CreateMap<Properties, PropertyViewModel>()
+       .ForMember(p => p.SellingTypeName, opt => opt.Ignore())
+       .ForMember(p => p.PropertyTypeName, opt => opt.Ignore())
+       .ReverseMap();
+
+        #endregion
+
     }
 }

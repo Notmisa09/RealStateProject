@@ -17,7 +17,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _imprevementService.GeAll());
+            return View(await _imprevementService.GetAll());
         }
 
         public async Task<IActionResult> Save(int Id)

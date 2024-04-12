@@ -15,11 +15,17 @@ namespace RealStateApp.Core.Application.Services
         private readonly IPropertyRepository _repository;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly AuthenticationResponse user;
+        private readonly IPropertyImprovementsRepository _propimprovemetns; 
+        private readonly IPropertyImagesRepository _imagesrepository;
 
         public PropertyService(IPropertyRepository repository,
             IMapper mapper, 
-            IHttpContextAccessor contextAccesor) : base(repository, mapper)
+            IHttpContextAccessor contextAccesor,
+            IPropertyImprovementsRepository propimprovemetns,
+            IPropertyImagesRepository imagesrepository) : base(repository, mapper)
         {
+            _imagesrepository = imagesrepository;
+            _propimprovemetns = propimprovemetns;
             _mapper = mapper;
             _repository = repository;
             _contextAccessor = contextAccesor;
@@ -35,13 +41,30 @@ namespace RealStateApp.Core.Application.Services
             {
                 vm.Id = CodeGenerator.GenerateCode(vm.Id);
                 propertie = await GetById(vm.Id);
-            } while (propertie == null);
-            
+
+            } while (propertie != null);
+
             vm.AgentId = user.Id;
             vm.AgentEmail = user.Email;
-            vm.AgentPhoneNumber = user.PhoneNumber;
-            
-            return await base.Add(vm);
+
+            var property = await base.Add(vm);
+            await AddImprovements(vm);
+
+            return property;
+        }
+
+
+        private async Task AddImprovements(PropertyAddViewModel vm)
+        {
+            PropertyImprovements propimprovements = new();
+
+            foreach (var item in vm.Improvements)
+            {
+                propimprovements.ImprovementId = item;
+                propimprovements.PropertyId = vm.Id;
+
+                await _propimprovemetns.AddAsync(propimprovements);
+            }
         }
 
 
@@ -54,12 +77,12 @@ namespace RealStateApp.Core.Application.Services
                 AgentEmail = x.AgentEmail,
                 AgentPhoneNumber = x.AgentPhoneNumber,
                 AgentId = x.AgentId,
-                PropertyType = x.PropertyType.PropertyName,
-                SellingType = x.SellingType.SellingTypeName,
+                PropertyTypeName = x.PropertyType.PropertyTypeName,
+                SellingTypeName = x.SellingType.SellingTypeName,
                 SellingTypeId = x.SellingTypeId,
                 PropertyTypeId = x.PropertyTypeId,
                 BathroomsAmount = x.BathroomsAmount,
-                RoomsAmount = x.RoomsAmount,
+                BedroomsAmount = x.BedroomsAmount,
                 Description = x.Description,
                 Price = x.Price,
 
@@ -75,17 +98,16 @@ namespace RealStateApp.Core.Application.Services
                 AgentEmail = x.AgentEmail,
                 AgentPhoneNumber = x.AgentPhoneNumber,
                 AgentId = x.AgentId,
-                PropertyType = x.PropertyType.PropertyName,
-                SellingType = x.SellingType.SellingTypeName,
+                PropertyTypeName = x.PropertyType.PropertyTypeName,
+                SellingTypeName = x.SellingType.SellingTypeName,
                 SellingTypeId = x.SellingTypeId,
                 PropertyTypeId = x.PropertyTypeId,
                 BathroomsAmount = x.BathroomsAmount,
-                RoomsAmount = x.RoomsAmount,
+                BedroomsAmount = x.BedroomsAmount,
                 Description = x.Description,
                 Price = x.Price,
 
             }).ToList();
         }
-
     }
 }

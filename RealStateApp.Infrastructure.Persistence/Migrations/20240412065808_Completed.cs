@@ -5,11 +5,25 @@
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMig : Migration
+    public partial class Completed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ClientPropertyFav",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PropertyId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientPropertyFav", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Improvements",
                 columns: table => new
@@ -44,8 +58,9 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PropertyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PropertyTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PropertiesAmount = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +74,8 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SellingTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PropertiesAmount = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,10 +88,10 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    RoomsAmount = table.Column<int>(type: "int", nullable: false),
+                    BedroomsAmount = table.Column<int>(type: "int", nullable: false),
                     BathroomsAmount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgentPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -142,6 +158,9 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClientPropertyFav");
+
             migrationBuilder.DropTable(
                 name: "PropertyImages");
 

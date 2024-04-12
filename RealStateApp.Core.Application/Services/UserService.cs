@@ -4,6 +4,7 @@ using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
+using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
 
@@ -70,6 +71,13 @@ namespace RealStateApp.Core.Application.Services
         public async Task<ServiceResult> RegigsterAsync(SaveUserViewModel vm , string origin , string UserRole)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
+            if(registerRequest != null && string.IsNullOrEmpty(registerRequest.Id)) 
+            {
+                if(vm.FormFile != null)
+                {
+                    registerRequest.ImageURL = FileHelpers.UploadFile(vm.FormFile, vm.UserName, "User", false);
+                }
+            }
             var result = await _accountService.RegisterLowRolesUser(registerRequest, origin, UserRole);
             return result;
         }

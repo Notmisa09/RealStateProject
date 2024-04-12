@@ -26,6 +26,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
             mb.Entity<SellingType>().HasKey(s => s.Id);
             mb.Entity<PropertyImages>().HasKey(s => s.Id);
             mb.Entity<PropertyType>().HasKey(p => p.Id);
+            mb.Entity<ClientPropertyFav>().HasKey(p => p.Id);
 
             mb.Entity<Improvements>().ToTable("Improvements");
             mb.Entity<Properties>().ToTable("Property");
@@ -33,6 +34,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
             mb.Entity<SellingType>().ToTable("SellingType");
             mb.Entity<PropertyImages>().ToTable("PropertyImages");
             mb.Entity<PropertyType>().ToTable("PropertyType");
+            mb.Entity<ClientPropertyFav>().ToTable("ClientPropertyFav");
 
 
             //PROPERTY IMRPOVEMENTS TABLE INTERMEDIA

@@ -8,7 +8,7 @@ namespace RealStateApp.Core.Application.Helpers
         {
             StringBuilder stringbuild = new();
             Random rdn = new Random();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <= 5; i++)
             {
                string randomnumber = rdn.Next(1,10).ToString();
                stringbuild.Append(randomnumber);

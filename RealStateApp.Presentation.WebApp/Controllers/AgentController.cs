@@ -13,11 +13,25 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         private readonly IPropertyService _propertyService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly AuthenticationResponse user;
+        private readonly IPropertyTypeService _propertyTypeService;
+        private readonly ISellingTypeService _sellingTypeService;
+        private readonly IimprovementsService _improvementsService;
 
-        public AgentController(IUserService userService, 
+        public AgentController(IUserService userService,
+            //
             IPropertyService propertieService,
-            IHttpContextAccessor contextAccessor)
+            //
+            IHttpContextAccessor contextAccessor,
+            //
+            IPropertyTypeService propertyTypeService,
+            //
+            IimprovementsService improvementsService,
+            //
+            ISellingTypeService sellingTypeService)
         {
+            _improvementsService = improvementsService;
+            _sellingTypeService = sellingTypeService;
+            _propertyTypeService = propertyTypeService;
             _propertyService = propertieService;
             _userService = userService;
             _contextAccessor = contextAccessor;
@@ -48,8 +62,11 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //ADDPROPERTIES
-        public IActionResult AddProperties()
+        public async Task<IActionResult> AddProperties()
         {
+            ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+            ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+            ViewBag.Improvements = await _improvementsService.GetAll();
             return View(new PropertyAddViewModel());
         }
 

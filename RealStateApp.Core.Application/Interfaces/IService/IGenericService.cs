@@ -5,7 +5,7 @@
         where AddViewModel : class
         where Entity : class
     {
-        Task<List<ViewModel>> GeAll();
+        Task<List<ViewModel>> GetAll();
         Task<AddViewModel> Add(AddViewModel vm);
         Task Update(AddViewModel vm, int Id);
         Task<AddViewModel> GetById (dynamic id);

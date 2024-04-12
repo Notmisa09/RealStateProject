@@ -16,7 +16,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         //INDEX
         public async Task<IActionResult> Index()
         {
-            return View(await _sellingTypeService.GeAll());
+            return View(await _sellingTypeService.GetAll());
         }
 
         //SAVE
@@ -33,7 +33,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View(vm);    
             }
             await _sellingTypeService.Add(vm);
-            return RedirectToRoute(new { controller= "SellingType" , action="Index"});
+            return RedirectToRoute(new { controller= "SellingTypeName" , action="Index"});
         }
 
         //EDIT

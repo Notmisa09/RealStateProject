@@ -16,7 +16,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         //PROPERTY GETALL
         public async Task<IActionResult> Index()
         {
-            return View(await _propertyTypeService.GeAll());
+            return View(await _propertyTypeService.GetAll());
         }
 
         //PROPERTY SAVE
@@ -29,7 +29,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         public async Task<IActionResult> Save(PropertyTypeAddViewModel vm)
         {
             await _propertyTypeService.Add(vm);
-            return RedirectToRoute(new { controller= "PropertyType", action="Index" });
+            return RedirectToRoute(new { controller= "PropertyName", action="Index" });
         }
 
 

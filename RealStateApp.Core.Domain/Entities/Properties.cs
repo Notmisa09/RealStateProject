@@ -4,10 +4,10 @@
     {
         public string Id { get; set; }
         public decimal Price { get; set; }
-        public int RoomsAmount { get; set; }
+        public int BedroomsAmount { get; set; }
         public int BathroomsAmount { get; set; }
         public string Description { get; set; }
-        public string ImageURL { get; set; }
+        public string Location { get; set; }
 
         //NAV PROPERTIES
         public string AgentId { get; set; }
