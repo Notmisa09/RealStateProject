@@ -60,6 +60,12 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             var response = await _userService.UpdateUserAsync(vm);
             return View();
         }
+        
+        //LIST PROPERTIES
+        public async Task<IActionResult> PropertyList()
+        {
+            return View(await _propertyService.GeAllWithIncludeByAgent());
+        }
 
         //ADDPROPERTIES
         public async Task<IActionResult> AddProperties()

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Interfaces.IService;
-using RealStateApp.Presentation.WebApp.Models;
-using System.Diagnostics;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {

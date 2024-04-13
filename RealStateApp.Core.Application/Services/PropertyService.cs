@@ -68,10 +68,10 @@ namespace RealStateApp.Core.Application.Services
         }
 
 
-        public async Task<List<PropertyViewModel>> GeAllWithIncludeByAgent()
+        public async Task<List<PropertyAddViewModel>> GeAllWithIncludeByAgent()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.Where(x => x.AgentId == user.Id).Select(x => new PropertyViewModel
+            return list.Where(x => x.AgentId == user.Id).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
                 AgentEmail = x.AgentEmail,

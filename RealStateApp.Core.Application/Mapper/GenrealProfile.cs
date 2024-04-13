@@ -51,9 +51,7 @@ public class GenrealProfile : Profile
             .ForMember(u => u.HasError, opt => opt.Ignore())
             .ReverseMap();
 
-
         CreateMap<DtoAccount, UserViewModel>()
-        .ForMember(u => u.IsActive, opt => opt.Ignore())
         .ForMember(u => u.Roles, opt => opt.Ignore())
         .ReverseMap();
 

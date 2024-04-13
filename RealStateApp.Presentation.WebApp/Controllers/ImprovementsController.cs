@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
-using RealStateApp.Core.Application.Services;
 using RealStateApp.Core.Application.ViewModels.Improvements;
-using RealStateApp.Core.Application.ViewModels.SellingTypes;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {

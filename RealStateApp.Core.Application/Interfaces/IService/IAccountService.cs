@@ -17,7 +17,7 @@ namespace RealStateApp.Core.Application.Interfaces.IService
         Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
         Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request);
         Task<AuthenticateResponseJWT> AuthenticateAysncAPI(AuthenticationRequest request);
-        Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request);
+        Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request, string RoleUser);
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
         Task<ServiceResult> RegisterLowRolesUser(RegisterRequest request, string origin, string UserRole);
         Task SignOutAync();

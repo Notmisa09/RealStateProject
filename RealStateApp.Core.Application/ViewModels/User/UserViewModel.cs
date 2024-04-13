@@ -9,6 +9,6 @@
         public string IdCard { get; set; }
         public string ImageURL { get; set; }
         public List<string> Roles { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } 
     }
 }

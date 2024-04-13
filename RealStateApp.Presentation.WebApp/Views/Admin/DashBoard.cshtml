@@ -1,19 +1,169 @@
-@page
-@model RealStateApp.Presentation.WebApp.Views.Admin.DashBoard
+@model RealStateApp.Core.Application.ViewModels.DashBoard.DashBoardViewModel
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Index";
 }
 
-<!DOCTYPE html>
-
-<html>
 <head>
-    <title></title>
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<div>
-    
+
+<div class="container-fluid">
+    <div class="row offset-4">
+        <div class="col-md-3">
+            <div class="card blue-border cardstatistics bg-light">
+                <div class="card-body">
+                    <h5 class="text-secondary">Agentes activos:</h5>
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-user-check" style="color: #74C0FC;"></i>
+                        <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsActive</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card red-border cardstatistics bg-light">
+                <div class="card-body">
+                    <h5 class="text-secondary">Agentes inactivos:</h5>
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-skull fa-lg" style="color: #e04e3e;"></i>
+                        <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsInactive</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</body>
-</html>
+
+<div class="col-md-6">
+    <div class="card green-border cardstatistics bg-light">
+        <div class="card-body">
+            <h5 class="text-secondary">Propiedades en el sistema:</h5>
+            <div class="d-flex align-items-center">
+               <i class="fa-solid fa-house-circle-check fa-lg" style="color: #1fe059;"></i>
+                <h3 class="card-text fw-bolder text-dark ms-2">@Model.PropertiesRegisterAmount</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row offset-4">
+    <div class="col-md-3">
+        <div class="card blue-border cardstatistics bg-light">
+            <div class="card-body">
+                <h5 class="text-secondary">Clientes activos:</h5>
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-house-circle-check fa-lg"></i>
+                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientActive</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card red-border cardstatistics bg-light">
+            <div class="card-body">
+                <h5 class="text-secondary">Clientes inactivos:</h5>
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-house-circle-check fa-lg"></i>
+                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientInactive</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row offset-4">
+    <div class="col-md-3">
+        <div class="card blue-border cardstatistics bg-light">
+            <div class="card-body">
+                <h5 class="text-secondary">Desarrolladores activos:</h5>
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-house-circle-check fa-lg"></i>
+                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevActive</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card red-border cardstatistics bg-light">
+            <div class="card-body">
+                <h5 class="text-secondary">Desarrolladores inactivos:</h5>
+                <div class="d-flex align-items-center">
+                    <i class="fa-solid fa-house-circle-check fa-lg"></i>
+                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevInactive</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+
+    card {
+        border-radius: 6px;
+    }
+
+    .card {
+        border-radius: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .cardstatistics:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Blue Borders */
+    .blue-border {
+        border-color: cyan
+    }
+
+    .blue-border {
+        box-shadow: 0 0 20px rgba(137, 196, 244)
+    }
+
+    .blue-border {
+        border: 1px solid cyan
+    }
+    
+    .blue-border {
+        border-color: cyan;
+    }
+
+   /* Red Borders */
+    .red-border {
+        border-color: darkred;
+    }
+
+    .red-border {
+        box-shadow: 0 0 20px rgba(137, 0, 0, 1)
+    }
+
+    .red-border {
+        border-color: darkred;
+    }
+
+    .red-border {
+        border-color: darkred;
+    }
+    
+    .green-border {
+         border-color: lawngreen;
+    }
+    
+    .green-border {
+         box-shadow: 0 0 20px rgba(124, 252, 0, 0.7);
+    }
+    
+    .green-border {
+          border-color: lawngreen;
+    }
+    
+    .green-border {
+          border-color: lawngreen;
+     }
+</style>

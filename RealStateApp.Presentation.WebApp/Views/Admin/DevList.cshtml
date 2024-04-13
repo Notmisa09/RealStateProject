@@ -14,11 +14,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Name</th>
                             <th>Apellido</th>
                             <th>Correo</th>
-                            <th>Cant.Propiedades</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -36,14 +34,12 @@
                                 else
                                 {
                                     <td><img src="@agents.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;"/></td>
-
                                 }
                                 <td>@agents.FirstName</td>
                                 <td>@agents.LastName</td>
                                 <td>@agents.Email</td>
-                                <td>0</td>
                                 <td>
-                                    <a asp-route-Id="@agents.Id" asp-controller="Admin" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                    <a asp-route-Id="@agents.Id" asp-controller="Admin" asp-action="" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
                                     <a asp-route-Id="@agents.Id" asp-controller="Improvements" asp-action="Edit" class="btn btn-outline-warning">Change Status</a>
                                 </td>
                             </tr>

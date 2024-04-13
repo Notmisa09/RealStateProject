@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -138,7 +137,8 @@ namespace RealStateApp.Infrastructure.Identity.Services
         public async Task<List<DtoAccount>> FilterByUser(string Roles)
         {
             var userlist = await GetAllUsers();
-            return userlist = userlist.Where(u => u.Roles.Contains(Roles)).ToList();
+            return userlist = userlist.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
+                .OrderBy(x => x.FirstName).ToList();
         }
 
         //RESETPASSWORD
@@ -259,7 +259,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //CREATE DEV 
-        public async Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request)
+        public async Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request, string UserRole)
         {
             ServiceResult response = new();
 
@@ -291,7 +291,23 @@ namespace RealStateApp.Infrastructure.Identity.Services
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
+            await _userManager.AddToRoleAsync(user, UserRole);
+            
             return response;
+        }
+        
+        //USERSELECTOR
+        private async Task UserRegisterSelector(RegisterRequest request, string origin ,string Role="")
+        {
+           var agent = RolesEnum.Agent.ToString();
+           if (Role.Contains(agent) || Role.Contains(RolesEnum.Client.ToString()))
+           {
+               await RegisterLowRolesUser(request, origin, Role);
+           }
+           else if (Role.Contains(RolesEnum.Admin.ToString()) || Role.Contains(RolesEnum.Developer.ToString()))
+           {
+               await RegisterHighRolesUsers(request, Role);
+           }
         }
 
         //AUTHENTICATE ACCOUNT
