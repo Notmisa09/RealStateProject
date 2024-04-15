@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IRepository;
@@ -17,21 +18,22 @@ namespace RealStateApp.Core.Application.Services
         private readonly AuthenticationResponse user;
         private readonly IPropertyImprovementsRepository _propimprovemetns; 
         private readonly IPropertyImagesRepository _imagesrepository;
+        private readonly IPropertyImagesRepository _imageRepository;
 
         public PropertyService(IPropertyRepository repository,
             IMapper mapper, 
             IHttpContextAccessor contextAccesor,
             IPropertyImprovementsRepository propimprovemetns,
-            IPropertyImagesRepository imagesrepository) : base(repository, mapper)
+            IPropertyImagesRepository imagesrepository,
+            IPropertyImagesRepository imageRepository) : base(repository, mapper)
         {
+            _imageRepository = imageRepository;
             _imagesrepository = imagesrepository;
             _propimprovemetns = propimprovemetns;
             _mapper = mapper;
             _repository = repository;
             _contextAccessor = contextAccesor;
             user = _contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
-
-
         }
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
@@ -48,11 +50,41 @@ namespace RealStateApp.Core.Application.Services
             vm.AgentEmail = user.Email;
 
             var property = await base.Add(vm);
-            await AddImprovements(vm);
-
+            await AddImprovements(property);
+            
+            if(vm.formFile != null)
+            {
+               await AddImages(property);
+            }
             return property;
         }
 
+
+
+        private async Task<ServiceResult> AddImages(PropertyAddViewModel vm)
+        {
+            ServiceResult result = new();
+            if (vm.formFile.Count() > 4)
+            {
+                result.HasError = true;
+                result.Error = "La cantidad de imagenes excede el limite";
+                return result; 
+            }
+            else
+            {
+                foreach (var item in vm.formFile)
+                {
+                    var image = FileHelpers.UploadFile(item, vm.Id ,"Properties", false);
+                    PropertyImages images = new()
+                    {
+                        ImageURL = image,
+                        PropertyId = vm.Id
+                    };
+                    await _imageRepository.AddAsync(images);
+                }
+            }
+            return result;
+        }
 
         private async Task AddImprovements(PropertyAddViewModel vm)
         {
@@ -67,6 +99,12 @@ namespace RealStateApp.Core.Application.Services
             }
         }
 
+        public async Task<int> PropertiesCount(string Id)
+        {
+            var properties = await _repository.GetAllAsync();
+            var count = properties.Where(x => x.AgentId == Id).Count();
+            return count;
+        }
 
         public async Task<List<PropertyAddViewModel>> GeAllWithIncludeByAgent()
         {

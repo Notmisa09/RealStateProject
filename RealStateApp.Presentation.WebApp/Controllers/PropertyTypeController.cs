@@ -16,7 +16,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         //PROPERTY GETALL
         public async Task<IActionResult> Index()
         {
-            return View(await _propertyTypeService.GetAll());
+            return View(await _propertyTypeService.GeallWithPropertiesAmount());
         }
 
         //PROPERTY SAVE

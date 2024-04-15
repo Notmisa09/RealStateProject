@@ -69,8 +69,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View("Register", vm);
             }
             var origin = Request.Headers["origin"];
-            ServiceResult response = await _userService.RegigsterAsync(vm, origin , Role);
-            if(!response.HasError)
+            ServiceResult response = await _userService.UserRegisterSelector(vm, Role, origin);
+            if(response.HasError)
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;

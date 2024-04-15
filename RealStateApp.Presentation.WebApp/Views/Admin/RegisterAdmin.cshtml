@@ -4,19 +4,32 @@
 
 @{
     ViewData["Title"] = "Register";
+    bool EditMode = Model != null && Model.Id != null;
+    var admin = RolesEnum.Admin.ToString();
 }
 
-<div class="container-fluid">
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<div class="container-fluid">
     <div class="row">
         <div class="col-6 offset-3">
             <div class="card" style="background-color: white;">
                 <div class="card-header  text-center bg-black">
-                    <h4 class="text-light">Edita tu perfil</h4>
+                    <h4 class="text-light">Registro de nuevo usuario</h4>
                 </div>
                 <div class="card-body">
 
-                    <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action="Profile">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Admin" asp-action="@(EditMode ? "Edit" : "Register")">
+
+                        <div class="mb-3">
+                            <label asp-for="FormFile" class="form-label text-dark">Please select an profile image: </label>
+                            <input asp-for="FormFile" class="form-control" style="background-color: white; color: black;" />
+                            <span asp-validation-for="FormFile" class="text-danger"></span>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -38,7 +51,6 @@
                         </div>
 
                         <div class="row">
-
                             <div class="col-md-6 mb-3">
                                 <label asp-for="PhoneNumber" class="form-label text-dark">Telefono: </label>
                                 <input asp-for="PhoneNumber" class="form-control" style="background-color: white; color: black;" />
@@ -50,25 +62,48 @@
                                 <input asp-for="Email" class="form-control" style="background-color: white; color: black;" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Password" class="form-label text-dark">Contraseña: </label>
-                            <input asp-for="Password" type="password" class="form-control" style="background-color: white; color: black;" />
-                            <label asp-for="Password" class="form-label text-secondary">En caso de querer actualizar la contraseña llenar estos campos</label>
+                            <input class="form-control" type="hidden" value="@admin" name="Role" />
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label text-dark">Confirmar contraseña: </label>
-                            <input asp-for="ConfirmPassword" type="password" class="form-control" style="background-color: white; color: black;" />
-                            <label asp-for="Password" class="form-label text-secondary">Confirmar la contraseña en caso de actualizar</label>
-                        </div>
+                        @if (EditMode == false)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label text-dark">Contraseña: </label>
+                                <input asp-for="Password" required class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label text-dark">Confirmar contraseña: </label>
+                                <input asp-for="ConfirmPassword" required class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label text-dark">Contraseña: </label>
+                                <input asp-for="Password" class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label text-dark">Confirmar contraseña: </label>
+                                <input asp-for="ConfirmPassword" class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        }
+
+                        <input asp-for="IsActive" type="hidden" class="form-control" style="background-color: white; color: black;" />
 
                         <input asp-for="Id" type="hidden" class="form-control" style="background-color: white; color: black;" />
 
                         <button type="submit" class="btn btn-primary">Registrarse</button>
-                        <a asp-controller="Agent" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                        <a asp-controller="Admin" asp-action="AdminList" class="btn btn-warning">Volver atras</a>
                     </form>
                 </div>
             </div>

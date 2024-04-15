@@ -26,7 +26,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailService _emailService;
-        private readonly  JWTSettings _jwtSettings;
+        private readonly JWTSettings _jwtSettings;
 
         public AccountService(UserManager<AppUser> userManager,
                              //
@@ -42,20 +42,39 @@ namespace RealStateApp.Infrastructure.Identity.Services
             _emailService = emailService;
         }
 
+        //REMOVE USER
+
+        public async Task<ServiceResult> Remove(string Id)
+        {
+            ServiceResult result = new();
+
+            var user = await _userManager.FindByIdAsync(Id);
+            var response = await _userManager.DeleteAsync(user);
+            if (!response.Succeeded)
+            {
+                result.HasError = true;
+                result.Error = "Ocurrio un error al intentar eliminar el usuario";
+            }
+
+            result.Error = "Usuario eliminado con exito";
+            return result;
+        }
+
+
         //UPDATE USER
         public async Task<ServiceResult> Update(RegisterRequest request)
         {
             ServiceResult respponse = new();
-            AppUser user = new AppUser
+            var user = await _userManager.FindByIdAsync(request.Id);
             {
-                Name = request.FirstName,
-                LastName = request.LastName,
-                ImageURl = request.ImageURL,
-                UserName = request.UserName,
-                PhoneNumber = request.PhoneNumber,
-                Email = request.Email,
-                Id = request.Id,
-                IsActive = request.IsActive,
+                user.Name = request.FirstName;
+                user.LastName = request.LastName;
+                user.ImageURl = request.ImageURL;
+                user.UserName = request.UserName;
+                user.PhoneNumber = request.PhoneNumber;
+                user.Email = request.Email;
+                user.Id = request.Id;
+                user.IsActive = request.IsActive;
             };
 
             if (request.Password != null)
@@ -64,7 +83,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 await _userManager.ResetPasswordAsync(user, Token, request.Password);
             }
             var result = await _userManager.UpdateAsync(user);
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 respponse.HasError = true;
                 respponse.Error = $"There was an error while trying to update the user{user.UserName}";
@@ -73,9 +92,9 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //GETBYID
-        public async Task<DtoAccount> GetUserById (string Id)
+        public async Task<DtoAccount> GetUserById(string Id)
         {
-           var user = await _userManager.FindByIdAsync(Id);
+            var user = await _userManager.FindByIdAsync(Id);
             DtoAccount dto = new()
             {
                 Id = Id,
@@ -98,13 +117,20 @@ namespace RealStateApp.Infrastructure.Identity.Services
             ServiceResult response = new();
             var userget = await _userManager.FindByIdAsync(request.Id);
             {
-                userget.IsActive = request.IsActive;
+                if (userget.IsActive == true)
+                {
+                    userget.IsActive = false;
+                }
+                else
+                {
+                    userget.IsActive = true;
+                }
             }
             var result = await _userManager.UpdateAsync(userget);
             if (!result.Succeeded)
             {
                 response.HasError = true;
-                response.Error = $"There was an error while trying to update the user{userget.UserName}";
+                response.Error = $"There was an error while trying to change the user status for: {userget.UserName}";
             }
             return response;
         }
@@ -127,19 +153,12 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 userDto.Email = user.Email;
                 userDto.PhoneNumber = user.PhoneNumber;
                 userDto.Id = user.Id;
-                userDto.Roles = _userManager.GetRolesAsync(user).Result.ToList();
+                userDto.Roles = _userManager.GetRolesAsync(user).Result.AsQueryable().ToList();
                 DtoUserList.Add(userDto);
             }
             return DtoUserList;
         }
 
-        //GETALL
-        public async Task<List<DtoAccount>> FilterByUser(string Roles)
-        {
-            var userlist = await GetAllUsers();
-            return userlist = userlist.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
-                .OrderBy(x => x.FirstName).ToList();
-        }
 
         //RESETPASSWORD
         public async Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request)
@@ -169,20 +188,20 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //FORGOT PASSWORD
-        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request , string origin)
+        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request, string origin)
         {
             ServiceResult response = new();
 
             var user = await _userManager.FindByEmailAsync(request.Email);
 
-            if(user == null)
+            if (user == null)
             {
                 response.HasError = true;
                 response.Error = $"No accounts registered with {request.Email}";
                 return response;
             }
 
-            var verificationURI = await SendForgotPasswordUri(user , origin);
+            var verificationURI = await SendForgotPasswordUri(user, origin);
 
             await _emailService.SendAsync(new EmailRequest()
             {
@@ -195,10 +214,10 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //CONFIRMACCOUNT
-        public async Task<string> ConfirmAccountAysnc(string uesrId , string token)
+        public async Task<string> ConfirmAccountAysnc(string uesrId, string token)
         {
             var user = await _userManager.FindByIdAsync(uesrId);
-            if(user == null)
+            if (user == null)
             {
                 return $"No user registered under this {user.Email}";
             }
@@ -224,14 +243,14 @@ namespace RealStateApp.Infrastructure.Identity.Services
             };
 
             var user = await _userManager.FindByEmailAsync(request.Email);
-            if(user == null)
+            if (user == null)
             {
                 response.HasError = true;
                 response.Error = $"No Accounts registered wuth {request.Email}";
                 return response;
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user.UserName , request.Password , false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
             if (!result.Succeeded)
             {
                 response.HasError = true;
@@ -292,22 +311,8 @@ namespace RealStateApp.Infrastructure.Identity.Services
 
             var result = await _userManager.CreateAsync(user, request.Password);
             await _userManager.AddToRoleAsync(user, UserRole);
-            
+
             return response;
-        }
-        
-        //USERSELECTOR
-        private async Task UserRegisterSelector(RegisterRequest request, string origin ,string Role="")
-        {
-           var agent = RolesEnum.Agent.ToString();
-           if (Role.Contains(agent) || Role.Contains(RolesEnum.Client.ToString()))
-           {
-               await RegisterLowRolesUser(request, origin, Role);
-           }
-           else if (Role.Contains(RolesEnum.Admin.ToString()) || Role.Contains(RolesEnum.Developer.ToString()))
-           {
-               await RegisterHighRolesUsers(request, Role);
-           }
         }
 
         //AUTHENTICATE ACCOUNT
@@ -362,12 +367,12 @@ namespace RealStateApp.Infrastructure.Identity.Services
         }
 
         //REGISTER CLIENT
-        public async Task<ServiceResult> RegisterLowRolesUser(RegisterRequest request, string origin , string UserRole)
+        public async Task<ServiceResult> RegisterLowRolesUser(RegisterRequest request, string origin, string UserRole)
         {
             ServiceResult response = new();
 
             var userWithSameUserName = await _userManager.FindByEmailAsync(request.UserName);
-            if(userWithSameUserName != null)
+            if (userWithSameUserName != null)
             {
                 response.HasError = true;
                 response.Error = $"Username {request.UserName} is already taken";
@@ -392,23 +397,33 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 PhoneNumber = request.PhoneNumber
             };
 
-            if(UserRole == RolesEnum.Client.ToString())
+            if (UserRole == RolesEnum.Client.ToString())
             {
                 user.IsActive = true;
+                user.EmailConfirmed = false;
+            }
+            if (UserRole == RolesEnum.Agent.ToString())
+            {
+                user.IsActive = false;
+                user.EmailConfirmed = true;
             }
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
+
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, UserRole);
-                var verificationURI = await SendVerificationUri(user, origin);
-                await _emailService.SendAsync(new EmailRequest()
+                if (UserRole == RolesEnum.Client.ToString())
                 {
-                    To = user.Email,
-                    Body = $"Please confirm your account visiting this URL {verificationURI}",
-                    Subject = "Confirm registration"
-                });
+                    var verificationURI = await SendVerificationUri(user, origin);
+                    await _emailService.SendAsync(new EmailRequest()
+                    {
+                        To = user.Email,
+                        Body = $"Please confirm your account visiting this URL {verificationURI}",
+                        Subject = "Confirm registration"
+                    });
+                }
             }
             else
             {
@@ -416,7 +431,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 response.Error = $"An error occurred trying to register the user.";
                 return response;
             }
-
             response.Error = "Please confirm your account";
             return response;
         }

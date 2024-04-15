@@ -6,26 +6,30 @@
 }
 
 <section id="Property-section" class="mt-5">
-    @foreach (var item in Model)
-    {
-        <div class="card ms-4" style="width: 18rem;">
-            <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
-            <div class="card-body">
-                <p class="card-text">
-                    <i class="fa-solid fa-location-dot"></i> @item.Location
-                    <br>
-                    Code: @item.Id
-                    <br>
-                    Price: RD$ @item.Price
-                    <br>
-                    <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                    <br>
-                    <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
-                    <br>
-                    Size: @item.Meters
-                </p>
-                <a class="btn btn-dark">Details</a>
-            </div>
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card ms-4" style="width: 18rem;">
+                    <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <i class="fa-solid fa-location-dot"></i> @item.Location
+                            <br>
+                            Code: @item.Id
+                            <br>
+                            Price: RD$ @item.Price
+                            <br>
+                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                            <br>
+                            <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
+                            <br>
+                            Size: @item.Meters
+                        </p>
+                        <a class="btn btn-dark">Details</a>
+                    </div>
+                </div>
+            }
         </div>
-    }
+    </div>
 </section>

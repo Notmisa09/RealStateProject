@@ -4,6 +4,7 @@ using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
+using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
@@ -14,11 +15,40 @@ namespace RealStateApp.Core.Application.Services
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
+        private readonly IPropertyService _propertyService;
 
-        public UserService(IAccountService accountService, IMapper mapper)
+        public UserService(IAccountService accountService, IMapper mapper, IPropertyService propertyService)
         {
+            _propertyService = propertyService;
             _accountService = accountService;
             _mapper = mapper;
+        }
+
+        public async Task<ServiceResult> Remove(string Id)
+        {
+            var result = await _accountService.Remove(Id);
+            return result;
+        }
+        public async Task<ServiceResult> ChangeUserStatus(SaveUserViewModel vm)
+        {
+            var user = _mapper.Map<RegisterRequest>(vm);
+            var response = await _accountService.ChangeUserStatus(user);
+            return response;
+        }
+
+
+        public async Task<ServiceResult> UserRegisterSelector(SaveUserViewModel request, string Role, string origin = "")
+        {
+            if (Role.Contains(RolesEnum.Agent.ToString()) || Role.Contains(RolesEnum.Client.ToString()))
+            {
+                var response = await RegisterLowUserRoles(request, origin, Role);
+                return response;
+            }
+            else
+            {
+                var response = await RegisterHighUserRoles(request, Role);
+                return response;
+            }
         }
 
         public async Task<ServiceResult> UpdateUserAsync(SaveUserViewModel vm)
@@ -28,21 +58,39 @@ namespace RealStateApp.Core.Application.Services
             response = await _accountService.Update(user);
             return response;
 
-        }                                                                                                       
+        }
 
         public async Task<SaveUserViewModel> GetById(string Id)
         {
             var user = await _accountService.GetUserById(Id);
             var vm = _mapper.Map<SaveUserViewModel>(user);
             return vm;
-            
         }
 
         public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
         {
-           var list = await _accountService.FilterByUser(Roles);
-           var newlist = _mapper.Map<List<UserViewModel>>(list);
-           return newlist;
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
+                .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+            return newlist;
+        }
+
+        public async Task<List<UserViewModel>> GetUsersIsActiveIgnore(string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles))
+            .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+
+            if(Roles == RolesEnum.Agent.ToString())
+            {
+                foreach (var item in newlist)
+                {
+                    item.PropertiesAmount = await _propertyService.PropertiesCount(item.Id);
+                }
+            }
+            return newlist;
         }
 
         public async Task<AuthenticationResponse> LoginAync(LoginViewModel vm)
@@ -57,28 +105,35 @@ namespace RealStateApp.Core.Application.Services
             await _accountService.SignOutAync();
         }
 
-        public async Task<string> ConfrimEmailAsync(string UserId , string token)
+        public async Task<string> ConfrimEmailAsync(string UserId, string token)
         {
-            return await _accountService.ConfirmAccountAysnc(UserId , token);
+            return await _accountService.ConfirmAccountAysnc(UserId, token);
         }
 
-        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm , string origin)
+        public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm, string origin)
         {
             ForgotPasswordRequest resetRequest = _mapper.Map<ForgotPasswordRequest>(vm);
             return await _accountService.ForgotPasswordAsync(resetRequest, origin);
         }
 
-        public async Task<ServiceResult> RegigsterAsync(SaveUserViewModel vm , string origin , string UserRole)
+        public async Task<ServiceResult> RegisterLowUserRoles(SaveUserViewModel vm, string origin, string UserRole)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
-            if(registerRequest != null && string.IsNullOrEmpty(registerRequest.Id)) 
+            if (registerRequest != null && string.IsNullOrEmpty(registerRequest.Id))
             {
-                if(vm.FormFile != null)
+                if (vm.FormFile != null)
                 {
                     registerRequest.ImageURL = FileHelpers.UploadFile(vm.FormFile, vm.UserName, "User", false);
                 }
             }
             var result = await _accountService.RegisterLowRolesUser(registerRequest, origin, UserRole);
+            return result;
+        }
+
+        public async Task<ServiceResult> RegisterHighUserRoles(SaveUserViewModel vm, string RoleUser)
+        {
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
+            var result = await _accountService.RegisterHighRolesUsers(registerRequest, RoleUser);
             return result;
         }
 

@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Enum;
-using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
-using RealStateApp.Core.Application.ViewModels.DashBoard;
 using RealStateApp.Core.Application.ViewModels.User;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
-    public class AdminController : Controller
+    public class DevController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IDashBoardService _boardService;
-        public AdminController(IUserService userService, IDashBoardService boardService)
+
+        public DevController(IUserService userService)
         {
-            _boardService = boardService;
             _userService = userService;
         }
 
@@ -23,37 +20,16 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AgentList()
-        {
-            return View("AgentList", await _userService.GetUsersIsActiveIgnore(RolesEnum.Agent.ToString()));
-        }
-
-        public async Task<IActionResult> DevList()
-        {
-            return View("DevList", await _userService.GetUsersIsActiveIgnore(RolesEnum.Developer.ToString()));
-        }
-
-        public async Task<IActionResult> AdminList()
-        {
-            return View("AdminList", await _userService.GetUsersIsActiveIgnore(RolesEnum.Admin.ToString()));
-        }
-
-        //DASHBOARDS
-        public async Task<IActionResult> DashBoard(DashBoardViewModel vm)
-        {
-            return View(await _boardService.GetDashBoardInfo(vm));
-        }
-
         //CHANGESTATUS
         public async Task<IActionResult> ChangeStatus(string Id)
         {
             var adduservm = await _userService.GetById(Id);
             await _userService.ChangeUserStatus(adduservm);
-            return RedirectToAction("AdminList");
+            return RedirectToRoute(new { controller = "Admin", action = "DevList" });
         }
 
-        //REGISTER ADMIN
-        public IActionResult RegisterAdmin()
+        //REGISTER DEV
+        public IActionResult RegisterDev()
         {
             return View(new SaveUserViewModel());
         }
@@ -63,7 +39,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("RegisterAdmin", vm);
+                return View("RegisterDev", vm);
             }
             var origin = Request.Headers["origin"];
             ServiceResult response = await _userService.UserRegisterSelector(vm, Role, origin);
@@ -73,13 +49,13 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 vm.HasError = response.HasError;
                 return View(vm);
             }
-                return RedirectToAction("AdminList");
+            return RedirectToRoute(new { controller = "Admin" , action= "DevList" });
         }
 
-        //EDIT ADMIN
-        public async Task<IActionResult> EditAdmin(string Id)
+        //EDIT DEV
+        public async Task<IActionResult> EditDev(string Id)
         {
-            return View("RegisterAdmin", await _userService.GetById(Id));
+            return View("RegisterDev", await _userService.GetById(Id));
         }
 
         [HttpPost]
@@ -90,10 +66,11 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View(vm);
             }
             await _userService.UpdateUserAsync(vm);
-            return RedirectToAction("AdminList");
+            return RedirectToRoute(new { controller = "Admin", action = "DevList" });
         }
 
-        //REMOVE USERS
+
+        //REMOVE AGENTS
         public async Task<IActionResult> Remove(string Id)
         {
             return View("Remove", await _userService.GetById(Id));
@@ -102,7 +79,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         public async Task<IActionResult> RemoveTrue(string Id)
         {
             var result = await _userService.Remove(Id);
-            return RedirectToAction("AdminList");
+            return RedirectToRoute(new { controller = "Admin", action = "DevList" });
         }
     }
 }

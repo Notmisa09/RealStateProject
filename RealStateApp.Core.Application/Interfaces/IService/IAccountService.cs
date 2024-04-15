@@ -12,7 +12,6 @@ namespace RealStateApp.Core.Application.Interfaces.IService
         Task<ServiceResult> Update(RegisterRequest request);
         Task<DtoAccount> GetUserById(string Id);
         Task<List<DtoAccount>> GetAllUsers();
-        Task<List<DtoAccount>> FilterByUser(string Roles);
         Task<string> ConfirmAccountAysnc(string uesrId, string token);
         Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
         Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request);
@@ -21,6 +20,6 @@ namespace RealStateApp.Core.Application.Interfaces.IService
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
         Task<ServiceResult> RegisterLowRolesUser(RegisterRequest request, string origin, string UserRole);
         Task SignOutAync();
-
+        Task<ServiceResult> Remove(string Id);
     }
 }
