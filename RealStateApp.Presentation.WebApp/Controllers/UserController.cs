@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Enum;
@@ -53,7 +52,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 vm.HasError = true;
                 return View ("Index",vm);
             }
-            return RedirectToAction("Home", "Index");
+            return RedirectToRoute("Home", "Index");
         }
 
         //REGISTER USER
@@ -70,8 +69,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View("Register", vm);
             }
             var origin = Request.Headers["origin"];
-            ServiceResult response = await _userService.RegigsterAsync(vm, origin , Role);
-            if(!response.HasError)
+            ServiceResult response = await _userService.UserRegisterSelector(vm, Role, origin);
+            if(response.HasError)
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;
@@ -143,7 +142,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;
-                return View("Index", vm);
+                return View("ForgotPassword", vm);
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }   

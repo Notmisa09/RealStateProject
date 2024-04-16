@@ -1,13 +1,18 @@
 ﻿@using RealStateApp.Core.Application.ViewModels.User;
 @model List<UserViewModel>;
 
+@{
+    ViewData["Title"] = "Mant.Admin";
+}
+
+
 <head>
     <link rel="stylesheet" href="~/css/table.css" />
     <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
 </head>
 
 <div class="container-fluid">
-    <a asp-controller="Improvements" asp-action="Save" class="btn btn-primary">Register</a>
+    <a asp-controller="Admin" asp-action="RegisterAdmin" class="btn btn-primary">Register</a>
     <div class="card mt-2">
         <div class="card-body">
             <div class="table-responsive">
@@ -18,15 +23,15 @@
                             <th>Name</th>
                             <th>Apellido</th>
                             <th>Correo</th>
-                            <th>Cant.Propiedades</th>
+                            <th>Activar Usuario</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var agents in Model)
+                        @foreach (var admin in Model)
                         {
                             <tr>
-                                @if (agents.ImageURL == null)
+                                @if (admin.ImageURL == null)
                                 {
                                     <td>
                                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnB8SJzsxM_KKbFNf-er2X-WiEdHMHXuz6w&usqp=CAU"
@@ -35,16 +40,47 @@
                                 }
                                 else
                                 {
-                                    <td><img src="@agents.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;"/></td>
-
+                                    <td>
+                                        <img src="@admin.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;" />
+                                    </td>
                                 }
-                                <td>@agents.FirstName</td>
-                                <td>@agents.LastName</td>
-                                <td>@agents.Email</td>
-                                <td>0</td>
+                                <td>@admin.FirstName</td>
+                                <td>@admin.LastName</td>
+                                <td>@admin.Email</td>
+                                @if (admin.IsActive == true)
+                                {
+                                    <td><span class="badge bg-label-success me-1">Active</span></td>
+                                }
+                                @if (admin.IsActive == false)
+                                {
+                                    <td><span class="badge bg-label-danger me-1">Inactive</span></td>
+                                }
                                 <td>
-                                    <a asp-route-Id="@agents.Id" asp-controller="Admin" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
-                                    <a asp-route-Id="@agents.Id" asp-controller="Improvements" asp-action="Edit" class="btn btn-outline-warning">Change Status</a>
+                                    <div class="dropdown">
+                                        <button class="btn p-0 dropdown-toggle hide-arrow" type="button" data-bs-toggle="dropdown">
+                                            <i class="fas fa-bars" style="font-size: 20px;"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            @if (admin.IsActive == false)
+                                            {
+                                                <a class="dropdown-item Dropdownburger" data-user-id="@admin.Id" data-action="ChangeStatus">
+                                                    <i class="fas fa-toggle-on" style="font-size: 20px; margin-right: 7px;"></i> Active
+                                                </a>
+                                            }
+                                            @if (admin.IsActive == true)
+                                            {
+                                                <a class="dropdown-item Dropdownburger" data-user-id="@admin.Id" data-action="ChangeStatus">
+                                                    <i class="fas fa-toggle-off" style="font-size: 20px; margin-right: 7px;"></i> Inactive
+                                                </a>
+                                            }
+                                            <a class="dropdown-item" asp-controller="Admin" asp-action="Remove" asp-route-Id="@admin.Id">
+                                                <i class="fa-solid fa-user-minus" style="font-size: 20px; margin-right: 7px;"></i> Eliminar
+                                            </a>
+                                            <a class="dropdown-item" asp-controller="Admin" asp-action="EditAdmin" asp-route-Id="@admin.Id">
+                                                <i class="fa-solid fa-user-pen" style="font-size: 20px; margin-right: 7px;"></i> Editar
+                                            </a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -54,3 +90,43 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas realizar esta acción?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.Dropdownburger').forEach(item => {
+            item.addEventListener('click', function (event) {
+                event.preventDefault();
+                const userId = this.getAttribute('data-user-id');
+                const action = this.getAttribute('data-action');
+
+                // Mostrar el modal de confirmación
+                $('#confirmationModal').modal('show');
+
+                // Configurar el botón de confirmación para que redireccione con el ID del usuario y la acción
+                document.getElementById('confirmActionBtn').addEventListener('click', function () {
+                    window.location.href = `@Url.Action("ChangeStatus", "Admin")?Id=${userId}`;
+                    $('#confirmationModal').modal('hide');
+                });
+            });
+        });
+    });
+</script>

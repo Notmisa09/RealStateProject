@@ -2,9 +2,8 @@
 @model List<UserViewModel>;
 
 @{
-    ViewData["Title"] = "List.Agentes";
+    ViewData["Title"] = "Dev.List";
 }
-
 
 <head>
     <link rel="stylesheet" href="~/css/table.css" />
@@ -12,6 +11,7 @@
 </head>
 
 <div class="container-fluid">
+    <a asp-controller="Dev" asp-action="RegisterDev" class="btn btn-primary">Register</a>
     <div class="card mt-2">
         <div class="card-body">
             <div class="table-responsive">
@@ -23,15 +23,14 @@
                             <th>Apellido</th>
                             <th>Correo</th>
                             <th>Activar Usuario</th>
-                            <th>Cant.Propiedades</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var agents in Model)
+                        @foreach (var dev in Model)
                         {
                             <tr>
-                                @if (agents.ImageURL == null)
+                                @if (dev.ImageURL == null)
                                 {
                                     <td>
                                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnB8SJzsxM_KKbFNf-er2X-WiEdHMHXuz6w&usqp=CAU"
@@ -41,41 +40,40 @@
                                 else
                                 {
                                     <td>
-                                        <img src="@agents.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;" />
+                                        <img src="@dev.ImageURL" class="rounded-circle" style="width: 35px; height: 35px;" />
                                     </td>
                                 }
-                                <td>@agents.FirstName</td>
-                                <td>@agents.LastName</td>
-                                <td>@agents.Email</td>
-                                @if (agents.IsActive == true)
+                                <td>@dev.FirstName</td>
+                                <td>@dev.LastName</td>
+                                <td>@dev.Email</td>
+                                @if (dev.IsActive == true)
                                 {
                                     <td><span class="badge bg-label-success me-1">Active</span></td>
                                 }
-                                @if (agents.IsActive == false)
+                                @if (dev.IsActive == false)
                                 {
                                     <td><span class="badge bg-label-danger me-1">Inactive</span></td>
                                 }
-                                <td>@agents.PropertiesAmount</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn p-0 dropdown-toggle hide-arrow" type="button" id="burgerDropdownMenuButton" data-bs-toggle="dropdown">
                                             <i class="fas fa-bars" style="font-size: 20px;"></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="burgerDropdownMenuButton">
-                                            @if (agents.IsActive == false)
+                                            @if (dev.IsActive == false)
                                             {
-                                                <a class="dropdown-item Dropdownburger" data-user-id="@agents.Id" data-action="ChangeStatus">
+                                                <a class="dropdown-item Dropdownburger" data-user-id="@dev.Id" data-action="ChangeStatus">
                                                     <i class="fas fa-toggle-on" style="font-size: 20px; margin-right: 7px;"></i> Active
                                                 </a>
                                             }
-                                            @if (agents.IsActive == true)
+                                            @if (dev.IsActive == true)
                                             {
-                                                <a class="dropdown-item Dropdownburger" data-user-id="@agents.Id" data-action="ChangeStatus">
+                                                <a class="dropdown-item Dropdownburger" data-user-id="@dev.Id" data-action="ChangeStatus">
                                                     <i class="fas fa-toggle-off" style="font-size: 20px; margin-right: 7px;"></i> Inactive
                                                 </a>
                                             }
-                                            <a class="dropdown-item" asp-route-Id="@agents.Id" asp-controller="Agent" asp-action="Remove">
-                                                <i class="fa-solid fa-user-minus" style="font-size: 20px; margin-right: 7px;"></i> Eliminar
+                                            <a class="dropdown-item" asp-route-Id="@dev.Id" asp-controller="Dev" asp-action="EditDev">
+                                                <i class="fa-solid fa-user-minus" style="font-size: 20px; margin-right: 7px;"></i> Editar
                                             </a>
                                         </div>
                                     </div>
@@ -87,44 +85,44 @@
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal de Confirmación -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas realizar esta acción?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirmar</button>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmActionBtn">Confirmar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll('.Dropdownburger').forEach(item => {
-            item.addEventListener('click', function (event) {
-                event.preventDefault();
-                const userId = this.getAttribute('data-user-id');
-                const action = this.getAttribute('data-action');
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.Dropdownburger').forEach(item => {
+                item.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const userId = this.getAttribute('data-user-id');
+                    const action = this.getAttribute('data-action');
 
-                // Mostrar el modal de confirmación
-                $('#confirmationModal').modal('show');
+                    // Mostrar el modal de confirmación
+                    $('#confirmationModal').modal('show');
 
-                // Configurar el botón de confirmación para que redireccione con el ID del usuario y la acción
-                document.getElementById('confirmActionBtn').addEventListener('click', function () {
-                    window.location.href = `@Url.Action("ChangeStatus", "Agent")?Id=${userId}`;
-                    $('#confirmationModal').modal('hide');
+                    // Configurar el botón de confirmación para que redireccione con el ID del usuario y la acción
+                    document.getElementById('confirmActionBtn').addEventListener('click', function () {
+                        window.location.href = `@Url.Action("ChangeStatus", "Dev")?Id=${userId}`;
+                        $('#confirmationModal').modal('hide');
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>

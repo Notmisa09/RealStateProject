@@ -3,42 +3,30 @@
 @using RealStateApp.Core.Application.ViewModels.SellingTypes;
 @using RealStateApp.Core.Application.ViewModels.Improvements;
 @using RealStateApp.Core.Application.Enum;
-@model PropertyAddViewModel;
+@model PropertyAddViewModel
 
 @{
     ViewData["Title"] = "Register";
     List<PropertyTypeViewModel> proptypelist = ViewBag.PropertyTypeList;
     List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
+    List<string> Provinces = ViewBag.Provinces; 
 }
 
 <head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
 </head>
-
-
-
-@* @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-@if (Model.HasError)
-{
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: ' @Model.Error',
-            showConfirmButton: true,
-            timer: 5000
-        });
-    </script>
-}
- *@
 
 <script>
     new MultiSelectTag('selectMultiple')
@@ -57,11 +45,12 @@
 
                     <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action="AddProperties">
 
-                        <div class="mb-3">
-                            <label asp-for="formFile" class="form-label text-dark">Descripcion: </label>
-                            <input asp-for="formFile" class="form-control" style="background-color: white; color: black;"/>
-                            <span asp-validation-for="formFile" class="text-danger"></span>
-                        </div>
+                        <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                        <input type="file" asp-for="formFile" lang="es" name="File" class="d-none mb-2" id="image" multiple />
+                        <button type="button" class="btn btn-outline-dark btn-lg btn-block btn-outline-light" onclick="document.getElementById('image').click()">
+                            <i class="fa-regular fa-image text-dark"></i>
+                        </button>
+                        <span asp-validation-for="formFile" class="text-white mb-2"></span>
 
                         <div class="mb-3">
                             <label asp-for="AgentPhoneNumber" class="form-label text-dark">Número de contacto: </label>
@@ -70,9 +59,14 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Location" class="form-label text-dark">Ubicacion: </label>
-                            <input asp-for="Location" class="form-control" style="background-color: white; color: black;" />
-                            <span asp-validation-for="Location" class="text-danger"></span>
+                            <label asp-for="Location" class="form-label text-dark">Ubicación: </label>
+                            <select class="form-control form-select" asp-for="Location">
+                                @foreach (var item in Provinces)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         
@@ -103,6 +97,12 @@
                                 <input asp-for="BedroomsAmount" class="form-control" style="background-color: white; color: black;" />
                                 <span asp-validation-for="BedroomsAmount" class="text-danger"></span>
                             </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Meters" class="form-label text-dark">Cantidad de metros: </label>
+                                <input asp-for="Meters" class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="Meters" class="text-danger"></span>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -114,6 +114,7 @@
                                         <option value="@item.Id">@item.SellingTypeName</option>
                                     }
                                 </select>
+                                <span asp-validation-for="SellingTypeId" class="text-danger"></span>
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -124,6 +125,7 @@
                                         <option value="@item.Id">@item.PropertyTypeName</option>
                                     }
                                 </select>
+                                <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -135,10 +137,11 @@
                                     <option value="@item.Id">@item.ImprovementName</option>
                                 }
                             </select>
+                            <span asp-validation-for="Improvements" class="text-danger"></span>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Registrarse</button>
-                        <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                        <a asp-controller="Agent" asp-action="PropertyList" class="btn btn-warning">Volver atras</a>
                     </form>
                 </div>
             </div>

@@ -15,7 +15,8 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string? AgentEmail { get; set; }
         public string? AgentPhoneNumber { get; set; }
         public int PropertyTypeId { get; set; }
-        public string? SellingType { get; set; }
+        public string? PropertyTypeName { get; set; }
+        public string? SellingTypeName { get; set; }
         public int SellingTypeId { get; set; }
         public List<int> Improvements { get; set; }
         public List<IFormFile>? formFile { get; set; }

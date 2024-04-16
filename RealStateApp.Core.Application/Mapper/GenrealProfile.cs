@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
@@ -40,20 +39,11 @@ public class GenrealProfile : Profile
             .ReverseMap()
             .ForMember(rp => rp.Token, src => src.MapFrom(x => x.Token));
 
-        CreateMap<RegisterRequest, SaveUserViewModel>()
-            .ForMember(r => r.Error, opt => opt.Ignore())
-            .ForMember(r => r.HasError, opt => opt.Ignore())
-            .ReverseMap()
-            .ForMember(r => r.formFile, opt => opt.Ignore());
-
         CreateMap<DtoAccount, SaveUserViewModel>()
-            .ForMember(u => u.IsActive, opt => opt.Ignore())
             .ForMember(u => u.HasError, opt => opt.Ignore())
             .ReverseMap();
 
-
         CreateMap<DtoAccount, UserViewModel>()
-        .ForMember(u => u.IsActive, opt => opt.Ignore())
         .ForMember(u => u.Roles, opt => opt.Ignore())
         .ReverseMap();
 

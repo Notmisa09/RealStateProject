@@ -42,13 +42,16 @@
     </div>
 </section>
 
+<h1 class="col-6 offset-4 mt-4">~Estas son nuestras propiedades~</h1>
+
 <section id="Property-section" class="mt-5">
     @foreach (var item in Model)
     {
         <div class="card ms-4" style="width: 18rem;">
-            <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
+            <img src="https://img.freepik.com/foto-gratis/villa-lujo-piscina-espectacular-diseno-contemporaneo-arte-digital-bienes-raices-hogar-casa-propiedad-ge_1258-150749.jpg" 
+            class=" imgproduct card-img-top img-fluid" alt="Producto">
             <div class="card-body">
-                <p class="card-text">
+                <p class="card-text ">
                     <i class="fa-solid fa-location-dot"></i> @item.Location
                     <br>
                     Code: @item.Id
