@@ -8,7 +8,7 @@
 
 <style>
     .img-serie-size {
-        height: auto; /* Para mantener la proporción original */
+        height: 220px; /* Para mantener la proporción original */
         max-width: 80%; /* Para que la imagen no se estire más allá de su tamaño original */
         transition: transform 0.3s ease-in-out;
     }
@@ -21,6 +21,16 @@
 <div class="container-fluid">
 
     <h2 class="col-6 offset-4">~Estos son nuestros agentes ~</h2>
+
+    <div class="">
+        <div></div>
+        <div>
+            <form method="post" asp-controller="Home" asp-action="Agents">
+
+            </form>
+        </div>
+    </div>
+
 
     <div class="row">
         @foreach (var item in Model)

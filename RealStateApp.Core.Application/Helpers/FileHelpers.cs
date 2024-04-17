@@ -20,8 +20,8 @@ namespace RealStateApp.Core.Application.Helpers
             }
 
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new FileInfo(path);
-            string filename = guid + fileInfo.Extension;
+            FileInfo fileinfo = new(file.FileName);
+            string filename = guid + fileinfo.Extension;
             //
             string absolutefilepath = Path.Combine(path, filename);
             //

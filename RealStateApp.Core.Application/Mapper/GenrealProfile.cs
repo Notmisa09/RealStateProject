@@ -53,8 +53,7 @@ public class GenrealProfile : Profile
 
         CreateMap<PropertyType, PropertyTypeAddViewModel>()
             .ReverseMap()
-            .ForMember(p => p.Property, opt => opt.Ignore())
-            .ForMember(p => p.PropertiesAmount, opt => opt.Ignore());
+            .ForMember(p => p.Property, opt => opt.Ignore());
 
         CreateMap<PropertyType, PropertyTypeViewModel>()
             .ReverseMap()

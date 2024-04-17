@@ -44,7 +44,7 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
 
         public async Task RemoveAsync(T entity)
         {
-            _context.Remove(entity);
+             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 

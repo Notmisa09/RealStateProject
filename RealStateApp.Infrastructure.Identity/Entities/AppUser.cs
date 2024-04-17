@@ -7,6 +7,7 @@ namespace RealStateApp.Infrastructure.Identity.Entities
         public string Name { get; set; }
         public string LastName {  get; set; }   
         public string? ImageURl {  get; set; }
+        public string Identification { get; set; }
         public bool IsActive { get; set; }
     }
 }

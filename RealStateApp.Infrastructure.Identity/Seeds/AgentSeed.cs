@@ -22,6 +22,7 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             agent.Email = "agent@gmail.com";
             agent.EmailConfirmed = true;
             agent.IsActive = true;
+            agent.Identification = "2-1919-1618";
 
             if (userManager.Users.All(u => u.Id != agent.Id))
             {

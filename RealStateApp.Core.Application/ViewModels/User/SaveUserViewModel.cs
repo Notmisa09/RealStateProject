@@ -7,6 +7,9 @@ namespace RealStateApp.Core.Application.ViewModels.User
     {
         public string? Id {  get; set; }
         public bool? IsActive { get; set; }
+
+        [Required(ErrorMessage = "Please type an Identification")]
+        public string Identification {  get; set; }
         public IFormFile? FormFile { get; set; }
 
         [Required(ErrorMessage = "Please enter a First Name")]
