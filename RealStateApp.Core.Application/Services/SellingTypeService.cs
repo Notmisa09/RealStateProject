@@ -9,8 +9,8 @@ namespace RealStateApp.Core.Application.Services
     public class SellingTypeService : GenericService<SellingTypeVeiwModel, SellingTypeAddViewModel, SellingType>, ISellingTypeService
     {
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<SellingType> _repository;
-        public SellingTypeService(IBaseRepository<SellingType> repository, IMapper mapper) : base(repository, mapper)
+        private readonly ISellingTypeRepository _repository;
+        public SellingTypeService(ISellingTypeRepository repository, IMapper mapper) : base(repository, mapper)
         {
             _mapper = mapper;
             _repository = repository;

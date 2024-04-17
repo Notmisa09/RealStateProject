@@ -18,7 +18,7 @@ namespace RealStateApp.Core.Application.Services
             _mapper = mapper;
         }
 
-        public virtual async Task<AddViewModel> Add(ViewModel vm)
+        public virtual async Task<AddViewModel> Add(AddViewModel vm)
         {
             Entity entity = _mapper.Map<Entity>(vm);
             entity = await _repository.AddAsync(entity);

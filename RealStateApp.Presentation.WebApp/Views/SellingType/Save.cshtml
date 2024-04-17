@@ -1,0 +1,38 @@
+﻿@using RealStateApp.Core.Application.ViewModels.SellingTypes;
+@model SellingTypeAddViewModel;
+
+@{
+    ViewData["Title"] = "SellingType Save";
+    bool EditMode = Model != null && Model.Id == 0;
+}
+
+<div class="container-fluid">
+    <div class="col-4 offset-4">
+        <div class="card">
+            <div class="card-header">
+                <strong>@(EditMode ? $"Edit your pruducer {Model.SellingTypeName}" : "Add a new User")</strong>
+
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="PropertyType" asp-action=@(EditMode ? "Edit" : "Save")>
+                    <div class="mb-3">
+                        <label asp-for="SellingTypeName" class="form-label text-dark">Nombre: </label>
+                        <input asp-for="SellingTypeName" class="form-control" style="background-color: white; color: black;" />
+                        <span asp-validation-for="SellingTypeName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label text-dark">Apellido: </label>
+                        <input asp-for="Description" class="form-control" style="background-color: white; color: black;" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Remove</button>
+                    <a asp-controller="PropertyType" asp-action="Index" class="btn btn-primary">@EditMode ? Edit : Create</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

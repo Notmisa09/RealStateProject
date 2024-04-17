@@ -4,7 +4,7 @@
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool HasError {  get; set; }
+        public bool HasError { get; set; } = false;
         public string? Error { get; set; }
     }
 }

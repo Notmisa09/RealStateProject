@@ -16,6 +16,7 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             adminuser.PhoneNumberConfirmed = true;
             adminuser.Email = "adminuser@gmail.com";
             adminuser.EmailConfirmed = true;
+            adminuser.IsActive = true;
 
            
             if(userManager.Users.All(u => u.Id != adminuser.Id))
@@ -25,8 +26,6 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
                 {
                     await userManager.CreateAsync(adminuser, "123Pa$$word");
                     await userManager.AddToRoleAsync(adminuser, RolesEnum.Admin.ToString());
-                    await userManager.AddToRoleAsync(adminuser, RolesEnum.Agent.ToString());
-                    await userManager.AddToRoleAsync(adminuser, RolesEnum.Client.ToString());
                 }
             }
         }

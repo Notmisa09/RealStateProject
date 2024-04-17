@@ -21,8 +21,9 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             clientuser.PhoneNumber = "829-123-9811";
             clientuser.EmailConfirmed = true;
             clientuser.PhoneNumberConfirmed = true;
+            clientuser.IsActive = true;
 
-            if(userManager.Users.All(u => u.Id != clientuser.Id))
+            if (userManager.Users.All(u => u.Id != clientuser.Id))
             {
                 var user = await userManager.FindByEmailAsync(clientuser.Email);
                 if (user != null)

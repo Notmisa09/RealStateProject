@@ -15,7 +15,7 @@ namespace RealStateApp.Infrastructure.Identity.Context
 
             builder.HasDefaultSchema("Identity");
 
-            builder.Entity<IdentityUser>(entity =>
+            builder.Entity<AppUser>(entity =>
             {
                 entity.ToTable(name: "Users");
             });

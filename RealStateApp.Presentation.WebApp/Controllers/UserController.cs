@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
+using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
+using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
@@ -9,8 +12,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly AuthenticationResponse _userInSession;
+        public UserController(IUserService userService, IHttpContextAccessor httcontextAccessor)
         {
+            _userInSession = httcontextAccessor.HttpContext.Session.Get<AuthenticationResponse>("");
             _userService = userService;
         }
 
@@ -27,11 +32,25 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View("Index",vm);
             }
             var result = await _userService.LoginAync(vm);
+
+            if(result != null && result.HasError != true)
+            {
+                HttpContext.Session.Set<AuthenticationResponse>("user", result);
+                if (result.Roles.Contains(RolesEnum.Client.ToString()))
+                {
+                    return RedirectToRoute(new { controller = "Client", action = "Home" });
+                }
+                else if (result.Roles.Contains(RolesEnum.Admin.ToString()))
+                {
+                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
+                }
+            }
+
             if (result.HasError)
             {
-                result.HasError = vm.HasError;
-                result.Error = vm.Error;
-                return View ("Index",result);
+                vm.Error = result.Error;
+                vm.HasError = true;
+                return View ("Index",vm);
             }
             return RedirectToAction("Home", "Index");
         }
@@ -56,8 +75,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 vm.HasError = response.HasError;
                 return View(vm);
             }
+            Singleton.SetString(response.Error);
             var instance = Singleton.GetInstance("");
-            Singleton.GetInstance(response.Error);
             return RedirectToAction("Index");
         }
     }

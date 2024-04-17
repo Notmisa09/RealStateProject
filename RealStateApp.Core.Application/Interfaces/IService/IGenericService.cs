@@ -6,7 +6,7 @@
         where Entity : class
     {
         Task<List<ViewModel>> GeAll();
-        Task<AddViewModel> Add(ViewModel vm);
+        Task<AddViewModel> Add(AddViewModel vm);
         Task Update(AddViewModel vm, int Id);
         Task<AddViewModel> GetById (int id);
         Task Remove(int Id);

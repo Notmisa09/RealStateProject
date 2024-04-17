@@ -3,25 +3,78 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
 }
 
-<div class="col-md-3">
-    <div class=" cardproduct card h-100">
-        <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
-        <div class="card-body">
-            <h5 class="card-title">@item.Name</h5>
-            <p class="card-text">
-                @item.Description
-            </p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://www.ecoprops.co.za/images/slide-1.jpg" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">
+                    House for sale in Sabana Perdida, Santo Domingo Norte
+                    <br>
+                    Code: 161531
+                    <br>
+                    Price: RD$ 5,000,000
+                    <br>
+                    <i class="fa-solid fa-bed"></i>: 5
+                    <br>
+                    <i class="fa-solid fa-sink"></i> : 3
+                    <br>
+                    Size: 241mt
+                </p>
+                <a href="#" class="btn btn-primary">Learn more</a>
+            </div>
         </div>
-        <div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group m-3">
-                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger m-2"><i class="fa-solid fa-trash-can"></i></a>
-                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning m-2"><i class="fa-solid fa-pen"></i></a>
-                </div>
-                <small class="price-amount text-body-secondary fw-bold fs-5 m-2">$</small>
+
+        <div class="card ms-4" style="width: 18rem;">
+            <img src="https://www.ecoprops.co.za/images/slide-1.jpg" class=" imgproduct card-img-top img-fluid" alt="Producto">
+            <div class="card-body">
+                <p class="card-text">
+                    House for sale in Sabana Perdida, Santo Domingo Norte
+                    <br>
+                    Code: 161531
+                    <br>
+                    Price: RD$ 5,000,000
+                    <br>
+                    <i class="fa-solid fa-bed"></i>: 5
+                    <br>
+                    <i class="fa-solid fa-sink"></i> : 3
+                    <br>
+                    Size: 241mt
+                </p>
+                <a href="#" class="btn btn-dark">Learn more</a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* SECCION PARA LOS CARDVIEW */
+    .card {
+        border-radius: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .cardproduct:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .body {
+        font-family: "Josefin Sans", sans-serif;
+    }
+
+    .card img {
+        width: 100%;
+        display: block;
+    }
+
+    .price-amount {
+        color: #2ecc71;
+    }
+
+</style>
+
