@@ -10,7 +10,7 @@ namespace RealStateApp.Infrastructure.Persistence.Interfaces
         private readonly RealStateContext _context;
         public PropertyImagesRepository(RealStateContext context) : base(context){ _context = context; }
 
-        public string GetFirstImage(string PropertyId)
+        public string GetFirstImage(int PropertyId)
         {
             var image =  _context.PropertyImages.FirstOrDefault(x => x.PropertyId == PropertyId);
             if (image == null)

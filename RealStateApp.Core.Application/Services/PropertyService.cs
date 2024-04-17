@@ -35,31 +35,32 @@ namespace RealStateApp.Core.Application.Services
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
         {
-
-            if (vm.formFile != null)
-            {
-                await AddImages(vm);
-            }
             
             PropertyAddViewModel propertie = new();
             do
             {
-                vm.Id = CodeGenerator.GenerateCode(vm.Id);
+                vm.PropertyCode = CodeGenerator.GenerateCode(vm.PropertyCode);
                 propertie = await GetById(vm.Id);
 
             } while (propertie != null);
 
             vm.AgentId = user.Id;
             vm.AgentEmail = user.Email;
+            vm.Id = 0;
 
             var property = await base.Add(vm);
-            await AddImprovements(property);
+            vm.Id = property.Id;
+
+            if (vm.formFile != null)
+            {
+                await AddImages(vm);
+            }
+
+            await AddImprovements(vm);
 
             return property;
 
         }
-
-
 
         private async Task<ServiceResult> AddImages(PropertyAddViewModel vm)
         {
@@ -78,7 +79,7 @@ namespace RealStateApp.Core.Application.Services
                     PropertyImages images = new()
                     {
                         ImageURL = image,
-                        PropertyId = vm.Id
+                        PropertyId = vm.Id,
                     };
                     await _imagesrepository.AddAsync(images);
                 }
@@ -86,6 +87,7 @@ namespace RealStateApp.Core.Application.Services
             return result;
         }
 
+        //ADDIMPROVEMENTS
         private async Task AddImprovements(PropertyAddViewModel vm)
         {
             PropertyImprovements propimprovements = new();
@@ -99,6 +101,7 @@ namespace RealStateApp.Core.Application.Services
             }
         }
 
+        //PROPERTIESCOUNTER
         public async Task<int> PropertiesCount(string Id)
         {
             var properties = await _repository.GetAllAsync();
@@ -106,12 +109,15 @@ namespace RealStateApp.Core.Application.Services
             return count;
         }
 
+
+        //GETBYID
         public async Task<List<PropertyAddViewModel>> GeAllWithIncludeByAgent()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.Where(x => x.AgentId == user.Id).Select(x => new PropertyAddViewModel
+            return list.Where(x => x.AgentId == user.Id).OrderBy(x => x.CreatedDate).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
+                PropertyCode = x.PropertyCode,
                 AgentEmail = x.AgentEmail,
                 AgentPhoneNumber = x.AgentPhoneNumber,
                 AgentId = x.AgentId,
@@ -125,6 +131,7 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
+                FrontImage = _imagesrepository.GetFirstImage(x.Id)
 
             }).ToList();
         }
@@ -132,9 +139,10 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyViewModel>> GeAllWithInclude()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.Select(x => new PropertyViewModel
+            return list.OrderBy(x => x.CreatedDate).Select(x => new PropertyViewModel
             {
                 Id = x.Id,
+                PropertyCode = x.PropertyCode,
                 AgentEmail = x.AgentEmail,
                 Location = x.Location,
                 AgentPhoneNumber = x.AgentPhoneNumber,
@@ -151,5 +159,30 @@ namespace RealStateApp.Core.Application.Services
                 FrontImage = _imagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
+
+        public async Task<List<PropertyAddViewModel>> GetPropertyById(int Id)
+        {
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            return list.Where(x => x.Id == Id).Select(x => new PropertyAddViewModel
+            {
+                Id = x.Id,
+                PropertyCode = x.PropertyCode,
+                AgentEmail = x.AgentEmail,
+                Location = x.Location,
+                AgentPhoneNumber = x.AgentPhoneNumber,
+                AgentId = x.AgentId,
+                PropertyTypeName = x.PropertyType.PropertyTypeName,
+                SellingTypeName = x.SellingType.SellingTypeName,
+                SellingTypeId = x.SellingTypeId,
+                PropertyTypeId = x.PropertyTypeId,
+                BathroomsAmount = x.BathroomsAmount,
+                BedroomsAmount = x.BedroomsAmount,
+                Description = x.Description,
+                Meters = x.Meters,
+                Price = x.Price,
+                Improvements = _propimprovemetns.GetImprovements(x.Id),
+            }).ToList();
+        }
+
     }
 }

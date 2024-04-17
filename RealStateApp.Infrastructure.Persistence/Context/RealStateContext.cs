@@ -1,13 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealStateApp.Core.Domain.Common;
 using RealStateApp.Core.Domain.Entities;
 
 namespace RealStateApp.Infrastructure.Persistence.Context
 {
     public class RealStateContext : DbContext
     {
-        public RealStateContext(DbContextOptions<RealStateContext> options) : base(options)
+        public RealStateContext(DbContextOptions<RealStateContext> options) : base(options) { }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-                
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.Now;
+                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedDate = DateTime.Now;
+                        entry.Entity.LastModifiedBy = "DefaultAppUser";
+                        break;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         public DbSet<Improvements> Improvements { get; set;}

@@ -4,7 +4,8 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
 {
      public class PropertyViewModel
     {
-        public string Id { get; set; }
+        public string PropertyCode { get; set; }
+        public int Id { get; set; }
         public string AgentId { get; set; }
         public decimal Meters { get; set; }
         public string FrontImage { get; set; }

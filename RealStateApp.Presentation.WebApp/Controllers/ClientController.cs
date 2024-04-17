@@ -28,5 +28,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return RedirectToRoute(new { controller = "Client", action = "HomeClient" });
         }
 
+        public async Task<IActionResult> MyProperties()
+        {
+            return View(await _propertyService.GeAllWithIncludeByAgent());
+        }
+
     }
 }

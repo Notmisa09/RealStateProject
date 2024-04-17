@@ -4,7 +4,7 @@ namespace RealStateApp.Core.Application.Helpers
 {
     public static class CodeGenerator
     {
-        public static string GenerateCode(string Id)
+        public static string GenerateCode(string Code)
         {
             StringBuilder stringbuild = new();
             Random rdn = new Random();
@@ -14,8 +14,8 @@ namespace RealStateApp.Core.Application.Helpers
                stringbuild.Append(randomnumber);
             }
 
-            Id = stringbuild.ToString();
-            return Id;
+            Code = stringbuild.ToString();
+            return Code;
         }
     }
 }

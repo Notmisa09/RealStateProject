@@ -42,7 +42,7 @@
     </div>
 </section>
 
-<h1 class="col-6 offset-4 mt-4">~Estas son nuestras propiedades~</h1>
+<h1 class="col-6 offset-4 m-5">~Estas son nuestras propiedades~</h1>
 
 
 <div class="container-fluid">
@@ -72,36 +72,69 @@
 
 
 <section id="Property-section" class="mt-5">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="card ms-4" style="width: 18rem;">
-                <img src="@item.FrontImage" class=" imgproduct card-img-top img-fluid" alt="Producto">
-                <div class="card-body">
-                    <p class="card-text ">
-                        <i class="fa-solid fa-location-dot"></i> @item.Location
-                        <br>
-                        Code: @item.Id
-                        <br>
-                        Price: RD$ @item.Price
-                        <br>
-                        <div class="row">
-                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                            <br>
-                            <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
-                            <br>
-                        </div>
-                        Size: @item.Meters
-                    </p>
-                    <a class="btn btn-dark">Details</a>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card ms-4 p-0" style="width: 18rem;">
+                    <div class="image-container">
+                        <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text fs-4">
+                            <div class="mb-1">
+                                Codigo: @item.PropertyCode
+                            </div>
+
+                            <div class="mb-1">
+                                Precio: <span style="color:lawngreen; font-weight:bold">
+                                              RD$ @item.Price
+                                        </span>
+                            </div>
+
+                            <div class="mb-1">
+                                <i class="fa-solid fa-location-dot"></i> @item.Location
+                            </div>
+                            <div class="col-10 offset-1">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                        <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 </section>
 
 
 <style>
+
+    .image-container {
+        height: 200px; /* Altura deseada para la imagen */
+        overflow: hidden;
+    }
+
+        .image-container img {
+            object-fit: cover;
+            height: 100%; /* Hace que la imagen ocupe toda la altura del contenedor */
+            width: 100%; /* Hace que la imagen ocupe todo el ancho del contenedor */
+        }
+
+    card {
+        border-radius: 0px;
+    }
+
     .form-label {
         font-weight: bold;
     }

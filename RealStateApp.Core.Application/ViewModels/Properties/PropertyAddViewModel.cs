@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper.Configuration.Annotations;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealStateApp.Core.Application.ViewModels.Properties
 {
     public class PropertyAddViewModel
     {
-        public string? Id { get; set; }
+        public int Id { get; set; } = -1;
+        public string? PropertyCode { get; set; }
+        public string? FrontImage { get; set; }
         public string? AgentId { get; set; }
         public string Location { get; set; }
         public decimal Price { get; set; }

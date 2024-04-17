@@ -26,6 +26,15 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             return View(await _userService.GeAllByUsers(RolesEnum.Agent.ToString()));
         }
-        
+
+        public async Task<IActionResult> Details(int Id)
+        {
+            var property = await _propertyService.GetPropertyById(Id);
+            foreach (var item in property)
+            {
+                ViewBag.User = await _userService.GetById(item.AgentId);
+            }
+            return View(property);
+        }
     }
 }
