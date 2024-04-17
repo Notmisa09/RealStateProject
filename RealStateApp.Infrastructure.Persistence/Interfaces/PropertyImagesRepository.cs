@@ -9,5 +9,16 @@ namespace RealStateApp.Infrastructure.Persistence.Interfaces
     {
         private readonly RealStateContext _context;
         public PropertyImagesRepository(RealStateContext context) : base(context){ _context = context; }
+
+        public string GetFirstImage(string PropertyId)
+        {
+            var image =  _context.PropertyImages.FirstOrDefault(x => x.PropertyId == PropertyId);
+            if (image == null)
+            {
+                return null;
+            }
+            var imageURL = image.ImageURL;
+            return imageURL;
+        }
     }
 }

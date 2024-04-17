@@ -76,7 +76,8 @@
         @foreach (var item in Model)
         {
             <div class="card ms-4" style="width: 18rem;">
-                <img src="@item.FrontImage" class=" imgproduct card-img-top img-fluid" alt="Producto">
+                <img src="https://img.freepik.com/foto-gratis/villa-lujo-piscina-espectacular-diseno-contemporaneo-arte-digital-bienes-raices-hogar-casa-propiedad-ge_1258-150749.jpg"
+                     class=" imgproduct card-img-top img-fluid" alt="Producto">
                 <div class="card-body">
                     <p class="card-text ">
                         <i class="fa-solid fa-location-dot"></i> @item.Location
@@ -85,12 +86,10 @@
                         <br>
                         Price: RD$ @item.Price
                         <br>
-                        <div class="row">
-                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                            <br>
-                            <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
-                            <br>
-                        </div>
+                        <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                        <br>
+                        <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
+                        <br>
                         Size: @item.Meters
                     </p>
                     <a class="btn btn-dark">Details</a>

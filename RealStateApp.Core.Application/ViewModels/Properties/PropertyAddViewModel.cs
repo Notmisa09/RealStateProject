@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealStateApp.Core.Application.ViewModels.Properties
 {
@@ -18,7 +19,10 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string? PropertyTypeName { get; set; }
         public string? SellingTypeName { get; set; }
         public int SellingTypeId { get; set; }
-        public List<int> Improvements { get; set; }
+        public List<int> Improvements { get; set; }        
+        
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "Al menos una imagen es requerida")]
         public List<IFormFile>? formFile { get; set; }
     }
 }

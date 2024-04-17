@@ -10,7 +10,7 @@
     List<PropertyTypeViewModel> proptypelist = ViewBag.PropertyTypeList;
     List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
-    List<string> Provinces = ViewBag.Provinces; 
+    List<string> Provinces = ViewBag.Provinces;
 }
 
 <head>
@@ -45,12 +45,12 @@
 
                     <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action="AddProperties">
 
-                        <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
-                        <input type="file" asp-for="formFile" lang="es" name="File" class="d-none mb-2" id="image" multiple />
-                        <button type="button" class="btn btn-outline-dark btn-lg btn-block btn-outline-light" onclick="document.getElementById('image').click()">
-                            <i class="fa-regular fa-image text-dark"></i>
-                        </button>
-                        <span asp-validation-for="formFile" class="text-white mb-2"></span>
+                        <div class="mb-3">
+                            <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                            <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
+                            <span asp-validation-for="formFile" class="text-danger"></span>
+                        </div>
+
 
                         <div class="mb-3">
                             <label asp-for="AgentPhoneNumber" class="form-label text-dark">Número de contacto: </label>
@@ -69,7 +69,7 @@
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
-                        
+
                         <div class="mb-3">
                             <label asp-for="Description" class="form-label text-dark">Descripcion: </label>
                             <textarea asp-for="Description" class="form-control" style="background-color: white; color: black;"></textarea>
@@ -85,20 +85,20 @@
 
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="BathroomsAmount" class="form-label text-dark">Cantidad baños: </label>
                                 <input asp-for="BathroomsAmount" class="form-control" style="background-color: white; color: black;" />
-                                <label class="form" ></label>
+                                <label class="form"></label>
                                 <span asp-validation-for="BathroomsAmount" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="BedroomsAmount" class="form-label text-dark">Cantidad de camas: </label>
                                 <input asp-for="BedroomsAmount" class="form-control" style="background-color: white; color: black;" />
                                 <span asp-validation-for="BedroomsAmount" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label asp-for="Meters" class="form-label text-dark">Cantidad de metros: </label>
                                 <input asp-for="Meters" class="form-control" style="background-color: white; color: black;" />
                                 <span asp-validation-for="Meters" class="text-danger"></span>
@@ -131,7 +131,7 @@
 
                         <div class="mb-3">
                             <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
-                            <select multiple class="form-select-sm" asp-for="Improvements" id="selectLabTest">
+                            <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
                                 @foreach (var item in improvementslist)
                                 {
                                     <option value="@item.Id">@item.ImprovementName</option>
@@ -153,7 +153,7 @@
 <section>
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
     <script>
-        new MultiSelectTag('selectLabTest')
+        new MultiSelectTag('ImprovementsSelect')
     </script>
 </section>
 

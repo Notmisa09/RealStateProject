@@ -43,7 +43,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
                 .HasOne(p => p.Property)
                 .WithMany(p => p.PropertyImprovements)
                 .HasForeignKey(p => p.PropertyId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             mb.Entity<PropertyImprovements>()
                 .HasOne(p => p.Improvements)

@@ -18,16 +18,13 @@ namespace RealStateApp.Core.Application.Services
         private readonly AuthenticationResponse user;
         private readonly IPropertyImprovementsRepository _propimprovemetns; 
         private readonly IPropertyImagesRepository _imagesrepository;
-        private readonly IPropertyImagesRepository _imageRepository;
 
         public PropertyService(IPropertyRepository repository,
             IMapper mapper, 
             IHttpContextAccessor contextAccesor,
             IPropertyImprovementsRepository propimprovemetns,
-            IPropertyImagesRepository imagesrepository,
-            IPropertyImagesRepository imageRepository) : base(repository, mapper)
+            IPropertyImagesRepository imagesrepository) : base(repository, mapper)
         {
-            _imageRepository = imageRepository;
             _imagesrepository = imagesrepository;
             _propimprovemetns = propimprovemetns;
             _mapper = mapper;
@@ -38,6 +35,12 @@ namespace RealStateApp.Core.Application.Services
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
         {
+
+            if (vm.formFile != null)
+            {
+                await AddImages(vm);
+            }
+            
             PropertyAddViewModel propertie = new();
             do
             {
@@ -51,12 +54,9 @@ namespace RealStateApp.Core.Application.Services
 
             var property = await base.Add(vm);
             await AddImprovements(property);
-            
-            if(vm.formFile != null)
-            {
-               await AddImages(property);
-            }
+
             return property;
+
         }
 
 
@@ -80,7 +80,7 @@ namespace RealStateApp.Core.Application.Services
                         ImageURL = image,
                         PropertyId = vm.Id
                     };
-                    await _imageRepository.AddAsync(images);
+                    await _imagesrepository.AddAsync(images);
                 }
             }
             return result;
@@ -117,6 +117,7 @@ namespace RealStateApp.Core.Application.Services
                 AgentId = x.AgentId,
                 PropertyTypeName = x.PropertyType.PropertyTypeName,
                 SellingTypeName = x.SellingType.SellingTypeName,
+                Location = x.Location,
                 SellingTypeId = x.SellingTypeId,
                 PropertyTypeId = x.PropertyTypeId,
                 BathroomsAmount = x.BathroomsAmount,
@@ -135,19 +136,19 @@ namespace RealStateApp.Core.Application.Services
             {
                 Id = x.Id,
                 AgentEmail = x.AgentEmail,
+                Location = x.Location,
                 AgentPhoneNumber = x.AgentPhoneNumber,
                 AgentId = x.AgentId,
                 PropertyTypeName = x.PropertyType.PropertyTypeName,
                 SellingTypeName = x.SellingType.SellingTypeName,
                 SellingTypeId = x.SellingTypeId,
-                Location = x.Location,
                 PropertyTypeId = x.PropertyTypeId,
                 BathroomsAmount = x.BathroomsAmount,
                 BedroomsAmount = x.BedroomsAmount,
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
-
+                FrontImage = _imagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
     }

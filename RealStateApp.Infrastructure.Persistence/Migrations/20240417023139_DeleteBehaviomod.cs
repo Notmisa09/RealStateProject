@@ -5,7 +5,7 @@
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Completed : Migration
+    public partial class DeleteBehaviomod : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -92,6 +92,7 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     BathroomsAmount = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Meters = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AgentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgentEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgentPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -136,7 +137,7 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                         column: x => x.PropertyId,
                         principalTable: "Property",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

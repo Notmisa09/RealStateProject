@@ -12,8 +12,8 @@ using RealStateApp.Infrastructure.Persistence.Context;
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RealStateContext))]
-    [Migration("20240412065808_Completed")]
-    partial class Completed
+    [Migration("20240417023139_DeleteBehaviomod")]
+    partial class DeleteBehaviomod
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Meters")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -230,7 +233,7 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     b.HasOne("RealStateApp.Core.Domain.Entities.Properties", "Property")
                         .WithMany("PropertyImprovements")
                         .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Improvements");

@@ -75,6 +75,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 user.Email = request.Email;
                 user.Id = request.Id;
                 user.IsActive = request.IsActive;
+                user.Identification = request.Id;
             };
 
             if (request.Password != null)
@@ -106,6 +107,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 Password = user.PasswordHash,
+                Identification = user.Identification
             };
             return dto;
         }
@@ -153,6 +155,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 userDto.Email = user.Email;
                 userDto.PhoneNumber = user.PhoneNumber;
                 userDto.Id = user.Id;
+                userDto.Identification = user.Identification;
                 userDto.Roles = _userManager.GetRolesAsync(user).Result.AsQueryable().ToList();
                 DtoUserList.Add(userDto);
             }
@@ -265,6 +268,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             response.FirstName = user.Name;
             response.LastName = user.LastName;
             response.IsActive = user.IsActive;
+            response.Identification = user.Identification;
             response.JWTtoken = new JwtSecurityTokenHandler().WriteToken(jwtSecutriyToken);
 
             var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
@@ -307,6 +311,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 ImageURl = request.ImageURL,
                 PhoneNumber = request.PhoneNumber,
                 EmailConfirmed = true,
+                Identification = request.Identification,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -361,6 +366,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             response.FirstName = user.Name;
             response.LastName = user.LastName;
             response.IsActive = true;
+            response.Identification = user.Identification;
             response.ImageUrl = user.ImageURl;
 
             return response;
@@ -394,7 +400,8 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 UserName = request.UserName,
                 IsActive = request.IsActive,
                 ImageURl = request.ImageURL,
-                PhoneNumber = request.PhoneNumber
+                PhoneNumber = request.PhoneNumber,
+                Identification = request.Identification,
             };
 
             if (UserRole == RolesEnum.Client.ToString())

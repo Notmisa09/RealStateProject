@@ -98,6 +98,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         //LIST PROPERTIES
         public async Task<IActionResult> PropertyList()
         {
+            ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+            ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+            ViewBag.Improvements = await _improvementsService.GetAll();
+            ViewBag.Provinces = await GetProvinces();
             return View(await _propertyService.GeAllWithIncludeByAgent());
         }
 
@@ -117,6 +121,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+                ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+                ViewBag.Improvements = await _improvementsService.GetAll();
+                ViewBag.Provinces = await GetProvinces();
                 return View(vm);
             }
             await _propertyService.Add(vm);

@@ -17,9 +17,10 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             adminuser.Email = "adminuser@gmail.com";
             adminuser.EmailConfirmed = true;
             adminuser.IsActive = true;
+            adminuser.Identification = "4-3235-1618";
 
-           
-            if(userManager.Users.All(u => u.Id != adminuser.Id))
+
+            if (userManager.Users.All(u => u.Id != adminuser.Id))
             {
                 var user = await userManager.FindByEmailAsync(adminuser.Email);
                 if(user == null)

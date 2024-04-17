@@ -44,6 +44,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 {
                     return RedirectToRoute(new { controller = "Admin", action = "Index" });
                 }
+                else
+                {
+                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
+                }
             }
 
             if (result.HasError)
