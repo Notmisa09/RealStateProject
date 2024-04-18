@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Interfaces.IService;
+using RealStateApp.Core.Application.ViewModels.Filter;
+using RealStateApp.Infrastructure.Identity.Seeds;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
@@ -15,6 +17,12 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             _propertyService = propertyService;
             _userService = userService;
             _logger = logger;
+        }
+
+        public async Task<IActionResult> AgentFilter(FilterUserViewModel vm)
+        {
+            var result = await _userService.FilterForAgents(vm, RolesEnum.Agent.ToString());
+            return View("Agents",result);  
         }
 
         public async Task<IActionResult> Index()

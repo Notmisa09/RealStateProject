@@ -5,6 +5,17 @@
     ViewData["Title"] = "Properties Agent";
 }
 
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+</head>
+
+<h1 class="text-center m-3 dancing-script">~Mis propiedades~</h1>
+
 <section id="Property-section" class="mt-5">
     <div class="container-fluid mt-5">
         <div class="row">
@@ -29,7 +40,7 @@
                             </div>
 
                             <div class="mb-1">
-                                Precio: <span style="color:lawngreen; font-weight:bold">
+                                Precio: <span style="color:forestgreen; font-weight:bold">
                                     RD$ @item.Price
                                 </span>
                             </div>
@@ -51,7 +62,7 @@
                                 </div>
                             </div>
                         </p>
-                        <a href="#" class="btn btn-dark">Details</a>
+                        <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
                     </div>
                 </div>
             }
@@ -61,6 +72,9 @@
 
 
 <style>
+    .dancing-script {
+        font-family: "Dancing Script", cursive;
+    }
 
     .image-container {
         height: 200px;

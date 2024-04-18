@@ -1,11 +1,14 @@
 ﻿using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
+using RealStateApp.Core.Application.ViewModels.Filter;
 using RealStateApp.Core.Application.ViewModels.User;
 
 namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IUserService
     {
+        Task<List<UserViewModel>> FilterForAgents(FilterUserViewModel vm, string Roles);
+        Task<List<UserViewModel>> GetAdminUsers(string Roles);
         Task<List<UserViewModel>> GetUsersIsActiveIgnore(string Roles);
         Task<ServiceResult> Remove(string Id);
         Task<ServiceResult> ChangeUserStatus(SaveUserViewModel vm);

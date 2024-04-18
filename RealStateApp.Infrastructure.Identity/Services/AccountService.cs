@@ -377,7 +377,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
         {
             ServiceResult response = new();
 
-            var userWithSameUserName = await _userManager.FindByEmailAsync(request.UserName);
+            var userWithSameUserName = await _userManager.FindByNameAsync(request.UserName);
             if (userWithSameUserName != null)
             {
                 response.HasError = true;
@@ -390,6 +390,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             {
                 response.HasError = true;
                 response.Error = $"Email {request.Email} is already taken ";
+                return response; 
             }
 
             var user = new AppUser

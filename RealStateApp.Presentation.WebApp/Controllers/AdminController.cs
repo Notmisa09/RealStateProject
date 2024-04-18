@@ -35,7 +35,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> AdminList()
         {
-            return View("AdminList", await _userService.GetUsersIsActiveIgnore(RolesEnum.Admin.ToString()));
+            return View("AdminList", await _userService.GetAdminUsers(RolesEnum.Admin.ToString()));
         }
 
         //DASHBOARDS

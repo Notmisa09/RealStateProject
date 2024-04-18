@@ -12,9 +12,11 @@ namespace RealStateApp.Presentation.WebApp.Controllers
     {
         private readonly IUserService _userService;
         private readonly AuthenticationResponse _userInSession;
+        private readonly IHttpContextAccessor _httcontextAccessor;
         public UserController(IUserService userService, IHttpContextAccessor httcontextAccessor)
         {
-            _userInSession = httcontextAccessor.HttpContext.Session.Get<AuthenticationResponse>("");
+            _httcontextAccessor = httcontextAccessor;
+            _userInSession = _httcontextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
             _userService = userService;
         }
 
@@ -46,7 +48,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 }
                 else
                 {
-                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
+                    return RedirectToRoute(new { controller = "Client", action = "Index" });
                 }
             }
 
@@ -80,8 +82,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 vm.HasError = response.HasError;
                 return View(vm);
             }
-            Singleton.SetString(response.Error);
-            var instance = Singleton.GetInstance("");
             return RedirectToAction("Index");
         }
 

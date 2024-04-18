@@ -6,103 +6,122 @@
 
 <head>
     <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
 </head>
 
-<div class="container-fluid">
-    <div class="row offset-4">
-        <div class="col-md-3">
-            <div class="card blue-border cardstatistics bg-light">
-                <div class="card-body">
-                    <h5 class="text-secondary">Agentes activos:</h5>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-user-tie fa-bounce fa-lg" style="color: #74C0FC;"></i>
-                        <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsActive</h3>
+<body>
+    <div class="welcome-header">
+
+        <div class="col-4 offset-4 mt-2">
+            <div class="dancing-script">
+                <h1>Bienvenido al Dashboard</h1>
+            </div>
+            <p>¡Descubre las estadísticas más recientes de tu aplicación!</p>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row offset-4">
+                <div class="col-md-3">
+                    <div class="card blue-border cardstatistics bg-light">
+                        <div class="card-body">
+                            <h5 class="text-secondary">Agentes activos:</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie fa-bounce fa-lg" style="color: #74C0FC;"></i>
+                                <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsActive</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card red-border cardstatistics bg-light">
+                        <div class="card-body">
+                            <h5 class="text-secondary">Agentes inactivos:</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie fa-bounce fa-lg" style="color: #df4126;"></i>
+                                <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsInactive</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card red-border cardstatistics bg-light">
-                <div class="card-body">
-                    <h5 class="text-secondary">Agentes inactivos:</h5>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-user-tie fa-bounce fa-lg" style="color: #df4126;"></i>     
-                        <h3 class="card-text fw-bolder text-dark ms-2">@Model.AgentsInactive</h3>
+
+        <div class="col-md-8 mt-3">
+            <div class="offset-6">
+                <div class="card green-border cardstatistics bg-light">
+                    <div class="card-body">
+                        <h5 class="text-secondary">Propiedades en el sistema:</h5>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-house-circle-check fa-lg" style="color: #1fe059;"></i>
+                            <h3 class="card-text fw-bolder text-dark ms-2">@Model.PropertiesRegisterAmount</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row offset-4 mt-3">
+            <div class="col-md-3">
+                <div class="card blue-border cardstatistics bg-light">
+                    <div class="card-body">
+                        <h5 class="text-secondary">Clientes activos:</h5>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-user-check" style="color: #74C0FC;"></i>
+                            <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientActive</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card red-border cardstatistics bg-light">
+                    <div class="card-body">
+                        <h5 class="text-secondary">Clientes inactivos:</h5>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-user-xmark fa-lg" style="color: #e22828;"></i>
+                            <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientInactive</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row offset-3 mt-3">
+            <div class="col-md-4">
+                <div class="card blue-border cardstatistics bg-light">
+                    <div class="card-body">
+                        <h5 class="text-secondary">Desarrolladores activos:</h5>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-laptop fa-lg" style="color: #74C0FC;"></i>
+                            <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevActive</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card red-border cardstatistics bg-light">
+                    <div class="card-body">
+                        <h5 class="text-secondary">Desarrolladores inactivos:</h5>
+                        <div class="d-flex align-items-center">
+                            <i class="fa-solid fa-laptop fa-lg" style="color: #d3291d;"></i>
+                            <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevInactive</h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="col-md-8 mt-3">
-    <div class="offset-6">
-        <div class="card green-border cardstatistics bg-light">
-            <div class="card-body">
-                <h5 class="text-secondary">Propiedades en el sistema:</h5>
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-house-circle-check fa-lg" style="color: #1fe059;"></i>
-                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.PropertiesRegisterAmount</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row offset-4 mt-3">
-    <div class="col-md-3">
-        <div class="card blue-border cardstatistics bg-light">
-            <div class="card-body">
-                <h5 class="text-secondary">Clientes activos:</h5>
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-user-check" style="color: #74C0FC;"></i>   
-                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientActive</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card red-border cardstatistics bg-light">
-            <div class="card-body">
-                <h5 class="text-secondary">Clientes inactivos:</h5>
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-user-xmark fa-lg" style="color: #e22828;"></i>  
-                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.ClientInactive</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row offset-3 mt-3">
-    <div class="col-md-4">
-        <div class="card blue-border cardstatistics bg-light">
-            <div class="card-body">
-                <h5 class="text-secondary">Desarrolladores activos:</h5>
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-laptop fa-lg" style="color: #74C0FC;"></i> 
-                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevActive</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card red-border cardstatistics bg-light">
-            <div class="card-body">
-                <h5 class="text-secondary">Desarrolladores inactivos:</h5>
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-laptop fa-lg" style="color: #d3291d;"></i> 
-                    <h3 class="card-text fw-bolder text-dark ms-2">@Model.DevInactive</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+</body>
 
 <style>
+    .dancing-script {
+        font-family: "Dancing Script", cursive;
+    }
 
     card {
         border-radius: 6px;
