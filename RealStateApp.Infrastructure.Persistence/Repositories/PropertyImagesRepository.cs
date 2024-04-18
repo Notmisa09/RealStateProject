@@ -20,5 +20,12 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
             var imageURL = image.ImageURL;
             return imageURL;
         }
+
+        public List<string> GetImagesForProperties(int PropertyId)
+        {
+            var image = _context.PropertyImages.Select(x => x.ImageURL).ToList();
+           
+            return image;
+        }
     }
 }

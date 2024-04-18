@@ -23,7 +23,8 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string? SellingTypeName { get; set; }
         public int SellingTypeId { get; set; }
         public List<int> Improvements { get; set; }     
-        public List<string> ImprovementsName { get; set; }
+        public List<string>? ImprovementsName { get; set; }
+        public List<string>? ImagesProperties { get; set; }
         
         [DataType(DataType.Upload)]
         [Required(ErrorMessage = "Al menos una imagen es requerida")]

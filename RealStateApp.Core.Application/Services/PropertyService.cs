@@ -128,6 +128,12 @@ namespace RealStateApp.Core.Application.Services
             return count;
         }
 
+        public List<string> GetImagesForProperties(int Id)
+        {
+            var list = _imagesrepository.GetImagesForProperties(Id);
+            return list;
+        }
+
 
         //GETALLFAVPROPERTIES
 
