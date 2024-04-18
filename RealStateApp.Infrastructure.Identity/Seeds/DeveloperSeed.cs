@@ -17,6 +17,7 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             developerUser.EmailConfirmed = true;
             developerUser.PhoneNumberConfirmed = true;
             developerUser.IsActive = true;
+            developerUser.Identification = "1-1911-9112";
 
 
             if (userManager.Users.All(u => u.Id != developerUser.Id))

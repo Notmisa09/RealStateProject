@@ -11,9 +11,10 @@
             <div class="card-body">
                 <form method="post" asp-controller="PropertyType" asp-action="RemoveTrue">
                     <div class="card-text">
-                        @Model.PropertyName
+                        @Model.PropertyTypeName
                         @Model.Description
                     </div>
+                    <input type="hidden" asp-for="Id"/>
                     <button type="submit" class="btn btn-danger">Delete</button>
                     <a asp-controller="PropertyType" asp-action="Index" class="btn btn-warning">Go Back</a>
                 </form>

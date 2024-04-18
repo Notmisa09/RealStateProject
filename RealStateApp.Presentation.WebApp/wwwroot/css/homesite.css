@@ -1,0 +1,62 @@
+﻿.card {
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.cardproduct:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.body {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.card img {
+    width: 100%;
+    display: block;
+}
+
+.price-amount {
+    color: #2ecc71;
+}
+
+.carousel {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%; 
+}
+
+.carousel-item {
+    height: 100%; 
+}
+
+.carousel-caption {
+    z-index: 2;
+}
+
+    .carousel-caption h5 {
+        font-size: 45px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 20px;
+    }
+
+.carousel-inner::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1;
+}
+
+#carousel-section {
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    width: 100%; /* Ocupa todo el ancho de su contenedor */
+}

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RealStateApp.Infrastructure.Identity.Seeds
 {
-    public static class ClientUser
+    public static class ClientSeed
     {
         public static async Task SeedAsync(UserManager<AppUser> userManager , RoleManager<IdentityRole> roleManager)
         {
@@ -22,11 +22,12 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
             clientuser.EmailConfirmed = true;
             clientuser.PhoneNumberConfirmed = true;
             clientuser.IsActive = true;
+            clientuser.Identification = "2-8952-7618";
 
             if (userManager.Users.All(u => u.Id != clientuser.Id))
             {
                 var user = await userManager.FindByEmailAsync(clientuser.Email);
-                if (user != null)
+                if (user == null)
                 {
                     await userManager.CreateAsync(clientuser, "123Pa$$word");
                     await userManager.AddToRoleAsync(clientuser, RolesEnum.Client.ToString());

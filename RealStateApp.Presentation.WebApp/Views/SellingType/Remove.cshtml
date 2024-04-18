@@ -8,13 +8,14 @@
 <div class="container-fluid">
     <div class="col-4 offset-4">
         <div class="card">
-            <form method="post" asp-controller="PropertyType" asp-action="RemoveTrue">
+            <form method="post" asp-controller="SellingType" asp-action="RemoveTrue">
                 <div class="card-text">
                     @Model.SellingTypeName
                     @Model.Description
+                    <input type="hidden" asp-for="Id" />
                 </div>
-                <button class="btn btn-danger">Delete</button>
-                <a class="btn btn-warning">Go Back</a>
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a asp-controller="SellingType" asp-action="Index" class="btn btn-warning">Go Back</a>
             </form>
         </div>
     </div>

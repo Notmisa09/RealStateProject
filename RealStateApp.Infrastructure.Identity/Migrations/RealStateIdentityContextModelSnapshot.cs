@@ -175,6 +175,10 @@ namespace RealStateApp.Infrastructure.Identity.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Identification")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageURl")
                         .HasColumnType("nvarchar(max)");
 

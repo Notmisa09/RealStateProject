@@ -3,9 +3,10 @@
     public interface IBaseRepository <T> where T : class
     {
         Task<List<T>> GetAllAsync();
-        Task<T> GetByIdAync(int Id);
+        Task<T> GetByIdAync(dynamic Id);
         Task RemoveAsync(T entity);   
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity, int Id);
+        Task<List<T>> GetAllWithInclude(List<string> properties);
     }
 }

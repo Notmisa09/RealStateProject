@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\homesite.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,6 +23,10 @@
     <ProjectReference Include="..\RealStateApp.Infrastructure.Identity\RealStateApp.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\RealStateApp.Infrastructure.Persistence\RealStateApp.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\RealStateApp.Infrastructure.Shared\RealStateApp.Infrastructure.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Image\" />
   </ItemGroup>
 
 </Project>

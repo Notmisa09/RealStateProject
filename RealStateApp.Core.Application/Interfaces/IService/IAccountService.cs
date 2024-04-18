@@ -8,14 +8,18 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IAccountService
     {
+        Task<ServiceResult> ChangeUserStatus(RegisterRequest request);
+        Task<ServiceResult> Update(RegisterRequest request);
+        Task<DtoAccount> GetUserById(string Id);
+        Task<List<DtoAccount>> GetAllUsers();
         Task<string> ConfirmAccountAysnc(string uesrId, string token);
         Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
         Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request);
         Task<AuthenticateResponseJWT> AuthenticateAysncAPI(AuthenticationRequest request);
-        Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request);
+        Task<ServiceResult> RegisterHighRolesUsers(RegisterRequest request, string RoleUser);
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
         Task<ServiceResult> RegisterLowRolesUser(RegisterRequest request, string origin, string UserRole);
         Task SignOutAync();
-
+        Task<ServiceResult> Remove(string Id);
     }
 }

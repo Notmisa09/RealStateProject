@@ -1,0 +1,24 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Improvements;
+@model ImprovementsAddViewModel;
+
+@{
+    ViewData["Title"] = "Remove";
+}
+
+<div class="container-fluid">
+    <div class="col-4 offset-4">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" asp-controller="Improvements" asp-action="RemoveTrue">
+                    <div class="card-text">
+                        @Model.ImprovementName
+                        @Model.Description
+                    </div>
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-controller="Improvements" asp-action="Index" class="btn btn-warning">Go Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

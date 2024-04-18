@@ -1,0 +1,201 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Properties;
+@using RealStateApp.Core.Application.ViewModels.PropertyType;
+@using RealStateApp.Core.Application.ViewModels.SellingTypes;
+@using RealStateApp.Core.Application.ViewModels.Improvements;
+@using RealStateApp.Core.Application.Enum;
+@model PropertyAddViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    List<PropertyTypeViewModel> proptypelist = ViewBag.PropertyTypeList;
+    List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
+    List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
+    List<string> Provinces = ViewBag.Provinces;
+}
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
+</head>
+
+<script>
+    new MultiSelectTag('selectMultiple')
+</script>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card" style="background-color: white;">
+                <div class="card-header  text-center bg-black">
+                    <h4 class="text-light">Registra una propiedad</h4>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action="AddProperties">
+
+                        <div class="mb-3">
+                            <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                            <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
+                            <span asp-validation-for="formFile" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="AgentPhoneNumber" class="form-label text-dark">Número de contacto: </label>
+                            <input asp-for="AgentPhoneNumber" class="form-control" style="background-color: white; color: black;" />
+                            <span asp-validation-for="AgentPhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Location" class="form-label text-dark">Ubicación: </label>
+                            <select class="form-control form-select" asp-for="Location">
+                                @foreach (var item in Provinces)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label text-dark">Descripcion: </label>
+                            <textarea asp-for="Description" class="form-control" style="background-color: white; color: black;"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label text-dark">Precio: </label>
+                            <input asp-for="Price" class="form-control" style="background-color: white; color: black;" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="BathroomsAmount" class="form-label text-dark">Cantidad baños: </label>
+                                <input asp-for="BathroomsAmount" class="form-control" style="background-color: white; color: black;" />
+                                <label class="form"></label>
+                                <span asp-validation-for="BathroomsAmount" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="BedroomsAmount" class="form-label text-dark">Cantidad de camas: </label>
+                                <input asp-for="BedroomsAmount" class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="BedroomsAmount" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Meters" class="form-label text-dark">Cantidad de metros: </label>
+                                <input asp-for="Meters" class="form-control" style="background-color: white; color: black;" />
+                                <span asp-validation-for="Meters" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="SellingTypeId" class="form-label text-dark">Tipos de ventas: </label>
+                                <select class="form-control form-select" asp-for="SellingTypeId">
+                                    @foreach (var item in sellingtypelist)
+                                    {
+                                        <option value="@item.Id">@item.SellingTypeName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="SellingTypeId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PropertyTypeId" class="form-label text-dark">Tipos de propiedades: </label>
+                                <select class="form-control form-select" asp-for="PropertyTypeId">
+                                    @foreach (var item in proptypelist)
+                                    {
+                                        <option value="@item.Id">@item.PropertyTypeName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
+                            <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
+                                @foreach (var item in improvementslist)
+                                {
+                                    <option value="@item.Id">@item.ImprovementName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Improvements" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                        <a asp-controller="Agent" asp-action="PropertyList" class="btn btn-warning">Volver atras</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('ImprovementsSelect')
+    </script>
+</section>
+
+
+<style>
+    .card {
+        background-color: white;
+        margin: auto;
+        margin-top: 5%;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        border-bottom: none;
+        margin-bottom: 20px;
+        padding-bottom: 0;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        background-color: #6c63ff;
+        border: none;
+    }
+
+    .btn-warning {
+        border-radius: 10px;
+        background-color: #ffb74d;
+        border: none;
+    }
+
+    .text-danger {
+        color: red;
+    }
+</style>

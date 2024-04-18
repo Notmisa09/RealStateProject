@@ -12,8 +12,8 @@ using RealStateApp.Infrastructure.Persistence.Context;
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RealStateContext))]
-    [Migration("20240408195652_SecondMig")]
-    partial class SecondMig
+    [Migration("20240412134403_Update Properties")]
+    partial class UpdateProperties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,27 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("RealStateApp.Core.Domain.Entities.ClientPropertyFav", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PropertyId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientPropertyFav", (string)null);
+                });
 
             modelBuilder.Entity("RealStateApp.Core.Domain.Entities.Improvements", b =>
                 {
@@ -66,21 +87,24 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     b.Property<int>("BathroomsAmount")
                         .HasColumnType("int");
 
+                    b.Property<int>("BedroomsAmount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Meters")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PropertyTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomsAmount")
                         .HasColumnType("int");
 
                     b.Property<int>("SellingTypeId")
@@ -146,7 +170,7 @@ namespace RealStateApp.Infrastructure.Persistence.Migrations
                     b.Property<int?>("PropertiesAmount")
                         .HasColumnType("int");
 
-                    b.Property<string>("PropertyName")
+                    b.Property<string>("PropertyTypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

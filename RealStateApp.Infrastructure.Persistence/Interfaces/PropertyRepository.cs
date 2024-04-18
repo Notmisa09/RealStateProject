@@ -1,4 +1,5 @@
-﻿using RealStateApp.Core.Application.Interfaces.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Core.Domain.Entities;
 using RealStateApp.Infrastructure.Persistence.Context;
 using RealStateApp.Infrastructure.Persistence.Repositories;

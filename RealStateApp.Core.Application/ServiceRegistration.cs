@@ -17,6 +17,7 @@ namespace RealStateApp.Core.Application
             services.AddTransient<IPropertyService, PropertyService>();
             services.AddTransient<ISellingTypeService, SellingTypeService>();
             services.AddTransient<IimprovementsService, ImprovementsService>();
+            services.AddTransient<IDashBoardService, DashBoardService>();
         }
     }
 }

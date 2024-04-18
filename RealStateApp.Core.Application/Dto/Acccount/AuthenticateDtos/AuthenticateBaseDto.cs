@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos
+﻿namespace RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos
 {
     public class AuthenticateBaseDto
     {
@@ -13,11 +7,12 @@ namespace RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos
         public string FirstName { get; set; }
         public string ImageUrl { get; set; }
         public string LastName { get; set; }
+        public string Identification {  get; set; }
         public string Email { get; set; }
         public bool IsVerified { get; set; }
         public bool IsActive { get; set; }
         public List<string> Roles { get; set; }
         public bool HasError { get; set; }
-        public string? Error { get; set; }
+        public string? Error { get; set; } 
     }
 }

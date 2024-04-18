@@ -1,13 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealStateApp.Core.Domain.Common;
 using RealStateApp.Core.Domain.Entities;
 
 namespace RealStateApp.Infrastructure.Persistence.Context
 {
     public class RealStateContext : DbContext
     {
-        public RealStateContext(DbContextOptions<RealStateContext> options) : base(options)
+        public RealStateContext(DbContextOptions<RealStateContext> options) : base(options) { }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-                
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.Now;
+                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedDate = DateTime.Now;
+                        entry.Entity.LastModifiedBy = "DefaultAppUser";
+                        break;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         public DbSet<Improvements> Improvements { get; set;}
@@ -26,6 +43,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
             mb.Entity<SellingType>().HasKey(s => s.Id);
             mb.Entity<PropertyImages>().HasKey(s => s.Id);
             mb.Entity<PropertyType>().HasKey(p => p.Id);
+            mb.Entity<ClientPropertyFav>().HasKey(p => p.Id);
 
             mb.Entity<Improvements>().ToTable("Improvements");
             mb.Entity<Properties>().ToTable("Property");
@@ -33,6 +51,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
             mb.Entity<SellingType>().ToTable("SellingType");
             mb.Entity<PropertyImages>().ToTable("PropertyImages");
             mb.Entity<PropertyType>().ToTable("PropertyType");
+            mb.Entity<ClientPropertyFav>().ToTable("ClientPropertyFav");
 
 
             //PROPERTY IMRPOVEMENTS TABLE INTERMEDIA
@@ -41,7 +60,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
                 .HasOne(p => p.Property)
                 .WithMany(p => p.PropertyImprovements)
                 .HasForeignKey(p => p.PropertyId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             mb.Entity<PropertyImprovements>()
                 .HasOne(p => p.Improvements)

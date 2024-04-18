@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
-using RealStateApp.Core.Application.Services;
 using RealStateApp.Core.Application.ViewModels.Improvements;
-using RealStateApp.Core.Application.ViewModels.SellingTypes;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
@@ -17,7 +15,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _imprevementService.GeAll());
+            return View(await _imprevementService.GetAll());
         }
 
         public async Task<IActionResult> Save(int Id)
@@ -33,7 +31,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View(vm);
             }
             await _imprevementService.Add(vm);
-            return RedirectToRoute(new { controller = "SellingType", action = "Index" });
+            return RedirectToRoute(new { controller = "Improvements", action = "Index" });
         }
 
         public async Task<IActionResult> Edit(int Id)
@@ -44,7 +42,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ImprovementsAddViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("Save", vm);
             }

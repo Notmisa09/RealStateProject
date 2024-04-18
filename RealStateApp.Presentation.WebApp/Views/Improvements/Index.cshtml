@@ -1,0 +1,41 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Improvements;
+@model List<ImprovemetnsViewModel>;
+
+<head>
+    <link rel="stylesheet" href="~/css/table.css" />
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+</head>
+
+<div class="container-fluid">
+    <div class="col-6 offset-3">
+        <a asp-controller="Improvements" asp-action="Save" class="btn btn-primary">Register</a>
+        <div class="card mt-2">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var propertyType in Model)
+                            {
+                                <tr>
+                                    <td>@propertyType.ImprovementName</td>
+                                    <td>@propertyType.Description</td>
+                                    <td>
+                                        <a asp-route-Id="@propertyType.Id" asp-controller="Improvements" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a asp-route-Id="@propertyType.Id" asp-controller="Improvements" asp-action="Edit" class="btn btn-outline-warning"><i class="fa-solid fa-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

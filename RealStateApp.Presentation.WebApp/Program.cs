@@ -5,6 +5,7 @@ using RealStateApp.Infrastructure.Identity;
 using RealStateApp.Infrastructure.Identity.Entities;
 using RealStateApp.Infrastructure.Identity.Seeds;
 using RealStateApp.Core.Application;
+using RealStateApp.Presentation.WebApp.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,9 @@ builder.Services.AddSharedLayer(builder.Configuration);
 builder.Services.AddIdentityLayer(builder.Configuration);
 builder.Services.InfraStructureLayer(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
+builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
+builder.Services.AddScoped<LoginAuthorize>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession();
 
 var app = builder.Build();
@@ -31,6 +35,8 @@ using(var scope = app.Services.CreateScope())
         await DefaultRoles.SeedAsync(userManager, roleManager);
         await AdminSeed.SeedAsync(userManager, roleManager);
         await DeveloperSeed.SeedAsync(userManager, roleManager);
+        await AgentSeed.SeedAsync(userManager, roleManager);
+        await ClientSeed.SeedAsync(userManager, roleManager);
     }
 	catch (Exception ex)
 	{

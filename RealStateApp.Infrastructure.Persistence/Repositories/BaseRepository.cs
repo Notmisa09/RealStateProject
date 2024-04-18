@@ -37,20 +37,20 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
            return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetByIdAync(int Id)
+        public async Task<T> GetByIdAync(dynamic Id)
         {
             return await _context.Set<T>().FindAsync(Id);
         }
 
         public async Task RemoveAsync(T entity)
         {
-            _context.Remove(entity);
+             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity, int Id)
         {
-            var entry = _context.Set<T>().FindAsync(Id);
+            var entry = await _context.Set<T>().FindAsync(Id);
             _context.Entry(entry).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();  
         }

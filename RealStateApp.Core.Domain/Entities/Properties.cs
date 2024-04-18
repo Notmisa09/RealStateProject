@@ -1,13 +1,17 @@
-﻿namespace RealStateApp.Core.Domain.Entities
+﻿using RealStateApp.Core.Domain.Common;
+
+namespace RealStateApp.Core.Domain.Entities
 {
-    public class Properties
+    public class Properties : BaseEntity 
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string PropertyCode { get; set; }
         public decimal Price { get; set; }
-        public int RoomsAmount { get; set; }
+        public int BedroomsAmount { get; set; }
         public int BathroomsAmount { get; set; }
         public string Description { get; set; }
-        public string ImageURL { get; set; }
+        public string Location { get; set; }
+        public decimal Meters { get; set; }
 
         //NAV PROPERTIES
         public string AgentId { get; set; }

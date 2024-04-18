@@ -6,6 +6,6 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IPropertyTypeService : IGenericService<PropertyTypeViewModel, PropertyTypeAddViewModel, PropertyType>
     {
-
+        Task<List<PropertyTypeViewModel>> GeallWithPropertiesAmount();
     }
 }

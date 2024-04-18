@@ -1,0 +1,70 @@
+@using RealStateApp.Core.Application.ViewModels.Improvements
+@using RealStateApp.Core.Application.ViewModels.Properties
+@using RealStateApp.Core.Application.ViewModels.PropertyType
+@using RealStateApp.Core.Application.ViewModels.SellingTypes
+@model IList<PropertyAddViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+    <link href="./css/homesite.css" rel="stylesheet">
+
+    List<PropertyTypeViewModel> proptypelist = ViewBag.PropertyTypeList;
+    List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
+    List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+}
+
+@if (proptypelist.Count() == 0 || sellingtypelist.Count() == 0 || improvementslist.Count() == 0)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'No existen tipo de propiedades | ventas | mejoras',
+                showConfirmButton: true,
+                timer: 5000
+            });
+        });
+    </script>
+}
+else
+{
+    <a asp-controller="Agent" asp-action="AddProperties" class="btn btn-primary">Registra una nueva propiedad</a>
+
+    <section id="Property-section" class="mt-5">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card m-4" style="width: 18rem;">
+                            <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-location-dot"></i> @item.Location
+                                    <br>
+                                    Code: @item.PropertyCode
+                                    <br>
+                                    Price: RD$ @item.Price
+                                    <br>
+                                    <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                    <br>
+                                    <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
+                                    <br>
+                                    Size: @item.Meters
+                                </p>
+                                <div>
+                                    <a class="btn btn-warning">Editar</a>
+                                    <a class="btn btn-danger">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}

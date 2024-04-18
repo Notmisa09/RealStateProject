@@ -1,0 +1,152 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Properties
+@model IList<PropertyViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+    <link href="./css/homesite.css" rel="stylesheet">
+}
+<section id="carousel-section">
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://content.elmueble.com/medio/2022/08/03/ly-villa-costa-blanca-3_1d6d2821_2000x1334.jpg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Aqui tenemos variedad</h5>
+                    <p>Con casas de en sueño</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="/img/HomeCarousel/Casa de lujo 2.jpeg" class="d-block w-100" alt="...">
+            </div>
+
+            <div class="carousel-item">
+                <img src="/img/HomeCarousel/Casa interior.jpeg" class="d-block w-100" alt="...">
+            </div>
+
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<h1 class="col-6 offset-4 m-5">~Estas son nuestras propiedades~</h1>
+
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Tipo de propiedad</label>
+                    <select class="form-select">
+                        <option value="#">Filtros</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label class="form-label text-dark">Camas</label>
+                    <input class="form-control" style="background-color: white; color: black;" />
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label class="form-label text-dark">Baños</label>
+                    <input class="form-control" style="background-color: white; color: black;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section id="Property-section" class="mt-5">
+    <div class="container-fluid mt-5">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card ms-4 p-0" style="width: 18rem;">
+                    <div class="image-container">
+                        <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text fs-4">
+                            <div class="mb-1">
+                                Codigo: @item.PropertyCode
+                            </div>
+
+                            <div class="mb-1">
+                                Precio: <span style="color:lawngreen; font-weight:bold">
+                                    RD$ @item.Price
+                                </span>
+                            </div>
+
+                            <div class="mb-1">
+                                <i class="fa-solid fa-location-dot"></i> @item.Location
+                            </div>
+                            <div class="col-10 offset-1">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                        <a href="#" class="btn btn-dark">Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<style>
+
+    .image-container {
+        height: 200px; /* Altura deseada para la imagen */
+        overflow: hidden;
+    }
+
+        .image-container img {
+            object-fit: cover;
+            height: 100%; /* Hace que la imagen ocupe toda la altura del contenedor */
+            width: 100%; /* Hace que la imagen ocupe todo el ancho del contenedor */
+        }
+
+    card {
+        border-radius: 0px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        background-color: #6c63ff;
+        border: none;
+    }
+</style>-

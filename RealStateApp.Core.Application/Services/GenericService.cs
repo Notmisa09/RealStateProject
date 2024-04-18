@@ -22,16 +22,17 @@ namespace RealStateApp.Core.Application.Services
         {
             Entity entity = _mapper.Map<Entity>(vm);
             entity = await _repository.AddAsync(entity);
-            throw new NotImplementedException();
+            AddViewModel addvm = _mapper.Map<AddViewModel>(entity);
+            return addvm; 
         }
 
-        public virtual async Task<List<ViewModel>> GeAll()
+        public virtual async Task<List<ViewModel>> GetAll()
         {
            var list = await _repository.GetAllAsync();
            return _mapper.Map<List<ViewModel>>(list);
         }
 
-        public virtual async Task<AddViewModel> GetById(int id)
+        public virtual async Task<AddViewModel> GetById(dynamic id)
         {
             Entity entity = await _repository.GetByIdAync(id);
             AddViewModel vm = _mapper.Map<AddViewModel>(entity);
