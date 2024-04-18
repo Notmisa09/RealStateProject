@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using RealStateApp.Core.Application.Interfaces.IService;
+using RealStateApp.Core.Application.ViewModels.Properties;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
@@ -25,13 +27,25 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             await _userService.SignOutAsync();
             HttpContext.Session.Remove("user");
-            return RedirectToRoute(new { controller = "Client", action = "HomeClient" });
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+
+        public async Task<IActionResult> AddFav(int Id)
+        {
+            var property = await _propertyService.GetById(Id);
+            await _propertyService.AddFavProp(property);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> MyProperties()
         {
-            return View(await _propertyService.GeAllWithIncludeByAgent());
+            return View(await _propertyService.GetAllFav());
         }
 
+        public async Task<IActionResult> RemoveFavProp(int favprop)
+        {
+            await _propertyService.RemoveFavProp(favprop);
+            return RedirectToAction("MyProperties");
+        }
     }
 }

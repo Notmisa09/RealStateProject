@@ -18,12 +18,14 @@ namespace RealStateApp.Core.Application.Services
         private readonly AuthenticationResponse user;
         private readonly IPropertyImprovementsRepository _propimprovemetns; 
         private readonly IPropertyImagesRepository _imagesrepository;
+        private readonly IClientPropertyFavRepository _clientpropertyfavrepository;
 
         public PropertyService(IPropertyRepository repository,
             IMapper mapper, 
             IHttpContextAccessor contextAccesor,
             IPropertyImprovementsRepository propimprovemetns,
-            IPropertyImagesRepository imagesrepository) : base(repository, mapper)
+            IPropertyImagesRepository imagesrepository,
+            IClientPropertyFavRepository clientpropertyfavrepository) : base(repository, mapper)
         {
             _imagesrepository = imagesrepository;
             _propimprovemetns = propimprovemetns;
@@ -31,6 +33,7 @@ namespace RealStateApp.Core.Application.Services
             _repository = repository;
             _contextAccessor = contextAccesor;
             user = _contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            _clientpropertyfavrepository = clientpropertyfavrepository;
         }
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
@@ -87,6 +90,22 @@ namespace RealStateApp.Core.Application.Services
             return result;
         }
 
+        //ADDFAVPROPERTIES
+        public async Task AddFavProp(PropertyAddViewModel vm)
+        {
+            ClientPropertyFav favprop = new();
+            favprop.PropertyId = vm.Id;
+            favprop.UserId = user.Id;
+            await _clientpropertyfavrepository.AddAsync(favprop);
+        }
+
+        //REMOVEFAPROPERTIES
+        public async Task RemoveFavProp(int Id)
+        {
+           var prop = await _clientpropertyfavrepository.GetByIdAync(Id);
+           await _clientpropertyfavrepository.RemoveAsync(prop);
+        }
+
         //ADDIMPROVEMENTS
         private async Task AddImprovements(PropertyAddViewModel vm)
         {
@@ -108,6 +127,45 @@ namespace RealStateApp.Core.Application.Services
             var count = properties.Where(x => x.AgentId == Id).Count();
             return count;
         }
+
+
+        //GETALLFAVPROPERTIES
+
+        public async Task<List<PropertyViewModel>> GetAllFav()
+        {
+            var fav = await _clientpropertyfavrepository.GetAllAsync();
+            var favnewlist = fav.Where(x => x.UserId == user.Id).ToList();
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            List<PropertyViewModel> prop = new();
+
+            foreach (var item in favnewlist)
+            {
+                var newlist = list.Where(x => x.Id == item.PropertyId).Select(x => new PropertyViewModel
+                {
+                    Id = x.Id,
+                    favprop = item.Id,
+                    PropertyCode = x.PropertyCode,
+                    AgentEmail = x.AgentEmail,
+                    AgentPhoneNumber = x.AgentPhoneNumber,
+                    AgentId = x.AgentId,
+                    PropertyTypeName = x.PropertyType.PropertyTypeName,
+                    SellingTypeName = x.SellingType.SellingTypeName,
+                    Location = x.Location,
+                    SellingTypeId = x.SellingTypeId,
+                    PropertyTypeId = x.PropertyTypeId,
+                    BathroomsAmount = x.BathroomsAmount,
+                    BedroomsAmount = x.BedroomsAmount,
+                    Description = x.Description,
+                    Meters = x.Meters,
+                    Price = x.Price,
+                    FrontImage = _imagesrepository.GetFirstImage(x.Id)
+                }).FirstOrDefault();
+
+                prop.Add(newlist);
+            }
+
+            return prop;
+        } 
 
 
         //GETBYID
@@ -162,7 +220,7 @@ namespace RealStateApp.Core.Application.Services
 
         public async Task<List<PropertyAddViewModel>> GetPropertyById(int Id)
         {
-            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType", "PropertyImprovements.Improvements"});
             return list.Where(x => x.Id == Id).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
@@ -180,9 +238,8 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
-                Improvements = _propimprovemetns.GetImprovements(x.Id),
+                ImprovementsName = x.PropertyImprovements.Select(x => x.Improvements.ImprovementName).ToList()
             }).ToList();
         }
-
     }
 }

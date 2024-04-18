@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Infrastructure.Persistence.Context;
-using RealStateApp.Infrastructure.Persistence.Interfaces;
+using RealStateApp.Infrastructure.Persistence.Repositories;
 
 namespace RealStateApp.Infrastructure.Persistence
 {
@@ -28,6 +28,7 @@ namespace RealStateApp.Infrastructure.Persistence
             services.AddTransient<ISellingTypeRepository, SellingTypeRepository>();
             services.AddTransient<IPropertyTypeRepository, PropertyTypeRepository>();
             services.AddTransient<IPropertyImagesRepository, PropertyImagesRepository>();
+            services.AddTransient<IClientPropertyFavRepository,  ClientPropertyFavRepository>();   
             services.AddTransient<IPropertyImprovementsRepository, PropertyImprovementsRepository>();
             #endregion
 
