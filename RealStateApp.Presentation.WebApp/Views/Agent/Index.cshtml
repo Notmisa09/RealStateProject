@@ -15,6 +15,14 @@
                         <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
                     </div>
                     <div class="card-body">
+                        <div>
+                            <div>
+                                Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
+                            </div>
+                            <div>
+                                Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
+                            </div>
+                        </div>
                         <p class="card-text fs-4">
                             <div class="mb-1">
                                 Codigo: @item.PropertyCode

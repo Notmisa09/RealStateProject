@@ -32,7 +32,7 @@
 }
 else
 {
-    <a asp-controller="Agent" asp-action="AddProperties" class="btn btn-primary">Registra una nueva propiedad</a>
+    <a asp-controller="Agent" asp-action="AddProperties" class="btn btn-primary m-2">Registra una nueva propiedad</a>
 
     <section id="Property-section" class="mt-5">
         <div class="container-fluid mt-5">
@@ -45,6 +45,14 @@ else
                         </div>
                         <div class="card-body">
                             <p class="card-text fs-4">
+                                <div>
+                                    <div>
+                                        Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
+                                    </div>
+                                    <div>
+                                        Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
+                                    </div>
+                                </div>
                                 <div class="mb-1">
                                     Codigo: @item.PropertyCode
                                 </div>
@@ -72,7 +80,8 @@ else
                                     </div>
                                 </div>
                             </p>
-                            <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+                            <a asp-route-Id="@item.Id" asp-controller="Property" asp-action="Remove" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i></a>
+                            <a asp-route-Id="@item.Id" asp-controller="Agent" asp-action="Edit" class="btn btn-outline-warning"><i class="fa-solid fa-pencil"></i></a>
                         </div>
                     </div>
                 }
@@ -94,6 +103,5 @@ else
             height: 100%;
             width: 100%;
         }
-
 </style>
 

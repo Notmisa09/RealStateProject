@@ -131,6 +131,31 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        //EDITREALSTATE
+        public async Task<IActionResult> Edit(int Id)
+        {
+            ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+            ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+            ViewBag.Improvements = await _improvementsService.GetAll();
+            ViewBag.Provinces = await GetProvinces();
+            return View("AddProperties", await _propertyService.GetById(Id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PropertyAddViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+                ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+                ViewBag.Improvements = await _improvementsService.GetAll();
+                ViewBag.Provinces = await GetProvinces();
+                return View("AddProperties",vm);
+            }
+            await _propertyService.Update(vm, vm.Id);
+            return RedirectToRoute(new { controller = "Agent", Action = "PropertyList" });
+        }
+
         //CHANGESTATUS
         public async Task<IActionResult> ChangeStatus(string Id)
         {
