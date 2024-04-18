@@ -6,70 +6,8 @@
     <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
     <link href="./css/homesite.css" rel="stylesheet">
 }
-<section id="carousel-section">
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://content.elmueble.com/medio/2022/08/03/ly-villa-costa-blanca-3_1d6d2821_2000x1334.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Aqui tenemos variedad</h5>
-                    <p>Con casas de en sueño</p>
-                </div>
-            </div>
 
-            <div class="carousel-item">
-                <img src="/img/HomeCarousel/Casa de lujo 2.jpeg" class="d-block w-100" alt="...">
-            </div>
-
-            <div class="carousel-item">
-                <img src="/img/HomeCarousel/Casa interior.jpeg" class="d-block w-100" alt="...">
-            </div>
-
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</section>
-
-<h1 class="col-6 offset-4 m-5">~Estas son nuestras propiedades~</h1>
-
-
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-2 mb-3">
-                    <label class="form-label">Tipo de propiedad</label>
-                    <select class="form-select">
-                        <option value="#">Filtros</option>
-                    </select>
-                </div>
-
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Camas</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
-                </div>
-
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Baños</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<h1>Aqui estan tus porpidades favoritas!</h1>
 
 <section id="Property-section" class="mt-5">
     <div class="container-fluid mt-5">
@@ -79,8 +17,12 @@
                 <div class="card ms-4 p-0" style="width: 18rem;">
                     <div class="image-container position-relative">
                         <!-- Botón de la estrella -->
-                        <a value="@item.favprop" name="favprop"  asp-controller="Client" asp-action="AddFav" class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
-                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                        <a value="@item.favprop" name="favpropId" asp-controller="Client" asp-action="RemoveFavProp" 
+                        class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 30 21" fill="none">
+                                <path d="M14.6962 17.1219L19.8837 20.2594C20.8337 20.8344 21.9962 19.9844 21.7462 18.9094L20.3712 13.0094L24.9587 9.03438C25.7962 8.30938 25.3462 6.93438 24.2462 6.84688L18.2087 6.33438L15.8462 0.759375C15.4212 -0.253125 13.9712 -0.253125 13.5462 0.759375L11.1837 6.32188L5.1462 6.83438C4.0462 6.92188 3.5962 8.29688 4.4337 9.02188L9.0212 12.9969L7.6462 18.8969C7.3962 19.9719 8.5587 20.8219 9.5087 20.2469L14.6962 17.1219Z" fill="#FFD43B" />
+                                <path d="M1 19L29 2" stroke="black" stroke-width="2" stroke-linecap="round" />
+                            </svg>
                         </a>
                         <!-- Imagen de la propiedad -->
                         <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">

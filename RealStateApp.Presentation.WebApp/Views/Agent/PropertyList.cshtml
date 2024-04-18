@@ -35,36 +35,65 @@ else
     <a asp-controller="Agent" asp-action="AddProperties" class="btn btn-primary">Registra una nueva propiedad</a>
 
     <section id="Property-section" class="mt-5">
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    @foreach (var item in Model)
-                    {
-                        <div class="card m-4" style="width: 18rem;">
-                            <img src="" class=" imgproduct card-img-top img-fluid" alt="Producto">
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <i class="fa-solid fa-location-dot"></i> @item.Location
-                                    <br>
-                                    Code: @item.PropertyCode
-                                    <br>
-                                    Price: RD$ @item.Price
-                                    <br>
-                                    <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                                    <br>
-                                    <i class="fa-solid fa-sink"></i> : @item.BathroomsAmount;
-                                    <br>
-                                    Size: @item.Meters
-                                </p>
-                                <div>
-                                    <a class="btn btn-warning">Editar</a>
-                                    <a class="btn btn-danger">Eliminar</a>
-                                </div>
-                            </div>
+        <div class="container-fluid mt-5">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="card ms-4 p-0" style="width: 18rem;">
+                        <div class="image-container">
+                            <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
                         </div>
-                    }
-                </div>
+                        <div class="card-body">
+                            <p class="card-text fs-4">
+                                <div class="mb-1">
+                                    Codigo: @item.PropertyCode
+                                </div>
+
+                                <div class="mb-1">
+                                    Precio: <span style="color:forestgreen; font-weight:bold">
+                                        RD$ @item.Price
+                                    </span>
+                                </div>
+
+                                <div class="mb-1">
+                                    <i class="fa-solid fa-location-dot"></i> @item.Location
+                                </div>
+                                <div class="col-10 offset-1">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                            <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </section>
 }
+
+
+<style>
+
+    .image-container {
+        height: 200px;
+        overflow: hidden;
+    }
+
+        .image-container img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+</style>
+

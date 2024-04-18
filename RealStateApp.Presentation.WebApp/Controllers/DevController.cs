@@ -43,11 +43,11 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             }
             var origin = Request.Headers["origin"];
             ServiceResult response = await _userService.UserRegisterSelector(vm, Role, origin);
-            if (response.HasError)
+            if (!response.HasError)
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;
-                return View(vm);
+                return View("RegisterDev", vm);
             }
             return RedirectToRoute(new { controller = "Admin" , action= "DevList" });
         }
@@ -78,7 +78,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> RemoveTrue(string Id)
         {
-            var result = await _userService.Remove(Id);
+            await _userService.Remove(Id);
             return RedirectToRoute(new { controller = "Admin", action = "DevList" });
         }
     }
