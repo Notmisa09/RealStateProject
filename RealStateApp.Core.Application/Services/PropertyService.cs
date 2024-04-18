@@ -37,8 +37,7 @@ namespace RealStateApp.Core.Application.Services
         }
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
-        {
-            
+        {    
             PropertyAddViewModel propertie = new();
             do
             {
@@ -56,14 +55,31 @@ namespace RealStateApp.Core.Application.Services
 
             if (vm.formFile != null)
             {
-                await AddImages(vm);
+               var result =  await AddImages(vm);
             }
 
-            await AddImprovements(vm);
-
+            if(vm.Improvements != null)
+            {
+                await AddImprovements(vm);
+            }
             return property;
-
         }
+
+        //UPDATE
+        public override async Task Update(PropertyAddViewModel vm, int Id)
+        {
+            if(vm.Improvements != null)
+            {
+                await _propimprovemetns.RemoveUpdateWithUserId(Id);
+                await AddImprovements(vm);
+            }
+            if(vm.formFile != null)
+            {
+                await AddImages(vm);
+            }
+            await base.Update(vm, Id);
+        }
+
 
         private async Task<ServiceResult> AddImages(PropertyAddViewModel vm)
         {
@@ -218,6 +234,7 @@ namespace RealStateApp.Core.Application.Services
             }).ToList();
         }
 
+        //GETBYID
         public async Task<List<PropertyAddViewModel>> GetPropertyById(int Id)
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType", "PropertyImprovements.Improvements"});
@@ -238,6 +255,7 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
+                FrontImage = _imagesrepository.GetFirstImage(x.Id),
                 ImprovementsName = x.PropertyImprovements.Select(x => x.Improvements.ImprovementName).ToList()
             }).ToList();
         }

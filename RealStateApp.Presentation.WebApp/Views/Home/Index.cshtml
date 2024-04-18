@@ -83,14 +83,23 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text fs-4">
+                            <div>
+                                <div>
+                                   Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
+                                </div>
+                                <div>
+                                   Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
+                                </div>
+                            </div>
+
                             <div class="mb-1">
                                 Codigo: @item.PropertyCode
                             </div>
 
                             <div class="mb-1">
                                 Precio: <span style="color:forestgreen; font-weight:bold">
-                                              RD$ @item.Price
-                                        </span>
+                                    RD$ @item.Price
+                                </span>
                             </div>
 
                             <div class="mb-1">

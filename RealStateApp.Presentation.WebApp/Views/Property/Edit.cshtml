@@ -6,12 +6,11 @@
 @model PropertyAddViewModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Edit property";
     List<PropertyTypeViewModel> proptypelist = ViewBag.PropertyTypeList;
     List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
     List<string> Provinces = ViewBag.Provinces;
-    bool EditMode = Model.Id != 0 && Model != null;
 }
 
 <head>
@@ -44,27 +43,14 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action=@(EditMode ? "Edit" : "AddProperties")>
-                        @if(EditMode == true)
-                        {
-                            <div class="mb-3">
-                                <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
-                                <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
-                                <span asp-validation-for="formFile" class="text-danger"></span>
-                            </div>
+                    <form method="post" enctype="multipart/form-data" asp-controller="Property" asp-action="Edit">
 
-                            <input asp-for="AgentId" type="hidden" class="form-control" style="background-color: white; color: black;" />
+                        <div class="mb-3">
+                            <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                            <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
+                            <span asp-validation-for="formFile" class="text-danger"></span>
+                        </div>
 
-                            <input asp-for="AgentEmail" type="hidden" class="form-control" style="background-color: white; color: black;" />
-                        }
-                        else
-                        {
-                            <div class="mb-3">
-                                <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
-                                <input asp-for="formFile" class="form-control" required style="background-color: white; color: black;" multiple />
-                                <span asp-validation-for="formFile" class="text-danger"></span>
-                            </div>
-                        }
 
                         <div class="mb-3">
                             <label asp-for="AgentPhoneNumber" class="form-label text-dark">Número de contacto: </label>
@@ -153,10 +139,6 @@
                             </select>
                             <span asp-validation-for="Improvements" class="text-danger"></span>
                         </div>
-
-                        <input asp-for="PropertyCode" type="hidden" class="form-control" style="background-color: white; color: black;" />
-
-                        <input asp-for="Id" type="hidden" class="form-control" style="background-color: white; color: black;" />
 
                         <button type="submit" class="btn btn-primary">Registrarse</button>
                         <a asp-controller="Agent" asp-action="PropertyList" class="btn btn-warning">Volver atras</a>

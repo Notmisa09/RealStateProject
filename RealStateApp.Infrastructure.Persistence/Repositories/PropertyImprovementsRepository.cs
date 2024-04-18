@@ -23,5 +23,12 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
             return PropertyImprovements;
         }
 
+        public async Task RemoveUpdateWithUserId(int Id)
+        {
+            var improvements = await _context.PropertyImprovements.Where(x => x.PropertyId == Id).ToListAsync();
+            _context.RemoveRange(improvements);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
