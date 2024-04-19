@@ -20,17 +20,27 @@
 
 @if (proptypelist.Count() == 0 || sellingtypelist.Count() == 0 || improvementslist.Count() == 0)
 {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'No existen tipo de propiedades | ventas | mejoras',
-                showConfirmButton: true,
-                timer: 5000
-            });
-        });
-    </script>
+    <div class="col-6 offset-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fa-solid fa-house-circle-check fa-5x text-muted mb-3"></i>
+                <h5 class="card-title">No existen tipo de venta , mejoras o tipo de propiedad</h5>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="col-6 offset-3 mt-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fa-solid fa-house-circle-check fa-5x text-muted mb-3"></i>
+                <h5 class="card-title">No tiene propiedades creadas aun</h5>
+                <a asp-controller="Agent" asp-action="AddProperties" class="btn btn-primary mt-4">Registra una nueva propiedad</a>
+            </div>
+        </div>
+    </div>
 }
 else
 {
@@ -44,7 +54,7 @@ else
 
                         @foreach (var item in Model)
                         {
-                            <div class="card ms-4 p-0" style="width: 18rem;">
+                            <div class="card ms-4 p-0 mt-3 " style="width: 18rem;">
                                 <div class="image-container">
                                     <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
                                 </div>

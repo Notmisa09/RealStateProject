@@ -127,7 +127,17 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 ViewBag.Provinces = await GetProvinces();
                 return View(vm);
             }
-            await _propertyService.Add(vm);
+            var property = await _propertyService.Add(vm);
+            if (property.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = property.Error;
+                ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+                ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+                ViewBag.Improvements = await _improvementsService.GetAll();
+                ViewBag.Provinces = await GetProvinces();
+                return View("AddProperties",vm);
+            }
             return RedirectToAction("Index");
         }
 

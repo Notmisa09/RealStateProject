@@ -7,15 +7,32 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
     public class PropertyAddViewModel 
     {
         public int? Id { get; set; } = 0;
+
         [Required(ErrorMessage = "No ha seleccionado una localizacion")]
         public string Location { get; set; }
+
         [Required(ErrorMessage = "Digite un precio")]
         public decimal Price { get; set; }
+
+        [Required(ErrorMessage = "Debe de indicar la cantidad de baños")]
         public int BedroomsAmount { get; set; }
+
+        [Required(ErrorMessage = "Debe de indicar la cantidad de habitaciones")]
         public int BathroomsAmount { get; set; }
+
+        [Required(ErrorMessage = "Debe de indicar la cantidad de metros cuadrados")]
         public decimal Meters { get; set; }
+
+        [Required(ErrorMessage = "Debe de escribir una poner una descripcion")]
+
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Debe de seleccionar un tipo de propiedad")]
+
         public int PropertyTypeId { get; set; }
+
+        [Required(ErrorMessage = "Debe de seleccionar un tipo de venta")]
+
         public int SellingTypeId { get; set; }
         public bool HasError {  get; set; }
 

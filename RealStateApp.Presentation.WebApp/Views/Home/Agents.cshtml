@@ -36,20 +36,18 @@
             @foreach (var item in Model)
             {
                 <div class="col-md-3 mt-4 ">
-                    <!-- Modificado el tamaño de las columnas -->
                     <div class="card">
                         <div class="card-body text-center">
-                            <!-- Añadido text-center para centrar el contenido -->
                             @if (item.ImageURL != null)
                             {
-                                <a asp-controller="Home" asp-action="Agents"
+                                <a asp-controller="Home" asp-action="AgentDetails"
                                    asp-route-id="@item.Id" title="VER INFORMACION DEL AGENTE">
                                     <img src="@item.ImageURL" class="card-img-top img-serie-size rounded-circle" />
                                 </a>
                             }
                             else
                             {
-                                <a asp-controller="Home" asp-action="Agents" asp-route-id="@item.Id" title="VER INFORMACION DEL AGENTE">
+                                <a asp-controller="Home" asp-action="AgentDetails" asp-route-id="@item.Id" title="VER INFORMACION DEL AGENTE">
                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnB8SJzsxM_KKbFNf-er2X-WiEdHMHXuz6w&usqp=CAU"
                                          class="card-img-top img-serie-size rounded-circle" />
                                 </a>
@@ -72,6 +70,7 @@
             </div>
         </div>
     }
+</div>
 
     <style>
     .img-serie-size {

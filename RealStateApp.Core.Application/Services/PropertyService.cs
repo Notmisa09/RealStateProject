@@ -44,12 +44,6 @@ namespace RealStateApp.Core.Application.Services
                 return vm;
             }
 
-            var result = await AddImages(vm);
-            if (result.HasError)
-            {
-                return result;
-            }
-
             PropertyAddViewModel propertie = new();
             do
             {
@@ -65,6 +59,7 @@ namespace RealStateApp.Core.Application.Services
             vm.Id = property.Id;
 
             await AddImprovements(vm);
+            await AddImages(vm);
             return property;
         }
 
@@ -101,23 +96,19 @@ namespace RealStateApp.Core.Application.Services
             await base.Update(vm, Id);
         }
 
-
-        private async Task<PropertyAddViewModel> AddImages(PropertyAddViewModel vm)
+        //ADDIMGAES
+        private async Task AddImages(PropertyAddViewModel vm)
         {
-            if (vm.formFile != null)
+            foreach (var item in vm.formFile)
             {
-                foreach (var item in vm.formFile)
+                var image = FileHelpers.UploadFile(item, vm.Id, "Properties", false);
+                PropertyImages images = new()
                 {
-                    var image = FileHelpers.UploadFile(item, vm.Id, "Properties", false);
-                    PropertyImages images = new()
-                    {
-                        ImageURL = image,
-                        PropertyId = vm.Id.Value,
-                    };
-                    await _propimagesrepository.AddAsync(images);
-                }
+                    ImageURL = image,
+                    PropertyId = vm.Id.Value,
+                };
+                await _propimagesrepository.AddAsync(images);
             }
-            return vm;
         }
 
         //ADDFAVPROPERTIES
@@ -202,6 +193,33 @@ namespace RealStateApp.Core.Application.Services
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
             return list.Where(x => x.AgentId == user.Id).OrderBy(x => x.CreatedDate).Select(x => new PropertyAddViewModel
+            {
+                Id = x.Id,
+                PropertyCode = x.PropertyCode,
+                AgentEmail = x.AgentEmail,
+                AgentPhoneNumber = x.AgentPhoneNumber,
+                AgentId = x.AgentId,
+                PropertyTypeName = x.PropertyType.PropertyTypeName,
+                SellingTypeName = x.SellingType.SellingTypeName,
+                Location = x.Location,
+                SellingTypeId = x.SellingTypeId,
+                PropertyTypeId = x.PropertyTypeId,
+                BathroomsAmount = x.BathroomsAmount,
+                BedroomsAmount = x.BedroomsAmount,
+                Description = x.Description,
+                Meters = x.Meters,
+                Price = x.Price,
+                FrontImage = _propimagesrepository.GetFirstImage(x.Id)
+
+            }).ToList();
+        }
+
+
+        //GETBYID
+        public async Task<List<PropertyAddViewModel>> GetAllByUserId(string Id)
+        {
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            return list.Where(x => x.AgentId == Id).OrderBy(x => x.CreatedDate).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,

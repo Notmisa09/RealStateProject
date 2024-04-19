@@ -44,5 +44,12 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             }
             return View(property);
         }
+
+        public async Task<IActionResult> AgentDetails(string Id)
+        {
+            ViewBag.User = await _userService.GetById(Id);
+            return View(await _propertyService.GetAllByUserId(Id));
+        }
+
     }
 }

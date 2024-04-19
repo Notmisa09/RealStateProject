@@ -5,6 +5,7 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IPropertyService : IGenericService<PropertyViewModel, PropertyAddViewModel , Properties>
     {
+        Task<List<PropertyAddViewModel>> GetAllByUserId(string Id);
         Task RemoveFavProp(int Id);
         Task<List<PropertyViewModel>> GetAllFav();
         Task AddFavProp(PropertyAddViewModel vm);
