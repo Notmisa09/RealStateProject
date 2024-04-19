@@ -8,7 +8,8 @@
 }
 
 <div class="container-fluid">
-    <div class="row justify-content-end"> <!-- Agregado justify-content-end para alinear a la derecha -->
+    <div class="row justify-content-end">
+        <!-- Agregado justify-content-end para alinear a la derecha -->
         <div class="card col-md-3 m-3">
             <div class="card-body text-center">
                 <!-- Añadido text-center para centrar el contenido -->
@@ -26,42 +27,77 @@
                              class="card-img-top img-serie-size rounded-circle" />
                     </a>
                 }
-                <h3 class="mt-3 font-weight-bold">@user.FirstName @user.LastName</h3> <!-- Añadido margen superior -->
+                <p class="mt-3 font-weight-bold fs-5">
+                    <i class="fas fa-user"></i> @user.FirstName @user.LastName <br>
+                    <i class="fas fa-envelope"></i> @user.Email <br>
+                    <i class="fas fa-phone"></i> @user.PhoneNumber
+                </p>
             </div>
         </div>
     </div>
-@foreach (var item in Model)
+
+
+
+    @foreach (var item in Model)
     {
-        
-    <div class="col-6 offset-2">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-10 offset-1">
-                    <div class="row g-0">
-                        <div class="col-md-4">
+
+        <div class="col-6 offset-2">
+            <div class="card">
+                <div class="card-body">
+
+                    <div>
+                        Codigo: @item.PropertyCode
+                        <span class="ms-3">Tipo de propiedad: <span class="badge rounded-pill bg-info">@item.PropertyTypeName</span></span>
+                        <span class="ms-3">Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span></span>
+                    </div>
+
+                    <div class="col-10 offset-1">
+                        <div class="row g-0">
+                            <div class="col-md-4">
                                 <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                        </div>
-                        <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
                                 <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
-                        </div>
-                        <div class="col-md-4">
-                            <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                            </div>
+                            <div class="col-md-4">
+                                <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <hr class="mt-3" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Descripción</h4>
+                    <p>@item.Description</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Mejoras</h4>
+                    @foreach (var mejoras in item.ImprovementsName)
+                    {
+                        <h5>@mejoras</h5>
+                    }
+                </div>
+            </div>
         </div>
-        <h4>Descripcion</h4>
-        @item.Description;
-        Mejoras: @item.Improvements;
-    </div>
     }
-
-
 </div>
 
 <style>
-    img{
-        width:200px;
+    .img-serie-size {
+        height: 220px;
+        max-width: 80%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .img-serie-size:hover {
+            transform: scale(1.1);
+        }
+
+    img {
+        width: 200px;
     }
 </style>

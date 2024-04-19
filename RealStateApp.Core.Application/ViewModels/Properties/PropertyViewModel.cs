@@ -1,4 +1,5 @@
 ﻿using RealStateApp.Core.Domain.Entities;
+using System.Data;
 
 namespace RealStateApp.Core.Application.ViewModels.Properties
 {
@@ -6,6 +7,7 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
     {
         public string PropertyCode { get; set; }
         public int Id { get; set; }
+        public int favprop {  get; set; }
         public string AgentId { get; set; }
         public decimal Meters { get; set; }
         public string FrontImage { get; set; }

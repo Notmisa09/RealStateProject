@@ -4,7 +4,7 @@ namespace RealStateApp.Core.Application.ViewModels.User
 {
     public class ForgotPasswordViewModel
     {
-        [Required(ErrorMessage = "Please type in an email")]
+        [Required(ErrorMessage = "Porfavor digite un emial")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public bool HasError { get; set; } = false;

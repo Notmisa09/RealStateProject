@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
@@ -7,6 +8,7 @@ using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
 using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
+using RealStateApp.Core.Application.ViewModels.Filter;
 using RealStateApp.Core.Application.ViewModels.User;
 
 namespace RealStateApp.Core.Application.Services
@@ -16,19 +18,30 @@ namespace RealStateApp.Core.Application.Services
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly IPropertyService _propertyService;
+        private readonly AuthenticationResponse user;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public UserService(IAccountService accountService, IMapper mapper, IPropertyService propertyService)
+        public UserService(IAccountService accountService, IMapper mapper, 
+            IPropertyService propertyService, IHttpContextAccessor contextAccesor)
         {
+            _contextAccessor = contextAccesor;
             _propertyService = propertyService;
             _accountService = accountService;
             _mapper = mapper;
+            user = _contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
         }
 
         public async Task<ServiceResult> Remove(string Id)
         {
+            var user = await _accountService.GetUserById(Id);
             var result = await _accountService.Remove(Id);
+            if(user.ImageUrl == null)
+            {
+                FileHelpers.ElimProfileImage(user.ImageURl);
+            }
             return result;
         }
+        
         public async Task<ServiceResult> ChangeUserStatus(SaveUserViewModel vm)
         {
             var user = _mapper.Map<RegisterRequest>(vm);
@@ -67,15 +80,43 @@ namespace RealStateApp.Core.Application.Services
             return vm;
         }
 
+
+        public async Task<List<UserViewModel>> FilterForAgents(FilterUserViewModel vm , string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
+                .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+
+            if (!string.IsNullOrEmpty(vm.AgentName))
+            {
+                newlist = newlist.Where(x => x.FirstName.Contains(vm.AgentName) || x.LastName.Contains(vm.AgentName)).ToList();
+            }
+            return newlist;
+        }
+
+
         public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
         {
             var list = await _accountService.GetAllUsers();
             list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
                 .OrderBy(x => x.FirstName).ToList();
             var newlist = _mapper.Map<List<UserViewModel>>(list);
+
             return newlist;
         }
 
+        //GETALL FOR ADMIN
+        public async Task<List<UserViewModel>> GetAdminUsers(string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.Id != user.Id)
+            .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+            return newlist;
+        }
+
+        //GET ALL USER IGNORING THE USERSTATUS 
         public async Task<List<UserViewModel>> GetUsersIsActiveIgnore(string Roles)
         {
             var list = await _accountService.GetAllUsers();
@@ -93,6 +134,7 @@ namespace RealStateApp.Core.Application.Services
             return newlist;
         }
 
+        //LOGIN
         public async Task<AuthenticationResponse> LoginAync(LoginViewModel vm)
         {
             AuthenticationRequest loginrequest = _mapper.Map<AuthenticationRequest>(vm);
@@ -100,16 +142,20 @@ namespace RealStateApp.Core.Application.Services
             return userResponse;
 
         }
+        
+        //LOGOUT
         public async Task SignOutAsync()
         {
             await _accountService.SignOutAync();
         }
 
+        //CONFIRMEMAILASYNC
         public async Task<string> ConfrimEmailAsync(string UserId, string token)
         {
             return await _accountService.ConfirmAccountAysnc(UserId, token);
         }
-
+        
+        //FORGOTPASSWORDASYNC
         public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm, string origin)
         {
             ForgotPasswordRequest resetRequest = _mapper.Map<ForgotPasswordRequest>(vm);

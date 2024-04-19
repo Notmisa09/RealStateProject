@@ -3,8 +3,9 @@ using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Core.Domain.Entities;
 using RealStateApp.Infrastructure.Persistence.Context;
 using RealStateApp.Infrastructure.Persistence.Repositories;
+using RealStateApp.Infrastructure.Persistence.Repository;
 
-namespace RealStateApp.Infrastructure.Persistence.Interfaces
+namespace RealStateApp.Infrastructure.Persistence.Repositories
 {
     public class PropertyImprovementsRepository : BaseRepository<PropertyImprovements> , IPropertyImprovementsRepository
     {
@@ -22,5 +23,11 @@ namespace RealStateApp.Infrastructure.Persistence.Interfaces
             return PropertyImprovements;
         }
 
+        public async Task RemoveUpdateWithUserId(int Id)
+        {
+            var improvements = await _context.PropertyImprovements.Where(x => x.PropertyId == Id).ToListAsync();
+            _context.RemoveRange(improvements);
+            await _context.SaveChangesAsync();
+        }
     }
 }

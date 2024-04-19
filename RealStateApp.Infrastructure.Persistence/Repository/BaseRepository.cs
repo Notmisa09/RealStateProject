@@ -2,7 +2,7 @@
 using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Infrastructure.Persistence.Context;
 
-namespace RealStateApp.Infrastructure.Persistence.Repositories
+namespace RealStateApp.Infrastructure.Persistence.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

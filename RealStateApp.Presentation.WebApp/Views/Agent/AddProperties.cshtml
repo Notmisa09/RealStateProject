@@ -11,6 +11,7 @@
     List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
     List<string> Provinces = ViewBag.Provinces;
+    bool EditMode = Model != null && Model.Id != 0;
 }
 
 <head>
@@ -32,6 +33,24 @@
     new MultiSelectTag('selectMultiple')
 </script>
 
+<!-- SweetAlert2 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+@if (Model.HasError == true)
+{
+    <script>
+        $(document).ready(function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '@Model.Error',
+                showConfirmButton: true,
+                timer: 5000
+            });
+        });
+    </script>
+}
 
 <div class="container-fluid">
 
@@ -43,14 +62,27 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action="AddProperties">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action=@(EditMode ? "Edit" : "AddProperties")>
+                        @if(EditMode == true)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                                <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
+                                <span asp-validation-for="formFile" class="text-danger"></span>
+                            </div>
 
-                        <div class="mb-3">
-                            <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
-                            <input asp-for="formFile" class="form-control" style="background-color: white; color: black;" multiple />
-                            <span asp-validation-for="formFile" class="text-danger"></span>
-                        </div>
+                            <input asp-for="AgentId" type="hidden" class="form-control" style="background-color: white; color: black;" />
 
+                            <input asp-for="AgentEmail" type="hidden" class="form-control" style="background-color: white; color: black;" />
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
+                                <input asp-for="formFile" class="form-control" required style="background-color: white; color: black;" multiple />
+                                <span asp-validation-for="formFile" class="text-danger"></span>
+                            </div>
+                        }
 
                         <div class="mb-3">
                             <label asp-for="AgentPhoneNumber" class="form-label text-dark">Número de contacto: </label>
@@ -129,16 +161,37 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
-                            <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
-                                @foreach (var item in improvementslist)
-                                {
-                                    <option value="@item.Id">@item.ImprovementName</option>
-                                }
-                            </select>
-                            <span asp-validation-for="Improvements" class="text-danger"></span>
-                        </div>
+                        
+                        @if(EditMode == true)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
+                                <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
+                                    @foreach (var item in improvementslist)
+                                    {
+                                        <option value="@item.Id">@item.ImprovementName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Improvements" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
+                                <select multiple class="form-select-sm" required asp-for="Improvements" id="ImprovementsSelect">
+                                    @foreach (var item in improvementslist)
+                                    {
+                                        <option value="@item.Id">@item.ImprovementName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Improvements" class="text-danger"></span>
+                            </div>
+                        }
+
+                        <input asp-for="PropertyCode" type="hidden" class="form-control" style="background-color: white; color: black;" />
+
+                        <input asp-for="Id" type="hidden" class="form-control" style="background-color: white; color: black;" />
 
                         <button type="submit" class="btn btn-primary">Registrarse</button>
                         <a asp-controller="Agent" asp-action="PropertyList" class="btn btn-warning">Volver atras</a>

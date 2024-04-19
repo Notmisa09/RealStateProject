@@ -113,7 +113,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             ViewBag.Improvements = await _improvementsService.GetAll();
             ViewBag.Provinces = await GetProvinces();
 
-            return View(new PropertyAddViewModel());
+            return View("AddProperties", new PropertyAddViewModel());
         }
 
         [HttpPost]
@@ -127,8 +127,43 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 ViewBag.Provinces = await GetProvinces();
                 return View(vm);
             }
-            await _propertyService.Add(vm);
+            var property = await _propertyService.Add(vm);
+            if (property.HasError)
+            {
+                vm.HasError = true;
+                vm.Error = property.Error;
+                ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+                ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+                ViewBag.Improvements = await _improvementsService.GetAll();
+                ViewBag.Provinces = await GetProvinces();
+                return View("AddProperties",vm);
+            }
             return RedirectToAction("Index");
+        }
+
+        //EDITREALSTATE
+        public async Task<IActionResult> Edit(int Id)
+        {
+            ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+            ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+            ViewBag.Improvements = await _improvementsService.GetAll();
+            ViewBag.Provinces = await GetProvinces();
+            return View("AddProperties", await _propertyService.GetById(Id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PropertyAddViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
+                ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
+                ViewBag.Improvements = await _improvementsService.GetAll();
+                ViewBag.Provinces = await GetProvinces();
+                return View("AddProperties",vm);
+            }
+            await _propertyService.Update(vm, vm.Id.Value);
+            return RedirectToRoute(new { controller = "Agent", Action = "PropertyList" });
         }
 
         //CHANGESTATUS
@@ -147,9 +182,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> RemoveTrue(string Id)
         {
-            var result = await _userService.Remove(Id);
+            await _userService.Remove(Id);
             return RedirectToRoute(new { controller = "Admin", action = "AgentList" });
         }
-
     }
 }

@@ -44,22 +44,20 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DashBoard">DashBoard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mant. propiedades</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="SellingType" asp-action="Index">Mant. ventas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminList">Mant. Admin</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mejoras</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AgentList">Lista de agentes</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DevList">Lista de dev</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mantenimientos
+                                    </a>
+                                    <dv class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="SellingType" asp-action="Index">Mant.ventas</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mant.propiedades</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminList">Mant.Admin</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mant.Mejoras</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DevList">Mant.dev</a>
+
+                                    </dv>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
@@ -75,10 +73,10 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="MyProperties">Mis propiedades!</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="MyProperties">Mis propiedades!</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LogOut">Log out</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="LogOut">Log out</a>
                                 </li>
                             }
                         }
@@ -128,6 +126,66 @@
             @RenderBody()
         </main>
     </div>
+
+    <footer class="py-3 mt-auto">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center">
+            <p class="col-md-4 mb-0 text-body-secondary">Felix Misael Mora</p>
+
+            <a href="#"
+               class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 41 41" fill="none">
+                    <g clip-path="url(#clip0_48_159)">
+                        <mask id="mask0_48_159" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="0" y="0"
+                              width="41" height="41">
+                            <path d="M0 0H41V41H0V0Z" fill="white" />
+                        </mask>
+                        <i class="fa-solid fa-house-circle-check fa-xl" style="color: #131415;"></i>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_48_159">
+                            <rect width="41" height="41" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </a>
+            @if(user != null)
+            {
+                if (user.Roles.Contains(client))
+                {
+                    <ul class="nav col-md-4 justify-content-end">
+                        <li class="nav-item">
+                            <a asp-controller="Client" asp-action="Index" class="nav-link px-2 text-body-secondary">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="MyProperties">Mis propiedades!</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="LogOut">Log out</a>
+                        </li>
+                    </ul>
+                }
+
+            }
+            @if(user == null)
+            {
+                <ul class="nav col-md-4 justify-content-end">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link px-2 text-body-secondary">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Agents"
+                           class="nav-link px-2 text-body-secondary">Agents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 text-body-secondary" asp-area="" asp-controller="User" asp-action="Index">Inicia Sesion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="User" asp-action="Register" class="nav-link px-2 text-body-secondary">Unete a la app!</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

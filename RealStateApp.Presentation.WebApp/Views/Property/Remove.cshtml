@@ -1,0 +1,86 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Properties;
+@model List<PropertyAddViewModel>;
+
+@{
+    ViewData["Title"] = "Properties Agent";
+}
+
+<section id="Property-section" class="mt-5">
+    <div class="container-fluid mt-5">
+        <div class="col-6 offset-3">
+            <div class="row">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Estas seguro que quieres eliminar este usuario?</h3>
+                    </div>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <div class="card ms-4 p-0" style="width: 18rem;">
+                        <div class="image-container">
+                            <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <div>
+                                    Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
+                                </div>
+                                <div>
+                                    Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
+                                </div>
+                            </div>
+                            <p class="card-text fs-4">
+                                <div class="mb-1">
+                                    Codigo: @item.PropertyCode
+                                </div>
+
+                                <div class="mb-1">
+                                    Precio: <span style="color:lawngreen; font-weight:bold">
+                                        RD$ @item.Price
+                                    </span>
+                                </div>
+
+                                <div class="mb-1">
+                                    <i class="fa-solid fa-location-dot"></i> @item.Location
+                                </div>
+                                <div class="col-10 offset-1">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                            <a asp-route-Id="@item.Id"  asp-controller="Property" asp-action="RemoveTrue"  class="btn btn-danger float-end">Remove</a>
+                            <a asp-route-Id="@item.Id"  asp-controller="Agent"  asp-action="AddProperties" class="btn btn-warning">Go Back</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+
+    .image-container {
+        height: 200px;
+        overflow: hidden;
+    }
+
+        .image-container img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+</style>

@@ -1,0 +1,104 @@
+﻿@using RealStateApp.Core.Application.ViewModels.Properties
+@model IList<PropertyViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+    <link href="./css/homesite.css" rel="stylesheet">
+}
+
+<h1 class="text-center dancing-script mt-3">Aqui estan tus porpidades favoritas!</h1>
+
+<section id="Property-section" class="mt-5">
+    <div class="container-fluid mt-5">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="card ms-4 p-0" style="width: 18rem;">
+                    <div class="image-container position-relative">
+                        <!-- Botón de la estrella -->
+                        <a value="@item.favprop" name="favpropId" asp-controller="Client" asp-action="RemoveFavProp" 
+                        class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 30 21" fill="none">
+                                <path d="M14.6962 17.1219L19.8837 20.2594C20.8337 20.8344 21.9962 19.9844 21.7462 18.9094L20.3712 13.0094L24.9587 9.03438C25.7962 8.30938 25.3462 6.93438 24.2462 6.84688L18.2087 6.33438L15.8462 0.759375C15.4212 -0.253125 13.9712 -0.253125 13.5462 0.759375L11.1837 6.32188L5.1462 6.83438C4.0462 6.92188 3.5962 8.29688 4.4337 9.02188L9.0212 12.9969L7.6462 18.8969C7.3962 19.9719 8.5587 20.8219 9.5087 20.2469L14.6962 17.1219Z" fill="#FFD43B" />
+                                <path d="M1 19L29 2" stroke="black" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                        </a>
+                        <!-- Imagen de la propiedad -->
+                        <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text fs-4">
+                            <div class="mb-1">
+                                Codigo: @item.PropertyCode
+                            </div>
+
+                            <div class="mb-1">
+                                Precio: <span style="color:lawngreen; font-weight:bold">
+                                    RD$ @item.Price
+                                </span>
+                            </div>
+
+                            <div class="mb-1">
+                                <i class="fa-solid fa-location-dot"></i> @item.Location
+                            </div>
+                            <div class="col-10 offset-1">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                    </div>
+                                    <div class="col-md-4">
+                                        <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                        <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<style>
+
+    .dancing-script {
+        font-family: "Dancing Script", cursive;
+    }
+
+
+    .image-container {
+        height: 200px; /* Altura deseada para la imagen */
+        overflow: hidden;
+    }
+
+        .image-container img {
+            object-fit: cover;
+            height: 100%; /* Hace que la imagen ocupe toda la altura del contenedor */
+            width: 100%; /* Hace que la imagen ocupe todo el ancho del contenedor */
+        }
+
+    card {
+        border-radius: 0px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+        background-color: #6c63ff;
+        border: none;
+    }
+</style>-

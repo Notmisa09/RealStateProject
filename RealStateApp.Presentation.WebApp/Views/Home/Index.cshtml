@@ -1,11 +1,21 @@
-﻿@using RealStateApp.Core.Application.ViewModels.Properties
+﻿@using RealStateApp.Core.Application.ViewModels.Properties;
+@using RealStateApp.Core.Application.ViewModels.PropertyType;
+@using RealStateApp.Core.Application.ViewModels.Filter;
 @model IList<PropertyViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
     <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
     <link href="./css/homesite.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    List<PropertyTypeViewModel> propType = ViewBag.PropertyType;
 }
+
 <section id="carousel-section">
     <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
@@ -42,93 +52,158 @@
     </div>
 </section>
 
-<h1 class="col-6 offset-4 m-5">~Estas son nuestras propiedades~</h1>
+<h1 class="text-center dancing-script m-5">~Estas son nuestras propiedades~</h1>
 
 
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-2 mb-3">
-                    <label class="form-label">Tipo de propiedad</label>
-                    <select class="form-select">
-                        <option value="#">Filtros</option>
-                    </select>
-                </div>
+            <form asp-asp-controller="Home" asp-action="PropertyFilter" method="post">
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Tipo de propiedad</label>
+                        <select name="PropertyType" class="form-select">
+                        @foreach (var item in propType)
+                        {
+                                <option value="#">Choose an option</option>
+                                <option value="@item.Id">@item.PropertyTypeName</option>
+                        }
+                        </select>
+                    </div>
 
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Camas</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
-                </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Baños</label>
+                        <select name="BathroomAmount" class="form-select" style="background-color: white; color: black;">
+                            <option value="#">Choose an option</option>
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
 
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Baños</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Camas</label>
+                        <select name="BedRoomAmount" class="form-select" style="background-color: white; color: black;">
+                            <option value="#">Choose an option</option>
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label text-dark">Precio Min</label>
+                        <input name="MinValue" type="number" step="0.01" class="form-control" style="background-color: white; color: black;" lang="es-DO" />
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label text-dark">Precio Max</label>
+                        <input name="MaxValue" type="number" step="0.01" class="form-control" style="background-color: white; color: black;" lang="es-DO" />
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
+    </div>
+
+    <div class="float-end col-md-2 mt-3">
+        <form asp-controller="Home" asp-action="PropertyFilter" method="post" class="row">
+            <div class="input-group mb-3">
+                <input name="PropertyCode" class="form-control" placeholder="Ingrese el codigo de propiedad" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
     </div>
 </div>
 
+@if (Model.Any())
+{
 
-<section id="Property-section" class="mt-5">
-    <div class="container-fluid mt-5">
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="card ms-4 p-0" style="width: 18rem;">
-                    <div class="image-container">
-                        <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text fs-4">
-                            <div class="mb-1">
-                                Codigo: @item.PropertyCode
-                            </div>
-
-                            <div class="mb-1">
-                                Precio: <span style="color:lawngreen; font-weight:bold">
-                                              RD$ @item.Price
-                                        </span>
-                            </div>
-
-                            <div class="mb-1">
-                                <i class="fa-solid fa-location-dot"></i> @item.Location
-                            </div>
-                            <div class="col-10 offset-1">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+    <section id="Property-section" class="mt-5">
+        <div class="container-fluid mt-5">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="card ms-4 p-0 mt-3 " style="width: 18rem;">
+                        <div class="image-container">
+                            <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text fs-4">
+                                <div>
+                                    <div>
+                                        Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
                                     </div>
-                                    <div class="col-md-4">
-                                        <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
-                                    </div>
-                                    <div class="col-md-4">
-                                        <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                    <div>
+                                        Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
                                     </div>
                                 </div>
-                            </div>
-                        </p>
-                        <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+
+                                <div class="mb-1">
+                                    Codigo: @item.PropertyCode
+                                </div>
+
+                                <div class="mb-1">
+                                    Precio: <span style="color:forestgreen; font-weight:bold">
+                                        RD$ @item.Price
+                                    </span>
+                                </div>
+
+                                <div class="mb-1">
+                                    <i class="fa-solid fa-location-dot"></i> @item.Location
+                                </div>
+                                <div class="col-10 offset-1">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
+                                        </div>
+                                        <div class="col-md-4">
+                                            <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                            <a asp-route-Id="@item.Id" asp-action="Details" asp-controller="Home" class="btn btn-dark">Details</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <div class="col-6 offset-3 mt-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fa-solid fa-house-circle-check fa-5x text-muted mb-3"></i>
+                <h5 class="card-title">No se han encontrado propiedades</h5>
+            </div>
         </div>
     </div>
-</section>
+}
 
 
 <style>
 
     .image-container {
-        height: 200px; /* Altura deseada para la imagen */
+        height: 200px;
         overflow: hidden;
     }
 
         .image-container img {
             object-fit: cover;
-            height: 100%; /* Hace que la imagen ocupe toda la altura del contenedor */
-            width: 100%; /* Hace que la imagen ocupe todo el ancho del contenedor */
+            height: 100%;
+            width: 100%;
         }
 
     card {
@@ -149,4 +224,11 @@
         background-color: #6c63ff;
         border: none;
     }
+
+
+    .dancing-script {
+        font-family: "Dancing Script", cursive;
+        align-items: center;
+    }
+
 </style>
