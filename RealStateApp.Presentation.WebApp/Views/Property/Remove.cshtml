@@ -59,8 +59,8 @@
                                     </div>
                                 </div>
                             </p>
-                            <a asp-route-Id="@item.Id" asp-action="Property" asp-controller="RemoveTrue" class="btn btn-danger float-end">Remove</a>
-                            <a asp-route-Id="@item.Id" asp-action="Agent" asp-controller="PropertyList" class="btn btn-warning">Go Back</a>
+                            <a asp-route-Id="@item.Id"  asp-controller="Property" asp-action="RemoveTrue"  class="btn btn-danger float-end">Remove</a>
+                            <a asp-route-Id="@item.Id"  asp-controller="Agent"  asp-action="AddProperties" class="btn btn-warning">Go Back</a>
                         </div>
                     </div>
                 }

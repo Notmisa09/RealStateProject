@@ -13,12 +13,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             _userService = userService;
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        
         //CHANGESTATUS
         public async Task<IActionResult> ChangeStatus(string Id)
         {

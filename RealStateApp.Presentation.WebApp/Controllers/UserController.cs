@@ -44,7 +44,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 }
                 else if (result.Roles.Contains(RolesEnum.Admin.ToString()))
                 {
-                    return RedirectToRoute(new { controller = "Admin", action = "Index" });
+                    return RedirectToRoute(new { controller = "Admin", action = "DashBoard" });
                 }
                 else
                 {

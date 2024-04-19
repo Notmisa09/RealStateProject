@@ -12,22 +12,17 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             _propertyService = propertyService;
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
 
         public async Task<IActionResult> Remove(int Id)
         {
             return View(await _propertyService.GetPropertyById(Id));
         }
-
-        [HttpPost]
+        
         public async Task<IActionResult> RemoveTrue(int Id)
         {
             await _propertyService.Remove(Id);
-            return RedirectToRoute(new { controller = "Client", action = "PropertyList" });
+            return RedirectToRoute(new { controller = "Agent", action = "PropertyList" });
         }
     }
 }

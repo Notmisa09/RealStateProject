@@ -71,7 +71,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;
-                return View(vm);
+                return View("RegisterAdmin",vm);
             }
                 return RedirectToAction("AdminList");
         }
@@ -87,7 +87,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(vm);
+                return View("RegisterAdmin",vm);
             }
             await _userService.UpdateUserAsync(vm);
             return RedirectToAction("AdminList");

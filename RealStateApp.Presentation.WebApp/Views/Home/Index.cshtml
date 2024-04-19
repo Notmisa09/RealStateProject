@@ -1,4 +1,6 @@
-﻿@using RealStateApp.Core.Application.ViewModels.Properties
+﻿@using RealStateApp.Core.Application.ViewModels.Properties;
+@using RealStateApp.Core.Application.ViewModels.PropertyType;
+@using RealStateApp.Core.Application.ViewModels.Filter;
 @model IList<PropertyViewModel>
 
 @{
@@ -11,6 +13,7 @@
     <link rel="stylesheet" href="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    List<PropertyTypeViewModel> propType = ViewBag.PropertyType;
 }
 
 <section id="carousel-section">
@@ -55,26 +58,69 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-2 mb-3">
-                    <label class="form-label">Tipo de propiedad</label>
-                    <select class="form-select">
-                        <option value="#">Filtros</option>
-                    </select>
-                </div>
+            <form asp-asp-controller="Home" asp-action="PropertyFilter" method="post">
+                <div class="row">
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Tipo de propiedad</label>
+                        @foreach (var item in propType)
+                        {
+                            <select name="PropertyType" class="form-select">
+                                <option value="#">Choose an option</option>
+                                <option value="@item.Id">@item.PropertyTypeName</option>
+                            </select>
+                        }
+                    </div>
 
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Camas</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
-                </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Baños</label>
+                        <select name="BathroomAmount" class="form-select" style="background-color: white; color: black;">
+                            <option value="#">Choose an option</option>
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
 
-                <div class="col-md-2 mb-3">
-                    <label class="form-label text-dark">Baños</label>
-                    <input class="form-control" style="background-color: white; color: black;" />
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Camas</label>
+                        <select name="BedRoomAmount" class="form-select" style="background-color: white; color: black;">
+                            <option value="#">Choose an option</option>
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label text-dark">Precio Min</label>
+                        <input name="MinValue" type="number" step="0.01" class="form-control" style="background-color: white; color: black;" lang="es-DO" />
+                    </div>
+
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label text-dark">Precio Max</label>
+                        <input name="MaxValue" type="number" step="0.01" class="form-control" style="background-color: white; color: black;" lang="es-DO" />
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
+
+    <div class="float-end col-md-2 mt-3">
+        <form asp-controller="Home" asp-action="PropertyFilter" method="post" class="row">
+            <div class="input-group mb-3">
+                <input name="PropertyCode" class="form-control" placeholder="Ingrese el codigo de propiedad" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 @if (Model.Any())
@@ -137,7 +183,7 @@
 }
 else
 {
-    <div class="col-6 offset-3">
+    <div class="col-6 offset-3 mt-4">
         <div class="card text-center">
             <div class="card-body">
                 <i class="fa-solid fa-house-circle-check fa-5x text-muted mb-3"></i>

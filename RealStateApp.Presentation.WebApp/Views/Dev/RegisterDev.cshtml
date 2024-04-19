@@ -50,6 +50,12 @@
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
 
+                        <div class="mb-3">
+                            <label asp-for="Identification" class="form-label text-dark">Cédula:</label>
+                            <input asp-for="Identification" class="form-control" style="background-color: white; color: black;" />
+                            <span asp-validation-for="Identification" class="text-danger"></span>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="PhoneNumber" class="form-label text-dark">Telefono: </label>
@@ -98,7 +104,10 @@
 
                         }
 
-                        <input asp-for="Identification" type="hidden" class="form-control" style="background-color: white; color: black;" />
+                        @if(EditMode == true)
+                        {
+                            <input asp-for="Identification" type="hidden" class="form-control" style="background-color: white; color: black;" />
+                        }
 
                         <input asp-for="IsActive" type="hidden" class="form-control" style="background-color: white; color: black;" />
 

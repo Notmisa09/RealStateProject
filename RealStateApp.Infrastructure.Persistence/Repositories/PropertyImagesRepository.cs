@@ -21,6 +21,12 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
             return imageURL;
         }
 
+        public List<string> GetAllImages(int PropertyId)
+        {
+            var images = _context.PropertyImages.Where(x => x.PropertyId == PropertyId).ToList().Select(x => x.ImageURL).ToList();
+            return images;
+        }
+
         public async Task RemoveImages(int PropertyId)
         {
             var images = _context.PropertyImages.Where(x => x.PropertyId == PropertyId).ToList();

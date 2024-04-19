@@ -11,9 +11,13 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
         private readonly IPropertyService _propertyService;
+        private readonly IPropertyTypeService _propertyTypeService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, IPropertyService propertyService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, 
+            IPropertyService propertyService, 
+            IPropertyTypeService propertyTypeService)
         {
+            _propertyTypeService = propertyTypeService;
             _propertyService = propertyService;
             _userService = userService;
             _logger = logger;
@@ -25,8 +29,16 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return View("Agents",result);  
         }
 
+        public async Task<IActionResult> PropertyFilter(FilterViewModel vm)
+        {
+            ViewBag.PropertyType = await _propertyTypeService.GetAll();
+            var result = await _propertyService.GeAllWithFilterInclude(vm);
+            return View("Index", result);
+        }
+
         public async Task<IActionResult> Index()
         {
+            ViewBag.PropertyType = await _propertyTypeService.GetAll();
             return View(await _propertyService.GeAllWithInclude());
         }
 

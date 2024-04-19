@@ -12,27 +12,29 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string Location { get; set; }
 
         [Required(ErrorMessage = "Digite un precio")]
+        [Range(1, double.MaxValue, ErrorMessage = "Porfavor ingrese un número valido")]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Debe de indicar la cantidad de baños")]
+        [Range(1, 10, ErrorMessage = "Porfavor ingrese un numero entre 1-10")]
+
         public int BedroomsAmount { get; set; }
 
         [Required(ErrorMessage = "Debe de indicar la cantidad de habitaciones")]
+        [Range(1, 10, ErrorMessage = "Porfavor ingrese un numero entre 1-10")]
         public int BathroomsAmount { get; set; }
 
         [Required(ErrorMessage = "Debe de indicar la cantidad de metros cuadrados")]
+        [Range(1, double.MaxValue, ErrorMessage = "Porfavor ingrese un número valido")]
         public decimal Meters { get; set; }
 
         [Required(ErrorMessage = "Debe de escribir una poner una descripcion")]
-
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Debe de seleccionar un tipo de propiedad")]
-
         public int PropertyTypeId { get; set; }
 
         [Required(ErrorMessage = "Debe de seleccionar un tipo de venta")]
-
         public int SellingTypeId { get; set; }
         public bool HasError {  get; set; }
 

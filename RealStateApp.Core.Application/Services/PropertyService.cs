@@ -5,6 +5,7 @@ using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Core.Application.Interfaces.IService;
+using RealStateApp.Core.Application.ViewModels.Filter;
 using RealStateApp.Core.Application.ViewModels.Properties;
 using RealStateApp.Core.Domain.Entities;
 
@@ -288,6 +289,57 @@ namespace RealStateApp.Core.Application.Services
                 Price = x.Price,
                 FrontImage = _propimagesrepository.GetFirstImage(x.Id),
                 ImprovementsName = x.PropertyImprovements.Select(x => x.Improvements.ImprovementName).ToList()
+            }).ToList();
+        }
+
+        public async Task<List<PropertyViewModel>> GeAllWithFilterInclude(FilterViewModel vm)
+        {
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            if(vm.PropertyCode != null)
+            {
+                list = list.Where(x => x.PropertyCode == vm.PropertyCode).ToList();
+            }
+            else
+            {
+                if (vm.MaxValue != null)
+                {
+                    list = list.Where(x => x.Price <= vm.MaxValue).ToList();
+                }
+                if (vm.MinValue != null)
+                {
+                    list = list.Where(x => x.Price >= vm.MinValue).ToList();
+                }
+                if (vm.BedRoomAmount != null)
+                {
+                    list = list.Where(x => x.BedroomsAmount == vm.BedRoomAmount).ToList();
+                }
+                if (vm.BathroomAmount != null)
+                {
+                    list = list.Where(x => x.BathroomsAmount == vm.BathroomAmount).ToList();
+                }
+                if (vm.PropertyType != null)
+                {
+                    list = list.Where(x => x.PropertyTypeId == vm.PropertyType).ToList();
+                }
+            }
+            return list.OrderBy(x => x.CreatedDate).Select(x => new PropertyViewModel
+            {
+                Id = x.Id,
+                PropertyCode = x.PropertyCode,
+                AgentEmail = x.AgentEmail,
+                Location = x.Location,
+                AgentPhoneNumber = x.AgentPhoneNumber,
+                AgentId = x.AgentId,
+                PropertyTypeName = x.PropertyType.PropertyTypeName,
+                SellingTypeName = x.SellingType.SellingTypeName,
+                SellingTypeId = x.SellingTypeId,
+                PropertyTypeId = x.PropertyTypeId,
+                BathroomsAmount = x.BathroomsAmount,
+                BedroomsAmount = x.BedroomsAmount,
+                Description = x.Description,
+                Meters = x.Meters,
+                Price = x.Price,
+                FrontImage = _propimagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
     }
