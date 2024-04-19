@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RealStateApp.Core.Application.ViewModels.Properties
 {
-    public class PropertyAddViewModel
+    public class PropertyAddViewModel 
     {
-        public int Id { get; set; } = -1;
+        public int? Id { get; set; } = 0;
         [Required(ErrorMessage = "No ha seleccionado una localizacion")]
         public string Location { get; set; }
         [Required(ErrorMessage = "Digite un precio")]
@@ -17,9 +17,10 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string Description { get; set; }
         public int PropertyTypeId { get; set; }
         public int SellingTypeId { get; set; }
+        public bool HasError {  get; set; }
 
         //NULLABLE PROPS
-
+        public string? Error {  get; set; }
         public List<int>? Improvements { get; set; }
         public List<string>? ImprovementsName { get; set; }
 

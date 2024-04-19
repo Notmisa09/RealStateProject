@@ -20,5 +20,13 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
             var imageURL = image.ImageURL;
             return imageURL;
         }
+
+
+        public async Task RemoveImages(int PropertyId)
+        {
+            var images = _context.PropertyImages.Where(x => x.PropertyId == PropertyId).ToList();
+            _context.RemoveRange(images);
+            await _context.SaveChangesAsync();
+        }
     }
 }

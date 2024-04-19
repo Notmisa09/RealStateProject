@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
-using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
 
@@ -49,7 +48,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 vm.HasError = response.HasError;
                 return View("RegisterDev", vm);
             }
-            return RedirectToRoute(new { controller = "Admin" , action= "DevList" });
+            return RedirectToRoute(new { controller = "Admin" , action="DevList" });
         }
 
         //EDIT DEV
@@ -63,7 +62,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(vm);
+                return View("RegisterDev",vm);
             }
             await _userService.UpdateUserAsync(vm);
             return RedirectToRoute(new { controller = "Admin", action = "DevList" });

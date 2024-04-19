@@ -16,18 +16,18 @@ namespace RealStateApp.Core.Application.Services
         private readonly IPropertyRepository _repository;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly AuthenticationResponse user;
-        private readonly IPropertyImprovementsRepository _propimprovemetns; 
-        private readonly IPropertyImagesRepository _imagesrepository;
+        private readonly IPropertyImprovementsRepository _propimprovemetns;
+        private readonly IPropertyImagesRepository _propimagesrepository;
         private readonly IClientPropertyFavRepository _clientpropertyfavrepository;
 
         public PropertyService(IPropertyRepository repository,
-            IMapper mapper, 
+            IMapper mapper,
             IHttpContextAccessor contextAccesor,
             IPropertyImprovementsRepository propimprovemetns,
-            IPropertyImagesRepository imagesrepository,
+            IPropertyImagesRepository propimagerespository,
             IClientPropertyFavRepository clientpropertyfavrepository) : base(repository, mapper)
         {
-            _imagesrepository = imagesrepository;
+            _propimagesrepository = propimagerespository;
             _propimprovemetns = propimprovemetns;
             _mapper = mapper;
             _repository = repository;
@@ -37,7 +37,19 @@ namespace RealStateApp.Core.Application.Services
         }
 
         public override async Task<PropertyAddViewModel> Add(PropertyAddViewModel vm)
-        {    
+        {
+            var validateresult = Validations(vm);
+            if (validateresult.HasError)
+            {
+                return vm;
+            }
+
+            var result = await AddImages(vm);
+            if (result.HasError)
+            {
+                return result;
+            }
+
             PropertyAddViewModel propertie = new();
             do
             {
@@ -48,69 +60,71 @@ namespace RealStateApp.Core.Application.Services
 
             vm.AgentId = user.Id;
             vm.AgentEmail = user.Email;
-            vm.Id = 0;
 
             var property = await base.Add(vm);
             vm.Id = property.Id;
 
-            if (vm.formFile != null)
-            {
-               var result =  await AddImages(vm);
-            }
-
-            if(vm.Improvements != null)
-            {
-                await AddImprovements(vm);
-            }
+            await AddImprovements(vm);
             return property;
+        }
+
+        //VALIDATIONS
+        private PropertyAddViewModel Validations(PropertyAddViewModel vm)
+        {
+            if (vm.formFile.Count() > 4)
+            {
+                vm.HasError = true;
+                vm.Error = "La cantidad de imagenes excede el limite";
+                return vm;
+            }
+            if (vm.Improvements == null)
+            {
+                vm.HasError = true;
+                vm.Error = "La propiedad debe tener al menos 1 mejora";
+            }
+            return vm;
         }
 
         //UPDATE
         public override async Task Update(PropertyAddViewModel vm, int Id)
         {
-            if(vm.Improvements != null)
+            if (vm.Improvements != null)
             {
                 await _propimprovemetns.RemoveUpdateWithUserId(Id);
                 await AddImprovements(vm);
             }
-            if(vm.formFile != null)
+            if (vm.formFile != null)
             {
+                await _propimagesrepository.RemoveImages(Id);
                 await AddImages(vm);
             }
             await base.Update(vm, Id);
         }
 
 
-        private async Task<ServiceResult> AddImages(PropertyAddViewModel vm)
+        private async Task<PropertyAddViewModel> AddImages(PropertyAddViewModel vm)
         {
-            ServiceResult result = new();
-            if (vm.formFile.Count() > 4)
-            {
-                result.HasError = true;
-                result.Error = "La cantidad de imagenes excede el limite";
-                return result; 
-            }
-            else
+            if (vm.formFile != null)
             {
                 foreach (var item in vm.formFile)
                 {
-                    var image = FileHelpers.UploadFile(item, vm.Id ,"Properties", false);
+                    var image = FileHelpers.UploadFile(item, vm.Id, "Properties", false);
                     PropertyImages images = new()
                     {
                         ImageURL = image,
-                        PropertyId = vm.Id,
+                        PropertyId = vm.Id.Value,
                     };
-                    await _imagesrepository.AddAsync(images);
+                    await _propimagesrepository.AddAsync(images);
                 }
             }
-            return result;
+            return vm;
         }
 
         //ADDFAVPROPERTIES
         public async Task AddFavProp(PropertyAddViewModel vm)
         {
             ClientPropertyFav favprop = new();
-            favprop.PropertyId = vm.Id;
+            favprop.PropertyId = vm.Id.Value;
             favprop.UserId = user.Id;
             await _clientpropertyfavrepository.AddAsync(favprop);
         }
@@ -118,8 +132,8 @@ namespace RealStateApp.Core.Application.Services
         //REMOVEFAPROPERTIES
         public async Task RemoveFavProp(int Id)
         {
-           var prop = await _clientpropertyfavrepository.GetByIdAync(Id);
-           await _clientpropertyfavrepository.RemoveAsync(prop);
+            var prop = await _clientpropertyfavrepository.GetByIdAync(Id);
+            await _clientpropertyfavrepository.RemoveAsync(prop);
         }
 
         //ADDIMPROVEMENTS
@@ -130,7 +144,7 @@ namespace RealStateApp.Core.Application.Services
             foreach (var item in vm.Improvements)
             {
                 propimprovements.ImprovementId = item;
-                propimprovements.PropertyId = vm.Id;
+                propimprovements.PropertyId = vm.Id.Value;
 
                 await _propimprovemetns.AddAsync(propimprovements);
             }
@@ -146,7 +160,6 @@ namespace RealStateApp.Core.Application.Services
 
 
         //GETALLFAVPROPERTIES
-
         public async Task<List<PropertyViewModel>> GetAllFav()
         {
             var fav = await _clientpropertyfavrepository.GetAllAsync();
@@ -174,14 +187,14 @@ namespace RealStateApp.Core.Application.Services
                     Description = x.Description,
                     Meters = x.Meters,
                     Price = x.Price,
-                    FrontImage = _imagesrepository.GetFirstImage(x.Id)
+                    FrontImage = _propimagesrepository.GetFirstImage(x.Id)
                 }).FirstOrDefault();
 
                 prop.Add(newlist);
             }
 
             return prop;
-        } 
+        }
 
 
         //GETBYID
@@ -205,7 +218,7 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
-                FrontImage = _imagesrepository.GetFirstImage(x.Id)
+                FrontImage = _propimagesrepository.GetFirstImage(x.Id)
 
             }).ToList();
         }
@@ -230,14 +243,14 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
-                FrontImage = _imagesrepository.GetFirstImage(x.Id)
+                FrontImage = _propimagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
 
         //GETBYID
         public async Task<List<PropertyAddViewModel>> GetPropertyById(int Id)
         {
-            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType", "PropertyImprovements.Improvements"});
+            var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType", "PropertyImprovements.Improvements" });
             return list.Where(x => x.Id == Id).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
@@ -255,7 +268,7 @@ namespace RealStateApp.Core.Application.Services
                 Description = x.Description,
                 Meters = x.Meters,
                 Price = x.Price,
-                FrontImage = _imagesrepository.GetFirstImage(x.Id),
+                FrontImage = _propimagesrepository.GetFirstImage(x.Id),
                 ImprovementsName = x.PropertyImprovements.Select(x => x.Improvements.ImprovementName).ToList()
             }).ToList();
         }

@@ -11,7 +11,7 @@
     List<SellingTypeVeiwModel> sellingtypelist = ViewBag.SellingTypeList;
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
     List<string> Provinces = ViewBag.Provinces;
-    bool EditMode = Model.Id != 0 && Model != null;
+    bool EditMode = Model != null && Model.Id != 0;
 }
 
 <head>
@@ -143,16 +143,33 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
-                            <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
-                                @foreach (var item in improvementslist)
-                                {
-                                    <option value="@item.Id">@item.ImprovementName</option>
-                                }
-                            </select>
-                            <span asp-validation-for="Improvements" class="text-danger"></span>
-                        </div>
+                        
+                        @if(EditMode == true)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
+                                <select multiple class="form-select-sm" asp-for="Improvements" id="ImprovementsSelect">
+                                    @foreach (var item in improvementslist)
+                                    {
+                                        <option value="@item.Id">@item.ImprovementName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Improvements" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>
+                                <select multiple class="form-select-sm" required asp-for="Improvements" id="ImprovementsSelect">
+                                    @foreach (var item in improvementslist)
+                                    {
+                                        <option value="@item.Id">@item.ImprovementName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Improvements" class="text-danger"></span>
+                            </div>
+                        }
 
                         <input asp-for="PropertyCode" type="hidden" class="form-control" style="background-color: white; color: black;" />
 

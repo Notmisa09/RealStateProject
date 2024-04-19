@@ -44,22 +44,20 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DashBoard">DashBoard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mant. propiedades</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="SellingType" asp-action="Index">Mant. ventas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminList">Mant. Admin</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mejoras</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AgentList">Lista de agentes</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DevList">Lista de dev</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Mantenimientos
+                                    </a>
+                                    <dv class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="SellingType" asp-action="Index">Mant.ventas</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="PropertyType" asp-action="Index">Mant.propiedades</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminList">Mant.Admin</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mant.Mejoras</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DevList">Mant.dev</a>
+
+                                    </dv>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>

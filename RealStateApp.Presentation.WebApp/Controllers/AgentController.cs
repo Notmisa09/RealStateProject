@@ -113,7 +113,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             ViewBag.Improvements = await _improvementsService.GetAll();
             ViewBag.Provinces = await GetProvinces();
 
-            return View(new PropertyAddViewModel());
+            return View("AddProperties", new PropertyAddViewModel());
         }
 
         [HttpPost]
@@ -152,7 +152,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 ViewBag.Provinces = await GetProvinces();
                 return View("AddProperties",vm);
             }
-            await _propertyService.Update(vm, vm.Id);
+            await _propertyService.Update(vm, vm.Id.Value);
             return RedirectToRoute(new { controller = "Agent", Action = "PropertyList" });
         }
 
