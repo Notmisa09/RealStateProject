@@ -16,7 +16,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.Now;
-                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        entry.Entity.CreatedBy = "DefaultAppUser" ?? entry.Entity.CreatedBy;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedDate = DateTime.Now;

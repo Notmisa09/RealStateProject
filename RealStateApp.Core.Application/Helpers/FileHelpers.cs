@@ -45,5 +45,13 @@ namespace RealStateApp.Core.Application.Helpers
             }
             return $"{basepath}/{filename}";
         }
+
+        public static void ElimProfileImage(string ImagePath)
+        {
+            if (File.Exists(ImagePath))
+            {
+                File.Delete(ImagePath);
+            }
+        }
     }
 }

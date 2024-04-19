@@ -29,6 +29,5 @@ namespace RealStateApp.Infrastructure.Persistence.Repositories
             _context.RemoveRange(improvements);
             await _context.SaveChangesAsync();
         }
-
     }
 }

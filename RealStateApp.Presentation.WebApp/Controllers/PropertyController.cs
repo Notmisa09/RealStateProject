@@ -12,7 +12,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             _propertyService = propertyService;
         }
-        
 
         public async Task<IActionResult> Remove(int Id)
         {

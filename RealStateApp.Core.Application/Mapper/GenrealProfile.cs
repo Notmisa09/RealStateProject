@@ -16,7 +16,7 @@ public class GenrealProfile : Profile
 {
     public GenrealProfile()
     {
-        #region MyRegion
+        #region Users
         CreateMap<LoginViewModel, AuthenticationRequest>()
             .ReverseMap()
             .ForMember(l => l.Error, opt => opt.Ignore())
@@ -25,6 +25,7 @@ public class GenrealProfile : Profile
         CreateMap<RegisterRequest, SaveUserViewModel>()
             .ForMember(r => r.Error, opt => opt.Ignore())
             .ForMember(r => r.HasError, opt => opt.Ignore())
+            .ForMember(r => r.IsActive, src => src.MapFrom(x => x.IsActive))
             .ReverseMap()
             .ForMember(r => r.FirstName, src => src.MapFrom(x => x.FirstName));
 

@@ -33,7 +33,12 @@ namespace RealStateApp.Core.Application.Services
 
         public async Task<ServiceResult> Remove(string Id)
         {
+            var user = await _accountService.GetUserById(Id);
             var result = await _accountService.Remove(Id);
+            if(user.ImageUrl == null)
+            {
+                FileHelpers.ElimProfileImage(user.ImageURl);
+            }
             return result;
         }
         

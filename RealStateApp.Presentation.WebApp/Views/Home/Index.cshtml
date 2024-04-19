@@ -62,13 +62,13 @@
                 <div class="row">
                     <div class="col-md-2 mb-3">
                         <label class="form-label">Tipo de propiedad</label>
+                        <select name="PropertyType" class="form-select">
                         @foreach (var item in propType)
                         {
-                            <select name="PropertyType" class="form-select">
                                 <option value="#">Choose an option</option>
                                 <option value="@item.Id">@item.PropertyTypeName</option>
-                            </select>
                         }
+                        </select>
                     </div>
 
                     <div class="col-md-2 mb-3">
@@ -120,7 +120,6 @@
             </div>
         </form>
     </div>
-
 </div>
 
 @if (Model.Any())
@@ -187,7 +186,7 @@ else
         <div class="card text-center">
             <div class="card-body">
                 <i class="fa-solid fa-house-circle-check fa-5x text-muted mb-3"></i>
-                <h5 class="card-title">No hay propiedades registradas en este momento</h5>
+                <h5 class="card-title">No se han encontrado propiedades</h5>
             </div>
         </div>
     </div>
