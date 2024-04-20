@@ -170,18 +170,20 @@
             {
                 if (user.Roles.Contains(agent))
                 {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Index">Mis propiedades!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Profile">Mi perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="PropertyList">Mant. de propiedades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
-                    </li>
+                    <ul class="nav col-md-4 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Agent" asp-action="Index">Mis propiedades!</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Agent" asp-action="Profile">Mi perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Agent" asp-action="PropertyList">Mant. de propiedades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                        </li>
+                    </ul>
                 }
             }
             @if (user == null)
