@@ -33,6 +33,7 @@ namespace RealStateApp.Infrastructure.Persistence.Context
         public DbSet<SellingType> SellingType { get; set;}  
         public DbSet<PropertyType> PropertyType { get; set;}
         public DbSet<PropertyImages> PropertyImages { get; set;}
+        public DbSet<ClientPropertyFav> ClinetPropertyFav { get; set;}
 
         protected override void OnModelCreating(ModelBuilder mb )
         {

@@ -31,10 +31,12 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         [Required(ErrorMessage = "Debe de escribir una poner una descripcion")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Debe de seleccionar un tipo de propiedad")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe de seleccionar un tipo de propiedad")]
+
         public int PropertyTypeId { get; set; }
 
-        [Required(ErrorMessage = "Debe de seleccionar un tipo de venta")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe de seleccionar un tipo de venta")]
+
         public int SellingTypeId { get; set; }
         public bool HasError {  get; set; }
 

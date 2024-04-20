@@ -110,6 +110,17 @@ namespace RealStateApp.Core.Application.Services
             await _propimagesrepository.RemoveImages(Id);
             await base.Remove(Id);
         }
+
+        public async Task RemoveAllByAgent(string Id)
+        {
+            var propertiesAgent = await GetAllByUserId(Id);
+            foreach (var item in propertiesAgent)
+            {
+                await _propimagesrepository.RemoveImages(item.Id.Value);
+                await _clientpropertyfavrepository.RemoveByPropertyId(item.Id.Value);
+            }
+            await _repository.RemoveRange(Id);
+        }
         #endregion
 
         //PROPERTIESCOUNTER
@@ -175,6 +186,7 @@ namespace RealStateApp.Core.Application.Services
             var list  = _propimagesrepository.GetAllImages(Id);
             return list;
         }
+
         #region Gets
 
         //GETALLFAVPROPERTIES
@@ -396,6 +408,7 @@ namespace RealStateApp.Core.Application.Services
                 FrontImage = _propimagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
+        #endregion
+
     }
-    #endregion
 }

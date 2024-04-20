@@ -54,7 +54,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form asp-asp-controller="Client" asp-action="PropertyFilter" method="post">
+            <form asp-asp-controller="Home" asp-action="PropertyFilter" method="post">
                 <div class="row">
                     <div class="col-md-2 mb-3">
                         <label class="form-label">Tipo de propiedad</label>
@@ -86,7 +86,6 @@
                             {
                                 <option value="@i">@i</option>
                             }
-
                         </select>
                     </div>
 
@@ -104,20 +103,19 @@
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-4 offset-4 mt-4">
+                        <div class="input-group">
+                            <input name="PropertyCode" class="form-control" placeholder="Ingrese el código de propiedad" />
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
-
-    <div class="float-end col-md-2 mt-3">
-        <form asp-controller="Client" asp-action="PropertyFilter" method="post" class="row">
-            <div class="input-group mb-3">
-                <input name="PropertyCode" class="form-control" placeholder="Ingrese el codigo de propiedad" />
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </form>
-    </div>
 </div>
-
 
 <section id="Property-section" class="mt-5">
     <div class="container-fluid mt-5">

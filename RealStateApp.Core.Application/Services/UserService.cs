@@ -7,6 +7,7 @@ using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
 using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
+using RealStateApp.Core.Application.Interfaces.IRepository;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.Filter;
 using RealStateApp.Core.Application.ViewModels.User;
@@ -20,10 +21,12 @@ namespace RealStateApp.Core.Application.Services
         private readonly IPropertyService _propertyService;
         private readonly AuthenticationResponse user;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IPropertyRepository _propertyRep;
 
         public UserService(IAccountService accountService, IMapper mapper, 
-            IPropertyService propertyService, IHttpContextAccessor contextAccesor)
+            IPropertyService propertyService, IHttpContextAccessor contextAccesor, IPropertyRepository propertyRep)
         {
+            _propertyRep = propertyRep;
             _contextAccessor = contextAccesor;
             _propertyService = propertyService;
             _accountService = accountService;
@@ -98,11 +101,11 @@ namespace RealStateApp.Core.Application.Services
         public async Task<ServiceResult> Remove(string Id)
         {
             var user = await _accountService.GetUserById(Id);
-            var result = await _accountService.Remove(Id);
             if (user.ImageUrl == null)
             {
-                FileHelpers.ElimProfileImage(user.ImageURl);
+                FileHelpers.ElimProfileImage(user.ImageUrl);
             }
+            var result = await _accountService.Remove(Id);
             return result;
         }
         #endregion

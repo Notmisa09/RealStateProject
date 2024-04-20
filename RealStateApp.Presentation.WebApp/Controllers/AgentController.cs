@@ -182,6 +182,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> RemoveTrue(string Id)
         {
+            await _propertyService.RemoveAllByAgent(Id);
             await _userService.Remove(Id);
             return RedirectToRoute(new { controller = "Admin", action = "AgentList" });
         }
