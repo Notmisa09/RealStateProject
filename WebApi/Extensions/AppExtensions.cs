@@ -11,7 +11,7 @@ namespace RealStateApp.Presentation.API.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant"); //Modificar nombre segun Misa
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "RealState");
                 options.DefaultModelRendering(ModelRendering.Model);
             });
         }

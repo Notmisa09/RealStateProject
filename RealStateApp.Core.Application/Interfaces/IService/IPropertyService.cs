@@ -15,5 +15,6 @@ namespace RealStateApp.Core.Application.Interfaces.IService
         Task<int> PropertiesCount(string Id);
         Task<List<PropertyAddViewModel>> GeAllWithIncludeByAgent();
         Task<List<PropertyViewModel>> GeAllWithInclude();
+        Task<List<PropertyAddViewModel>> GetPropertyByCode(string Code);
     }
 }

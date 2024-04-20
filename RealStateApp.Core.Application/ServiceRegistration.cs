@@ -11,8 +11,20 @@ namespace RealStateApp.Core.Application
     {
         public static void AddApplicationLayer(this IServiceCollection services , IConfiguration configuration)
         {
+            #region Mediator
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            #endregion
+            
+            #region AutoMapper
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            #endregion
+          
+            #region Services
+
             services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPropertyTypeService , PropertyTypeService>();
@@ -20,6 +32,9 @@ namespace RealStateApp.Core.Application
             services.AddTransient<ISellingTypeService, SellingTypeService>();
             services.AddTransient<IimprovementsService, ImprovementsService>();
             services.AddTransient<IDashBoardService, DashBoardService>();
+
+            #endregion
+        
         }
     }
 }

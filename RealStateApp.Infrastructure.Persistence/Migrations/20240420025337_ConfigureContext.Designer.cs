@@ -12,8 +12,8 @@ using RealStateApp.Infrastructure.Persistence.Context;
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(RealStateContext))]
-    [Migration("20240417065747_AutitableChanges")]
-    partial class AutitableChanges
+    [Migration("20240420025337_ConfigureContext")]
+    partial class ConfigureContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

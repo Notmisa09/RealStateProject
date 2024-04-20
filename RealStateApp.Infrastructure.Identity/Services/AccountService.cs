@@ -261,7 +261,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 return response;
             }
 
-            JwtSecurityToken jwtSecutriyToken = await GenreateJWT(user);
 
             response.Email = user.Email;
             response.UserName = user.UserName;
@@ -269,6 +268,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             response.LastName = user.LastName;
             response.IsActive = user.IsActive;
             response.Identification = user.Identification;
+            JwtSecurityToken jwtSecutriyToken = await GenerateJWToken(user);
             response.JWTtoken = new JwtSecurityTokenHandler().WriteToken(jwtSecutriyToken);
 
             var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
@@ -497,39 +497,40 @@ namespace RealStateApp.Infrastructure.Identity.Services
             return verificationUri;
         }
 
-        private async Task<JwtSecurityToken> GenreateJWT(AppUser user)
+        private async Task<JwtSecurityToken> GenerateJWToken(AppUser user)
         {
-            var userClaim = await _userManager.GetClaimsAsync(user);
+            var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
 
-            var roleClaim = new List<Claim>();
+            var roleClaims = new List<Claim>();
 
             foreach (var role in roles)
             {
-                roleClaim.Add(new Claim("roles", role));
+                roleClaims.Add(new Claim("roles", role));
             }
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("uid",user.Id),
+              new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
+              new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+              new Claim(JwtRegisteredClaimNames.Email , user.Email),
+              new Claim("uid",user.Id)
             }
-            .Union(userClaim)
-            .Union(roleClaim);
+            .Union(userClaims)
+            .Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+            var singingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-            var jwtSecurityToken = new JwtSecurityToken(
+            var jwtSecutiryToken = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(24)
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: singingCredentials
                 );
 
-            return jwtSecurityToken;
+            return jwtSecutiryToken;
         }
 
         private RefreshToken GenerateRefreshToken()

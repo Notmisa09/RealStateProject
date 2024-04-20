@@ -29,6 +29,7 @@ namespace RealStateApp.Infrastructure.Identity.Seeds
                     await userManager.AddToRoleAsync(adminuser, RolesEnum.Admin.ToString());
                 }
             }
+            
         }
     }
 }

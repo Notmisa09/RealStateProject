@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RealStateApp.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AutitableChanges : Migration
+    public partial class ConfigureContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

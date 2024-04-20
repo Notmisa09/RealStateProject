@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using RealStateApp.Infrastructure.Identity.Entities;
 using RealStateApp.Infrastructure.Identity.Seeds;
 using RealStateApp.Infrastructure.Persistence;
+using RealStateApp.Core.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +15,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddApplicationLayer(builder.Configuration);
 builder.Services.AddSharedLayer(builder.Configuration);
 builder.Services.AddIdentityLayer(builder.Configuration);
 builder.Services.AddIdentityApiLayer(builder.Configuration);
 builder.Services.InfraStructureLayer(builder.Configuration);
-builder.Services.AddApiVersioning();
 builder.Services.AddAPiVersioningExtension();
 builder.Services.AddSwaggerExtension();
 builder.Services.AddHealthChecks();

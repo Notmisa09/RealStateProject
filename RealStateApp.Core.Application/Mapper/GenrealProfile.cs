@@ -3,6 +3,15 @@ using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Dto.Acccount.ForgotPassword;
 using RealStateApp.Core.Application.Dto.Acccount.Register;
 using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
+using RealStateApp.Core.Application.Dto.API.Improvements;
+using RealStateApp.Core.Application.Dto.API.PropertyType;
+using RealStateApp.Core.Application.Dto.API.SellingType;
+using RealStateApp.Core.Application.Features.Improvements.Commands.CreateImprovements;
+using RealStateApp.Core.Application.Features.Improvements.Commands.UpdateImprovements;
+using RealStateApp.Core.Application.Features.PropertyType.Commands.CreatePropertyType;
+using RealStateApp.Core.Application.Features.PropertyType.Commands.UpdatePropertyType;
+using RealStateApp.Core.Application.Features.SellingTypes.Commands.CreateSellingTypes;
+using RealStateApp.Core.Application.Features.SellingTypes.Commands.UpdateSellingTypes;
 using RealStateApp.Core.Application.ViewModels.Improvements;
 using RealStateApp.Core.Application.ViewModels.Properties;
 using RealStateApp.Core.Application.ViewModels.PropertyType;
@@ -59,6 +68,12 @@ public class GenrealProfile : Profile
         CreateMap<PropertyType, PropertyTypeViewModel>()
             .ReverseMap()
             .ForMember(p => p.Property, opt => opt.Ignore());
+
+
+        CreateMap<PropertyType, PropertyTypeDTO>().ReverseMap();
+        CreateMap<PropertyType, PropertyTypeAddDTO>().ReverseMap();
+        CreateMap<PropertyType, CreatePropertyTypeCommand>().ReverseMap();
+        CreateMap<PropertyType, UpdatePropertyTypeCommand>().ReverseMap();
         #endregion
 
         #region SellingType
@@ -70,6 +85,11 @@ public class GenrealProfile : Profile
         CreateMap<SellingType, SellingTypeAddViewModel>()
             .ReverseMap()
             .ForMember(x => x.Properties, opt => opt.Ignore());
+
+        CreateMap<SellingType, SellingTypeDTO>().ReverseMap();
+        CreateMap<SellingType, SellingTypeAddDTO>().ReverseMap();
+        CreateMap<SellingType, CreateSellingTypesCommand>().ReverseMap();
+        CreateMap<SellingType, UpdateSellingTypesCommand>().ReverseMap();
         #endregion
 
         #region Improvements
@@ -81,6 +101,11 @@ public class GenrealProfile : Profile
         CreateMap<Improvements, ImprovemetnsViewModel>()
             .ReverseMap()
             .ForMember(x => x.PropertyImprovements, opt => opt.Ignore());
+
+            CreateMap<Improvements, ImprovementsDTO>().ReverseMap();
+            CreateMap<Improvements, ImprovementsAddDTO>().ReverseMap();
+            CreateMap<Improvements, CreateImprovementsCommand>().ReverseMap();
+            CreateMap<Improvements, UpdateImprovementsCommand>().ReverseMap();
 
         #endregion
 
