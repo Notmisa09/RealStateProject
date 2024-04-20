@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using RealStateApp.Core.Application.Interfaces.IService;
-using RealStateApp.Core.Application.Services;
 using RealStateApp.Core.Application.ViewModels.Filter;
-using RealStateApp.Core.Application.ViewModels.Properties;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {

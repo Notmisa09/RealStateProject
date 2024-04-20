@@ -127,7 +127,7 @@
                 <div class="card ms-4 p-0 mt-3" style="width: 18rem;">
                     <div class="image-container position-relative">
                         <!-- Botón de la estrella -->
-                        <a value="@item.favprop" name="favprop"  asp-controller="Client" asp-action="AddFav" class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
+                        <a asp-route-Id="@item.Id" asp-controller="Client" asp-action="AddFav" class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
                             <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         </a>
                         <!-- Imagen de la propiedad -->

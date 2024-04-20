@@ -17,7 +17,7 @@
                 <div class="card ms-4 p-0" style="width: 18rem;">
                     <div class="image-container position-relative">
                         <!-- Botón de la estrella -->
-                        <a value="@item.favprop" name="favpropId" asp-controller="Client" asp-action="RemoveFavProp" 
+                        <a asp-route-favprop="@item.favprop"  asp-controller="Client" asp-action="RemoveFavProp" 
                         class="btn btn-outline-dark position-absolute top-0 end-0 m-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 30 21" fill="none">
                                 <path d="M14.6962 17.1219L19.8837 20.2594C20.8337 20.8344 21.9962 19.9844 21.7462 18.9094L20.3712 13.0094L24.9587 9.03438C25.7962 8.30938 25.3462 6.93438 24.2462 6.84688L18.2087 6.33438L15.8462 0.759375C15.4212 -0.253125 13.9712 -0.253125 13.5462 0.759375L11.1837 6.32188L5.1462 6.83438C4.0462 6.92188 3.5962 8.29688 4.4337 9.02188L9.0212 12.9969L7.6462 18.8969C7.3962 19.9719 8.5587 20.8219 9.5087 20.2469L14.6962 17.1219Z" fill="#FFD43B" />
