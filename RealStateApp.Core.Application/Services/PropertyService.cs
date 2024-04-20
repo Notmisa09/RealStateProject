@@ -170,6 +170,11 @@ namespace RealStateApp.Core.Application.Services
 
         #endregion 
 
+        public List<string> GetImagesForProperties(int Id)
+        {
+            var list  = _propimagesrepository.GetAllImages(Id);
+            return list;
+        }
         #region Gets
 
         //GETALLFAVPROPERTIES
@@ -391,6 +396,6 @@ namespace RealStateApp.Core.Application.Services
                 FrontImage = _propimagesrepository.GetFirstImage(x.Id)
             }).ToList();
         }
-        #endregion
     }
+    #endregion
 }

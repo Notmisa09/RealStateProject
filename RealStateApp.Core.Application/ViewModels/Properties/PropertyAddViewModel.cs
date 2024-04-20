@@ -42,7 +42,8 @@ namespace RealStateApp.Core.Application.ViewModels.Properties
         public string? Error {  get; set; }
         public List<int>? Improvements { get; set; }
         public List<string>? ImprovementsName { get; set; }
-
+        public List<string>? ImagesProperties { get; set; }
+        
         [DataType(DataType.Upload)]
         public List<IFormFile>? formFile { get; set; }
         public string? PropertyTypeName { get; set; }
