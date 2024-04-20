@@ -35,7 +35,7 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        
+
                         @if (user != null)
                         {
                             if (user.Roles.Contains(admin))
@@ -65,7 +65,7 @@
                             }
                         }
 
-                        @if(user != null)
+                        @if (user != null)
                         {
                             if (user.Roles.Contains(client))
                             {
@@ -100,7 +100,7 @@
                             }
                         }
 
-                        
+
                         @if (user == null)
                         {
                             <li class="nav-item">
@@ -148,7 +148,7 @@
                     </defs>
                 </svg>
             </a>
-            @if(user != null)
+            @if (user != null)
             {
                 if (user.Roles.Contains(client))
                 {
@@ -166,7 +166,25 @@
                 }
 
             }
-            @if(user == null)
+            @if (user != null)
+            {
+                if (user.Roles.Contains(agent))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Index">Mis propiedades!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Profile">Mi perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="PropertyList">Mant. de propiedades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                    </li>
+                }
+            }
+            @if (user == null)
             {
                 <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item">

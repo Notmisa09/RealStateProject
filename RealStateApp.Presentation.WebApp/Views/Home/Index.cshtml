@@ -54,7 +54,6 @@
 
 <h1 class="text-center dancing-script m-5">~Estas son nuestras propiedades~</h1>
 
-
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
@@ -63,11 +62,11 @@
                     <div class="col-md-2 mb-3">
                         <label class="form-label">Tipo de propiedad</label>
                         <select name="PropertyType" class="form-select">
-                        @foreach (var item in propType)
-                        {
+                            @foreach (var item in propType)
+                            {
                                 <option value="#">Choose an option</option>
                                 <option value="@item.Id">@item.PropertyTypeName</option>
-                        }
+                            }
                         </select>
                     </div>
 
@@ -109,16 +108,15 @@
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div class="float-end col-md-2 mt-3">
-        <form asp-controller="Home" asp-action="PropertyFilter" method="post" class="row">
-            <div class="input-group mb-3">
-                <input name="PropertyCode" class="form-control" placeholder="Ingrese el codigo de propiedad" />
-                <button type="submit" class="btn btn-primary">Search</button>
+            <div class="col-4 offset-4 mt-3">
+                <form asp-controller="Home" asp-action="PropertyFilter" method="post" class="row">
+                    <div class="input-group mb-3">
+                        <input name="PropertyCode" class="form-control" placeholder="Ingrese el código de propiedad" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

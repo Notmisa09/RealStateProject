@@ -265,7 +265,7 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyViewModel>> GeAllWithInclude()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.OrderByDescending(x => x.CreatedDate).Select(x => new PropertyViewModel
+            return list.OrderByDescending(x => x.Id).Select(x => new PropertyViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,
