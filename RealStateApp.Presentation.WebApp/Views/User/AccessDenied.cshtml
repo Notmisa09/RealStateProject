@@ -1,0 +1,42 @@
+﻿@using RealStateApp.Core.Application.Dto.Acccount;
+@using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos
+@using RealStateApp.Core.Application.Helpers;
+@using RealStateApp.Core.Application.Enum;
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = User != null && User.Roles != null ? User.Roles.Any(u => u == "Admin") : false;
+    var isClient = User != null && User.Roles != null ? User.Roles.Any(u => u == "Client") : false;
+    var isDeveloper = User != null && User.Roles != null ? User.Roles.Any(u => u == "Developer") : false;
+    var isAgent = User != null && User.Roles != null ? User.Roles.Any(u => u == "Agent") : false;
+    <script src="https://kit.fontawesome.com/7302c44b99.js" crossorigin="anonymous"></script>
+
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="col-6 offset-3 mt-4">
+    <div class="card text-center">
+        <div class="card-body">
+            <i class="fa-solid fa-house-circle-xmark fa-5x text-muted mb-3"></i>
+            <h5 class="card-title text-center text-danger">No estas autorizado para entrar a esta pagina</h5>
+
+            @if (User is null)
+            {
+                <a class="btn btn-primary btn-block" asp-controller="Home" asp-action="Index">Volver al inicio</a>
+            }
+            @if (isAdmin)
+            {
+                <a class="btn btn-primary btn-block" asp-controller="Admin" asp-action="DashBoard">Volver al panel de administración</a>
+            }
+            @if (isClient)
+            {
+                <a class="btn btn-primary btn-block" asp-controller="Client" asp-action="Index">Volver al panel de cliente</a>
+            }
+            @if (isAgent)
+            {
+                <a class="btn btn-primary btn-block" asp-controller="Agent" asp-action="Index">Volver al panel de agente</a>
+            }
+
+        </div>
+    </div>
+</div>

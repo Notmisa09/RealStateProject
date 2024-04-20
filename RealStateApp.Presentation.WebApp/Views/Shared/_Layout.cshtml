@@ -35,7 +35,7 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        
+
                         @if (user != null)
                         {
                             if (user.Roles.Contains(admin))
@@ -56,7 +56,6 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AdminList">Mant.Admin</a>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Improvements" asp-action="Index">Mant.Mejoras</a>
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DevList">Mant.dev</a>
-
                                     </dv>
                                 </li>
                                 <li class="nav-item">
@@ -65,7 +64,7 @@
                             }
                         }
 
-                        @if(user != null)
+                        @if (user != null)
                         {
                             if (user.Roles.Contains(client))
                             {
@@ -76,7 +75,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="MyProperties">Mis propiedades!</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="LogOut">Log out</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
                                 </li>
                             }
                         }
@@ -100,7 +99,7 @@
                             }
                         }
 
-                        
+
                         @if (user == null)
                         {
                             <li class="nav-item">
@@ -148,7 +147,7 @@
                     </defs>
                 </svg>
             </a>
-            @if(user != null)
+            @if (user != null)
             {
                 if (user.Roles.Contains(client))
                 {
@@ -165,8 +164,38 @@
                     </ul>
                 }
 
+                if (user.Roles.Contains(agent))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Index">Mis propiedades!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Profile">Mi perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="PropertyList">Mant. de propiedades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                    </li>
+                }
+
+                @if (user.Roles.Contains(admin))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="DashBoard">DashBoard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AgentList">Lista de agentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log out</a>
+                    </li>
+                }
             }
-            @if(user == null)
+
+
+            @if (user == null)
             {
                 <ul class="nav col-md-4 justify-content-end">
                     <li class="nav-item">

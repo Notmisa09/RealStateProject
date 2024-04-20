@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Autofac.Core;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace RealStateApp.Infrastructure.Identity
     {
         public  static void AddIdentityLayer(this IServiceCollection service , IConfiguration configuration)
         {
+            #region Identity 
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 service.AddDbContext<RealStateIdentityContext>(options => options.UseInMemoryDatabase("UserInMemoryIdentityDatabase"));
@@ -30,7 +32,17 @@ namespace RealStateApp.Infrastructure.Identity
             service.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<RealStateIdentityContext>().AddDefaultTokenProviders();
 
+            service.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/User";
+                options.AccessDeniedPath = "/User/AccessDenied";
+            });
+            service.AddAuthentication();
+            #endregion
+
+            #region Dependencies
             service.AddTransient<IAccountService, AccountService>();
+            #endregion
         }
     }
 }

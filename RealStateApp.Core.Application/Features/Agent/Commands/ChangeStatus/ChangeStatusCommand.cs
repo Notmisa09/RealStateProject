@@ -27,9 +27,8 @@ public class ChangeStatusCommandHandler : IRequestHandler<ChangeStatusCommand, R
     public async Task<Response<string>> Handle(ChangeStatusCommand command, CancellationToken cancellationToken)
     {
         var agent = await _service.GetById(command.AgentId);
-        var changeStatus = await _service.ChangeUserStatus(agent);
-        if(agent.HasError) throw new ExceptionsForApi("Agent not found", (int)HttpStatusCode.NoContent);
-        return new Response<string>(agent.Id);  //Verificar valor que devuelve, para en caso de modificar
-        
+        if (agent.HasError) throw new ExceptionsForApi("Agent not found", (int)HttpStatusCode.NotFound);
+        await _service.ChangeUserStatus(agent);
+        return new Response<string>(agent.Id);
     }
 }

@@ -3,6 +3,7 @@ using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.Filter;
 using RealStateApp.Infrastructure.Identity.Seeds;
+using RealStateApp.Presentation.WebApp.Middleware;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {

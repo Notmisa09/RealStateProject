@@ -5,25 +5,22 @@ namespace RealStateApp.Presentation.WebApp.Middleware
 {
     public class ValidateUserSession
     {
-        private IHttpContextAccessor _contextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ValidateUserSession(IHttpContextAccessor  contextAccessor)
+        public ValidateUserSession(IHttpContextAccessor httpContextAccessor)
         {
-                _contextAccessor = contextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public bool HasUser()
         {
-            AuthenticationResponse userViewModel = _contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            AuthenticationResponse authenticationResponse = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
 
-            if (userViewModel == null)
+            if (authenticationResponse == null)
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+            return true;
         }
     }
 }

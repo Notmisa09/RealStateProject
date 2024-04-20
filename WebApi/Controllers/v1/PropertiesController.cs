@@ -1,10 +1,12 @@
 using System.Net.Mime;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Features.Properties.Queries.GetAllProperties;
 using RealStateApp.Core.Application.Features.Properties.Queries.GetByIdProperties;
 using RealStateApp.Core.Application.Features.Properties.Queries.GetCodeOfProperties;
 using Swashbuckle.AspNetCore.Annotations;
+
 
 namespace RealStateApp.Presentation.API.Controllers.v1;
 

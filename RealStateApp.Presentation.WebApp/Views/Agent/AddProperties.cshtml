@@ -12,6 +12,7 @@
     List<ImprovemetnsViewModel> improvementslist = ViewBag.Improvements;
     List<string> Provinces = ViewBag.Provinces;
     bool EditMode = Model != null && Model.Id != 0;
+    var images = ViewBag.ImagesProperties;
 }
 
 <head>
@@ -63,7 +64,18 @@
                 <div class="card-body">
 
                     <form method="post" enctype="multipart/form-data" asp-controller="Agent" asp-action=@(EditMode ? "Edit" : "AddProperties")>
-                        @if(EditMode == true)
+                        
+                        <div>
+                            <h4 class="text-dark m-2 text-center">Imagenes actuales</h4>
+                        </div>
+                        <div>
+                            @foreach (var item in images)
+                            {
+                                <img src="@item" class="object-fit-cover mb-3 w-100" />
+                            }
+                        </div>
+
+                        @if (EditMode == true)
                         {
                             <div class="mb-3">
                                 <label asp-for="formFile">Selecciona hasta 4 imágenes:</label>
@@ -161,8 +173,8 @@
                             </div>
                         </div>
 
-                        
-                        @if(EditMode == true)
+
+                        @if (EditMode == true)
                         {
                             <div class="mb-3">
                                 <label asp-for="Improvements" class="form-label text-dark">Seleccione las mejoras: </label>

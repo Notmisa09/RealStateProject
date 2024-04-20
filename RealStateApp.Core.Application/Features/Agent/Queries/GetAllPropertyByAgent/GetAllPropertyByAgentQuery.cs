@@ -27,8 +27,8 @@ public class GetAllPropertyByAgentQueryHandler : IRequestHandler<GetAllPropertyB
     public async Task<Response<List<PropertyAddViewModel>>> Handle(GetAllPropertyByAgentQuery request,
         CancellationToken cancellationToken)
     {
-        var properties = await _service.GeAllWithIncludeByAgent();
-        if (properties.Count == 0) throw new ExceptionsForApi("Properties not found", (int)HttpStatusCode.NoContent);
+        var properties = await _service.GetAllByUserId(request.IdAgent);
+        if (properties.Count == 0) throw new ExceptionsForApi("Properties not found", (int)HttpStatusCode.NotFound);
         return new Response<List<PropertyAddViewModel>>(properties);
     }
 }

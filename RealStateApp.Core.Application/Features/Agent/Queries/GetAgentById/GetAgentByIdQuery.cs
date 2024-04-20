@@ -11,7 +11,7 @@ namespace RealStateApp.Core.Application.Features.Agent.Queries.GetPropertyByAgen
 public class GetAgentByIdQuery : IRequest<Response<SaveUserViewModel>>
 {
     [SwaggerParameter(Description = "Debe colocar el id del paciente que quiere obtener")]
-    public string AgentId { get; set; }
+    public string Id { get; set; }
 }
 public class GetAgentByIdQueryHandler : IRequestHandler<GetAgentByIdQuery, Response<SaveUserViewModel>>
 {
@@ -24,8 +24,8 @@ public class GetAgentByIdQueryHandler : IRequestHandler<GetAgentByIdQuery, Respo
 
     public async Task<Response<SaveUserViewModel>> Handle(GetAgentByIdQuery request, CancellationToken cancellationToken)
     {
-        var agent = await _service.GetById(request.AgentId);
-        if (agent is null) throw new ExceptionsForApi("Agent not found", (int)HttpStatusCode.NoContent);
+        var agent = await _service.GetById(request.Id);
+        if (agent is null) throw new ExceptionsForApi("Agent not found", (int)HttpStatusCode.NotFound);
         return new Response<SaveUserViewModel>(agent);
     }
 

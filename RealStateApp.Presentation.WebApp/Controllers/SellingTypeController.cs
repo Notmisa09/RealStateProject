@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.SellingTypes;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SellingTypeController : Controller
     {
         private readonly ISellingTypeService _sellingTypeService;

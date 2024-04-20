@@ -6,6 +6,7 @@ using RealStateApp.Core.Application.ViewModels.User;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.ViewModels.Properties;
 using RealStateApp.Core.Application.ViewModels.Location;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
@@ -73,12 +74,16 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //GETALL PROPERTIES
+
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Index()
         {
             return View(await _propertyService.GeAllWithIncludeByAgent());
         }
 
         //EDIT PROFILE
+        [Authorize(Roles = "Agent")]
+
         public async Task<IActionResult> Profile()
         {
             return View(await _userService.GetById(user.Id));
@@ -94,8 +99,9 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             var response = await _userService.UpdateUserAsync(vm);
             return View();
         }
-        
+
         //LIST PROPERTIES
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> PropertyList()
         {
             ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
@@ -106,6 +112,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //ADDPROPERTIES
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> AddProperties()
         {
             ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
@@ -142,8 +149,10 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //EDITREALSTATE
+        [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Edit(int Id)
         {
+            ViewBag.ImagesProperties = _propertyService.GetImagesForProperties(Id);
             ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
             ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
             ViewBag.Improvements = await _improvementsService.GetAll();
@@ -156,6 +165,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.ImagesProperties = _propertyService.GetImagesForProperties(vm.Id.Value);
                 ViewBag.PropertyTypeList = await _propertyTypeService.GetAll();
                 ViewBag.SellingTypeList = await _sellingTypeService.GetAll();
                 ViewBag.Improvements = await _improvementsService.GetAll();
@@ -175,6 +185,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //REMOVE AGENTS
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Remove(string Id)
         {
             return View("Remove", await _userService.GetById(Id));

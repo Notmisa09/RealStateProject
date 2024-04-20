@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.Improvements;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ImprovementsController : Controller
     {
         private readonly IimprovementsService _imprevementService;

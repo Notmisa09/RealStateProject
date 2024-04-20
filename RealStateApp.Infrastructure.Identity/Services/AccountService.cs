@@ -373,6 +373,13 @@ namespace RealStateApp.Infrastructure.Identity.Services
             response.Identification = user.Identification;
             response.ImageUrl = user.ImageURl;
 
+            if (response.Roles.Contains(RolesEnum.Developer.ToString()))
+            {
+                response.HasError = true;
+                response.Error = "You are a developer user dont have access to this log in";
+                return response;
+            }
+
             return response;
         }
 

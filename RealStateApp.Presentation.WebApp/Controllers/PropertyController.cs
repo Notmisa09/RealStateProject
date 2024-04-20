@@ -4,6 +4,7 @@ using RealStateApp.Core.Application.ViewModels.Properties;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+
     public class PropertyController : Controller
     {
         private readonly IPropertyService _propertyService;

@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.PropertyType;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PropertyTypeController : Controller
     {
         private readonly IPropertyTypeService _propertyTypeService;
-
         public PropertyTypeController(IPropertyTypeService propertyTypeService)
         {
             _propertyTypeService = propertyTypeService;

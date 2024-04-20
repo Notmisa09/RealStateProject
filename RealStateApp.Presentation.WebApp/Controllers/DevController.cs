@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
@@ -13,7 +14,8 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             _userService = userService;
         }
-        
+
+
         //CHANGESTATUS
         public async Task<IActionResult> ChangeStatus(string Id)
         {
@@ -23,6 +25,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //REGISTER DEV
+        [Authorize(Roles = "Admiin")]
         public IActionResult RegisterDev()
         {
             return View(new SaveUserViewModel());
@@ -47,6 +50,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         }
 
         //EDIT DEV
+        [Authorize(Roles = "Admiin")]
         public async Task<IActionResult> EditDev(string Id)
         {
             return View("RegisterDev", await _userService.GetById(Id));
@@ -65,6 +69,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
 
         //REMOVE AGENTS
+        [Authorize(Roles = "Admiin")]
         public async Task<IActionResult> Remove(string Id)
         {
             return View("Remove", await _userService.GetById(Id));

@@ -81,7 +81,7 @@ public class ImprovementsController : BaseApiController
     [Consumes(MediaTypeNames.Application.Json)]
     [SwaggerOperation(
         Summary = "List of improvements",
-        Description = "Get a list of all improvements")]
+        Description = "Return a list of all improvements")]
     public async Task<IActionResult> Get()
     {
         return Ok(await Mediator.Send(new GetAllImprovementsQuery()));
@@ -95,7 +95,7 @@ public class ImprovementsController : BaseApiController
     [Consumes(MediaTypeNames.Application.Json)]
     [SwaggerOperation(
         Summary = "Get Improvement by Id",
-        Description = "Get an improvement by id of property")]
+        Description = "Return an improvement by id of property")]
     public async Task<IActionResult> GetById(int id)
     {
         return Ok(await Mediator.Send(new GetByIdImprovementsQuery { Id = id }));           

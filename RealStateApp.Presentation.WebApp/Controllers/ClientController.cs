@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.Filter;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class ClientController : Controller
     {
         private readonly IUserService _userService;

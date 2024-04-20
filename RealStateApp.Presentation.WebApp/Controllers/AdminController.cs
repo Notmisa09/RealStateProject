@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
@@ -8,6 +9,8 @@ using RealStateApp.Core.Application.ViewModels.User;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
+
     public class AdminController : Controller
     {
         private readonly IUserService _userService;
@@ -16,11 +19,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
         {
             _boardService = boardService;
             _userService = userService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public async Task<IActionResult> AgentList()
@@ -58,7 +56,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             return View(new SaveUserViewModel());
         }
 
-        [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm, string Role)
         {
             if (!ModelState.IsValid)

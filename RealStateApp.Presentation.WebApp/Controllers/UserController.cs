@@ -5,37 +5,37 @@ using RealStateApp.Core.Application.Enum;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Application.ViewModels.User;
+using RealStateApp.Presentation.WebApp.Middleware;
 
 namespace RealStateApp.Presentation.WebApp.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly AuthenticationResponse _userInSession;
         private readonly IHttpContextAccessor _httcontextAccessor;
         public UserController(IUserService userService, IHttpContextAccessor httcontextAccessor)
         {
             _httcontextAccessor = httcontextAccessor;
-            _userInSession = _httcontextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
             _userService = userService;
         }
 
         //LOGIN
+        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Index()
         {
             return View(new LoginViewModel());
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(LoginAuthorize))]
         public async Task<IActionResult> Index(LoginViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                return View("Index",vm);
+                return View("Index", vm);
             }
             var result = await _userService.LoginAync(vm);
-
-            if(result != null && result.HasError != true)
+            if (result != null && result.HasError != true)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user", result);
                 if (result.Roles.Contains(RolesEnum.Agent.ToString()))
@@ -56,10 +56,17 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             {
                 vm.Error = result.Error;
                 vm.HasError = true;
-                return View ("Index",vm);
+                return View("Index", vm);
             }
             return RedirectToRoute("Home", "Index");
         }
+
+        //ACCESS DENIED
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
 
         //REGISTER USER
         public IActionResult Register()
@@ -76,7 +83,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
             }
             var origin = Request.Headers["origin"];
             ServiceResult response = await _userService.UserRegisterSelector(vm, Role, origin);
-            if(response.HasError)
+            if (response.HasError)
             {
                 vm.Error = response.Error;
                 vm.HasError = response.HasError;
@@ -126,10 +133,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
 
         //FORGOT PASSWORD
-        public IActionResult ForgotPassword()
-        {
-            return View(new ForgotPasswordViewModel());
-        }
 
         [HttpPost]
         public async Task<IActionResult> ForgotPassword([FromBody] string email)
@@ -149,6 +152,6 @@ namespace RealStateApp.Presentation.WebApp.Controllers
                 return View("ForgotPassword", vm);
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
-        }   
+        }
     }
 }
