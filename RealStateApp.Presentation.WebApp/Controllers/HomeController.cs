@@ -49,6 +49,7 @@ namespace RealStateApp.Presentation.WebApp.Controllers
 
         public async Task<IActionResult> Details(int Id)
         {
+            ViewBag.ImagesProperties = _propertyService.GetImagesForProperties(Id);
             var property = await _propertyService.GetPropertyById(Id);
             foreach (var item in property)
             {

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using RealStateApp.Core.Application.Dto.Acccount;
 using RealStateApp.Core.Application.Dto.Acccount.AuthenticateDtos;
 using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IRepository;
@@ -111,8 +110,18 @@ namespace RealStateApp.Core.Application.Services
             await _propimagesrepository.RemoveImages(Id);
             await base.Remove(Id);
         }
-        #endregion
 
+        public async Task RemoveAllByAgent(string Id)
+        {
+            var propertiesAgent = await GetAllByUserId(Id);
+            foreach (var item in propertiesAgent)
+            {
+                await _propimagesrepository.RemoveImages(item.Id.Value);
+                await _clientpropertyfavrepository.RemoveByPropertyId(item.Id.Value);
+            }
+            await _repository.RemoveRange(Id);
+        }
+        #endregion
 
         //PROPERTIESCOUNTER
         public async Task<int> PropertiesCount(string Id)
@@ -172,6 +181,12 @@ namespace RealStateApp.Core.Application.Services
 
         #endregion 
 
+        public List<string> GetImagesForProperties(int Id)
+        {
+            var list  = _propimagesrepository.GetAllImages(Id);
+            return list;
+        }
+
         #region Gets
 
         //GETALLFAVPROPERTIES
@@ -207,7 +222,6 @@ namespace RealStateApp.Core.Application.Services
 
                 prop.Add(newlist);
             }
-
             return prop;
         }
 
@@ -216,7 +230,7 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyAddViewModel>> GeAllWithIncludeByAgent()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.Where(x => x.AgentId == user.Id).OrderBy(x => x.CreatedDate).Select(x => new PropertyAddViewModel
+            return list.Where(x => x.AgentId == user.Id).OrderByDescending(x => x.Id).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,
@@ -243,7 +257,7 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyAddViewModel>> GetAllByUserId(string Id)
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.Where(x => x.AgentId == Id).OrderBy(x => x.CreatedDate).Select(x => new PropertyAddViewModel
+            return list.Where(x => x.AgentId == Id).OrderByDescending(x => x.Id).Select(x => new PropertyAddViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,
@@ -268,7 +282,7 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyViewModel>> GeAllWithInclude()
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
-            return list.OrderBy(x => x.CreatedDate).Select(x => new PropertyViewModel
+            return list.OrderByDescending(x => x.CreatedDate).Select(x => new PropertyViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,
@@ -345,6 +359,8 @@ namespace RealStateApp.Core.Application.Services
         public async Task<List<PropertyViewModel>> GeAllWithFilterInclude(FilterViewModel vm)
         {
             var list = await _repository.GetAllWithInclude(new List<string> { "PropertyType", "SellingType" });
+            list = list.OrderByDescending(x => x.Id).ToList();
+
             if (vm.PropertyCode != null)
             {
                 list = list.Where(x => x.PropertyCode == vm.PropertyCode).ToList();
@@ -372,7 +388,7 @@ namespace RealStateApp.Core.Application.Services
                     list = list.Where(x => x.PropertyTypeId == vm.PropertyType).ToList();
                 }
             }
-            return list.OrderBy(x => x.Id).Select(x => new PropertyViewModel
+            return list.Select(x => new PropertyViewModel
             {
                 Id = x.Id,
                 PropertyCode = x.PropertyCode,
@@ -393,5 +409,6 @@ namespace RealStateApp.Core.Application.Services
             }).ToList();
         }
         #endregion
+
     }
 }

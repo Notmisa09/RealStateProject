@@ -5,14 +5,60 @@
 @{
     ViewData["Title"] = "";
     SaveUserViewModel user = ViewBag.User;
+    List<string> imagesPropertiesRoute = ViewBag.ImagesProperties ?? new List<string>();
 }
+
 
 <div class="container-fluid">
     <div class="row justify-content-end">
-        <!-- Agregado justify-content-end para alinear a la derecha -->
+
+        @*IMAGES PROPERTIES *@
+
+        <div class="offset-2 col-6">
+            @if (imagesPropertiesRoute != null && imagesPropertiesRoute.Count > 0)
+            {
+                <div class="text-center mt-3">
+                    <section id="carousel-section">
+                        <div id="carouselExampleIndicators" class="carousel slide">
+                            <div class="carousel-indicators">
+                                @for (int i = 0; i < imagesPropertiesRoute.Count; i++)
+                                {
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" class="@((i == 0) ? "active" : "")" aria-current="true" aria-label="Slide @(i+1)"></button>
+                                }
+                            </div>
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < imagesPropertiesRoute.Count; i++)
+                                {
+                                    <div class="carousel-item @((i == 0) ? "active" : "")">
+                                        <img src="@imagesPropertiesRoute[i]" class="d-block w-100" alt="...">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            }
+            else
+            {
+                <h3 class="alert alert-danger mt-2 mb-1">
+                    Esta propiedad no tiene imágenes
+                </h3>
+            }
+        </div>
+
+
+        @* CARD USER IMAGES *@
+
         <div class="card col-md-3 m-3">
             <div class="card-body text-center">
-                <!-- Añadido text-center para centrar el contenido -->
                 @if (user.ImageUrl != null)
                 {
                     <a asp-controller="Home" asp-action="Agents"
@@ -37,11 +83,12 @@
     </div>
 
 
+    @*CARD FOR PROPERTIES *@
 
     @foreach (var item in Model)
     {
 
-        <div class="col-6 offset-2">
+        <div class="col-7 offset-2 mt-3">
             <div class="card">
                 <div class="card-body">
 
@@ -49,6 +96,11 @@
                         Codigo: @item.PropertyCode
                         <span class="ms-3">Tipo de propiedad: <span class="badge rounded-pill bg-info">@item.PropertyTypeName</span></span>
                         <span class="ms-3">Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span></span>
+                        <span class="ms-3">
+                            Precio: <span style="color:forestgreen; font-weight:bold">
+                                RD$ @item.Price
+                            </span>
+                        </span>
                     </div>
 
                     <div class="col-10 offset-1">
@@ -71,21 +123,31 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Descripción</h4>
-                    <p>@item.Description</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Descripción</h4>
+                            <p>@item.Description</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <h4>Mejoras</h4>
-                    @foreach (var mejoras in item.ImprovementsName)
-                    {
-                        <h5>@mejoras</h5>
-                    }
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Mejoras</h4>
+                            @foreach (var mejoras in item.ImprovementsName)
+                            {
+                                <h5><span class="badge bg-warning">@mejoras</span></h5>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     }
 </div>
 
+
+@* STILOS *@
 <style>
     .img-serie-size {
         height: 220px;
@@ -93,11 +155,12 @@
         transition: transform 0.3s ease-in-out;
     }
 
-        .img-serie-size:hover {
-            transform: scale(1.1);
-        }
+    .dancing-script {
+        font-family: "Dancing Script", cursive;
+        align-items: center;
+    }
 
-    img {
-        width: 200px;
+    .img-serie-size:hover {
+        transform: scale(1.1);
     }
 </style>

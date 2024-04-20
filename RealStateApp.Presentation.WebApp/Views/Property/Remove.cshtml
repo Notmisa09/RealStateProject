@@ -7,71 +7,48 @@
 
 <section id="Property-section" class="mt-5">
     <div class="container-fluid mt-5">
-        <div class="col-6 offset-3">
-            <div class="row">
-
-                <div class="card">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mb-3">
                     <div class="card-body">
-                        <h3>Estas seguro que quieres eliminar este usuario?</h3>
+                        <h3 class="card-title text-center">¿Estás seguro que quieres eliminar esta propiedad?</h3>
                     </div>
                 </div>
-
-                @foreach (var item in Model)
-                {
-                    <div class="card ms-4 p-0" style="width: 18rem;">
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4">
                         <div class="image-container">
-                            <img src="@item.FrontImage" class="card-img-top img-fluid" alt="Property Image">
+                            <img src="@item.FrontImage" class="card-img-top" alt="Property Image">
                         </div>
                         <div class="card-body">
-                            <div>
-                                <div>
-                                    Tipo de propiedad: <span class="badge rounded-pill bg-info mt-2">@item.PropertyTypeName</span>
-                                </div>
-                                <div>
-                                    Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span>
-                                </div>
-                            </div>
-                            <p class="card-text fs-4">
-                                <div class="mb-1">
-                                    Codigo: @item.PropertyCode
-                                </div>
-
-                                <div class="mb-1">
-                                    Precio: <span style="color:lawngreen; font-weight:bold">
-                                        RD$ @item.Price
-                                    </span>
-                                </div>
-
-                                <div class="mb-1">
-                                    <i class="fa-solid fa-location-dot"></i> @item.Location
-                                </div>
-                                <div class="col-10 offset-1">
-                                    <div class="row g-0">
-                                        <div class="col-md-4">
-                                            <i class="fa-solid fa-bed"></i>: @item.BedroomsAmount
-                                        </div>
-                                        <div class="col-md-4">
-                                            <i class="fa-solid fa-sink"></i>: @item.BathroomsAmount
-                                        </div>
-                                        <div class="col-md-4">
-                                            <i class="fa-solid fa-ruler-combined"></i>: @item.Meters
-                                        </div>
-                                    </div>
-                                </div>
+                            <h5 class="card-title">@item.PropertyTypeName</h5>
+                            <p class="card-text">
+                                <strong>Código:</strong> @item.PropertyCode <br>
+                                <strong>Tipo de venta:</strong> @item.SellingTypeName <br>
+                                <strong>Precio:</strong> RD$ @item.Price <br>
+                                <strong>Ubicación:</strong> @item.Location <br>
+                                <strong>Habitaciones:</strong> @item.BedroomsAmount <br>
+                                <strong>Baños:</strong> @item.BathroomsAmount <br>
+                                <strong>Metros:</strong> @item.Meters
                             </p>
-                            <a asp-route-Id="@item.Id"  asp-controller="Property" asp-action="RemoveTrue"  class="btn btn-danger float-end">Remove</a>
-                            <a asp-route-Id="@item.Id"  asp-controller="Agent"  asp-action="AddProperties" class="btn btn-warning">Go Back</a>
+                            <form method="post" asp-controller="Property" asp-action="RemoveTrue">
+                                <input type="hidden" asp-for="@item.Id" value="@item.Id" />
+                                <button type="submit" class="btn btn-danger float-end">Eliminar</button>
+                            </form>
+                            <a asp-route-Id="@item.Id" asp-controller="Agent" asp-action="AddProperties" class="btn btn-warning float-start">Volver</a>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 </section>
 
-
 <style>
-
     .image-container {
         height: 200px;
         overflow: hidden;
@@ -82,5 +59,4 @@
             height: 100%;
             width: 100%;
         }
-
 </style>

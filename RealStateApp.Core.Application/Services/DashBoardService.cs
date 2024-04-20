@@ -15,6 +15,8 @@ namespace RealStateApp.Core.Application.Services
             _propertyService = propertyService;
         }
 
+        #region GetForDashBoard
+
         public async Task<DashBoardViewModel> GetDashBoardInfo(DashBoardViewModel vm)
         {
             var PropertiesAmount = await _propertyService.GetAll();
@@ -33,5 +35,7 @@ namespace RealStateApp.Core.Application.Services
 
             return vm;
         }
+
+        #endregion
     }
 }

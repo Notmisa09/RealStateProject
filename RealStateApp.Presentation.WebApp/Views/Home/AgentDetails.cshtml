@@ -91,17 +91,18 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card m-3">
+            <div class="card mt-3">
                 <div class="card-body text-center">
                     @if (user.ImageUrl != null)
                     {
-                        <a>
+                        <a asp-controller="Home" asp-action="Agents"
+                           asp-route-id="@user.Id" title="VER INFORMACION DEL AGENTE">
                             <img src="@user.ImageUrl" class="card-img-top img-serie-size rounded-circle" />
                         </a>
                     }
                     else
                     {
-                        <a>
+                        <a asp-controller="Home" asp-action="Agents" asp-route-id="" title="VER INFORMACION DEL AGENTE">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnB8SJzsxM_KKbFNf-er2X-WiEdHMHXuz6w&usqp=CAU"
                                  class="card-img-top img-serie-size rounded-circle" />
                         </a>
@@ -118,18 +119,18 @@
 </div>
 
 <style>
+    .img-serie-size {
+        height: 220px;
+        max-width: 80%;
+        transition: transform 0.3s ease-in-out;
+    }
+
     .dancing-script {
         font-family: "Dancing Script", cursive;
+        align-items: center;
     }
 
-    .image-container {
-        height: 200px;
-        overflow: hidden;
+    .img-serie-size:hover {
+        transform: scale(1.1);
     }
-
-        .image-container img {
-            object-fit: cover;
-            height: 100%;
-            width: 100%;
-        }
 </style>

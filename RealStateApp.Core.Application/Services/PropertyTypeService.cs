@@ -10,13 +10,26 @@ namespace RealStateApp.Core.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IPropertyTypeRepository _repository;
+        private readonly IPropertyService _propertyService;
         private readonly IPropertyRepository _propertyRepository;
-        public PropertyTypeService(IPropertyTypeRepository repository, IMapper mapper, IPropertyRepository propertyRepository) : base(repository, mapper)
+        private readonly IClientPropertyFavRepository _clientPropertyFavRepository;
+        private readonly IPropertyImagesRepository _propertyImagesRepository;
+        public PropertyTypeService(IPropertyTypeRepository repository,
+            IMapper mapper, 
+            IPropertyRepository propertyRepository,
+            IPropertyService propertyService,
+            IClientPropertyFavRepository clientPropertyFavRepository,
+            IPropertyImagesRepository propertyImagesRepository) : base(repository, mapper)
         {
+            _propertyService = propertyService;
             _mapper = mapper;
             _repository = repository;
             _propertyRepository = propertyRepository;
+            _clientPropertyFavRepository = clientPropertyFavRepository;
+            _propertyImagesRepository = propertyImagesRepository;
         }
+
+        #region GetAllPropertiesCount
 
         public async Task<List<PropertyTypeViewModel>> GeallWithPropertiesAmount()
         {
@@ -37,6 +50,20 @@ namespace RealStateApp.Core.Application.Services
                 propertyTypelist.Add(propertyTypeWithCount);
             }
             return propertyTypelist;
+        }
+
+        #endregion
+
+        public override async Task Remove(int Id)
+        {
+            var properties = await _propertyRepository.GetAllPropByPropType(Id);
+            foreach (var item in properties)
+            {
+                await _propertyImagesRepository.RemoveImages(item.Id);
+                await _clientPropertyFavRepository.RemoveByPropertyId(item.Id);
+            }
+            await _propertyRepository.RemoveRangeByPropertyType(Id);
+            await base.Remove(Id);
         }
     }
 }

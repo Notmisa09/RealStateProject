@@ -51,6 +51,7 @@ public class GenrealProfile : Profile
 
         CreateMap<DtoAccount, SaveUserViewModel>()
             .ForMember(u => u.HasError, opt => opt.Ignore())
+            .ForMember(u => u.ImageUrl , src => src.MapFrom(x => x.ImageUrl))
             .ReverseMap();
 
         CreateMap<DtoAccount, UserViewModel>()

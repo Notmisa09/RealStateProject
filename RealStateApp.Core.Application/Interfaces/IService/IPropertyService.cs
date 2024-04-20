@@ -6,6 +6,9 @@ namespace RealStateApp.Core.Application.Interfaces.IService
 {
     public interface IPropertyService : IGenericService<PropertyViewModel, PropertyAddViewModel , Properties>
     {
+
+        Task RemoveAllByAgent(string Id);
+        List<string> GetImagesForProperties(int Id);
         Task<List<PropertyViewModel>> GeAllWithFilterInclude(FilterViewModel vm);
         Task<List<PropertyAddViewModel>> GetAllByUserId(string Id);
         Task RemoveFavProp(int Id);
