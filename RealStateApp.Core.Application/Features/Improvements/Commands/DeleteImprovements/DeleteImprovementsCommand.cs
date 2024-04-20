@@ -28,10 +28,7 @@ public class DeleteImprovementsCommandHandler : IRequestHandler<DeleteImprovemen
     
     public async Task<Response<Unit>> Handle(DeleteImprovementsCommand command, CancellationToken cancellationToken)
     {
-        var improvements = await _repository.GetByIdAync(command.Id);
-
-        if (improvements == null) throw new ExceptionsForApi("Improvement not found",(int)HttpStatusCode.NoContent);
-
+        var improvements = await _repository.GetByIdAync(command.Id) ?? throw new ExceptionsForApi("Improvement not found",(int)HttpStatusCode.NoContent);
         await _repository.RemoveAsync(improvements);
         return new Response<Unit>(Unit.Value);
     }

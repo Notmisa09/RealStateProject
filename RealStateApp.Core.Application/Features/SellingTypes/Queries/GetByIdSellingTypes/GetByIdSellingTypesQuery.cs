@@ -34,7 +34,7 @@ public class GetByIdSellingTypesQueryHandler : IRequestHandler<GetByIdSellingTyp
         var responseValue = _mapper.Map<SellingTypeDTO>(await _repository.GetByIdAync(request.Id));
 
         return responseValue == null
-            ? throw new ExceptionsForApi("Type of sale not found", (int)HttpStatusCode.NoContent)
+            ? throw new ExceptionsForApi("Type of sale not found", (int)HttpStatusCode.NotFound)
             : new Response<SellingTypeDTO>(responseValue);
     }
 }

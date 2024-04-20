@@ -28,7 +28,7 @@ public class GetAllSellingTypesQueryHandler : IRequestHandler<GetAllSellingTypes
     {
         var responseValue = _mapper.Map<List<SellingTypeDTO>>(await _repository.GetAllAsync());
 
-        if (responseValue.Count == 0) throw new ExceptionsForApi("Type of sale not found",(int)HttpStatusCode.NoContent);
+        if (responseValue.Count == 0) throw new ExceptionsForApi("Type of sale not found",(int)HttpStatusCode.NotFound);
 
         return new Response<IEnumerable<SellingTypeDTO>>(responseValue);
     }

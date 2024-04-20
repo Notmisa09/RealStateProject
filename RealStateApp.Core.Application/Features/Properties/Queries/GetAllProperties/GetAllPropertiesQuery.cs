@@ -24,7 +24,7 @@ namespace RealStateApp.Core.Application.Features.Properties.Queries.GetAllProper
         {
             var properties = await _service.GeAllWithInclude();
 
-            if (properties.Count == 0) throw new ExceptionsForApi("RealState not found", (int)HttpStatusCode.NoContent);
+            if (properties.Count == 0) throw new ExceptionsForApi("Properties not found", (int)HttpStatusCode.NotFound);
 
             return new Response<List<PropertyViewModel>>(properties);
         }

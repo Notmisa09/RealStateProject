@@ -2,7 +2,9 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.API.SellingType;
+using RealStateApp.Core.Application.Features.Improvements.Commands.DeleteImprovements;
 using RealStateApp.Core.Application.Features.SellingTypes.Commands.CreateSellingTypes;
+using RealStateApp.Core.Application.Features.SellingTypes.Commands.DeleteSellingTypes;
 using RealStateApp.Core.Application.Features.SellingTypes.Commands.UpdateSellingTypes;
 using RealStateApp.Core.Application.Features.SellingTypes.Queries.GetAllSellingTypes;
 using RealStateApp.Core.Application.Features.SellingTypes.Queries.GetByIdSellingTypes;
@@ -32,13 +34,13 @@ public class SellingTypeController : BaseApiController
         {
             return BadRequest("You must send the data correctly");
         }
-        var response = await Mediator.Send(command);
-        return StatusCode(StatusCodes.Status201Created, "Successfully created Type of property");
+        await Mediator.Send(command);
+        return StatusCode(StatusCodes.Status201Created, "Successfully created Type of sale");
     }
         
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -56,23 +58,23 @@ public class SellingTypeController : BaseApiController
             return BadRequest("You must send the data correctly");
         }
         await Mediator.Send(command);
+        return Ok();
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [SwaggerOperation(
+        Summary = "Delete an improvement",
+        Description = "Receive the parameters to delete a type of sale")]
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        await Mediator.Send(new DeleteSellingTypesCommand { Id = id });
         return NoContent();
     }
-    
-    // [Authorize(Roles = "Admin")]
-    // [HttpDelete("{id}")]
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [Consumes(MediaTypeNames.Application.Json)]
-    // [SwaggerOperation(
-    //     Summary = "Delete an improvement",
-    //     Description = "Receive the parameters to delete an improvement")]
-    //
-    // public async Task<IActionResult> Delete(int id)
-    // {
-    //     await Mediator.Send(new DeleteImprovementsCommand { Id = id });
-    //     return NoContent();
-    // }
 
     #endregion
 

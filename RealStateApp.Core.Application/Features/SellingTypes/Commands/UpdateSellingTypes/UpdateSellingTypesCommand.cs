@@ -34,7 +34,7 @@ public class UpdateSellingTypesCommandHandler : IRequestHandler<UpdateSellingTyp
     {
         var sellingType = await _repository.GetByIdAync(command.Id);
 
-        if (sellingType is null) throw new ExceptionsForApi("Type of sale not found",(int)HttpStatusCode.NoContent);
+        if (sellingType is null) throw new ExceptionsForApi("Type of sale not found",(int)HttpStatusCode.NotFound);
 
         sellingType = _mapper.Map<Domain.Entities.SellingType>(command);
 

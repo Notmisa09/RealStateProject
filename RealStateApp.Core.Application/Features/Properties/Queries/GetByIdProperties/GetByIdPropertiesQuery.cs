@@ -27,7 +27,7 @@ public class GetByIdPropertiesQueryHandler : IRequestHandler<GetByIdPropertiesQu
     {
         var properties = await _service.GetPropertyById(request.Id);
 
-        if (properties.Count == 0) throw new ExceptionsForApi("Property not found", (int)HttpStatusCode.NoContent);
+        if (properties.Count == 0) throw new ExceptionsForApi("Property not found", (int)HttpStatusCode.NotFound);
 
         return new Response<List<PropertyAddViewModel>>(properties);
     }

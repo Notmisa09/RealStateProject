@@ -29,7 +29,7 @@ public class GetByIdPropertyTypeQueryHandler : IRequestHandler<GetByIdPropertyTy
         var responseValue = _mapper.Map<PropertyTypeDTO>(await _repository.GetByIdAync(request.Id));
 
         return responseValue == null
-            ? throw new ExceptionsForApi("Property type not found",(int)HttpStatusCode.NoContent)
+            ? throw new ExceptionsForApi("Property type not found",(int)HttpStatusCode.NotFound)
             : new Response<PropertyTypeDTO>(responseValue);
     }
 }

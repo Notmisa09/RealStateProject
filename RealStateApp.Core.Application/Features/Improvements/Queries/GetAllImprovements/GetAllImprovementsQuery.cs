@@ -29,7 +29,7 @@ public class GetAllImprovementsQueryHandler : IRequestHandler<GetAllImprovements
     {
         var responseValue = _mapper.Map<List<ImprovementsDTO>>(await _repository.GetAllAsync());
 
-        if (responseValue.Count == 0) throw new ExceptionsForApi("Improvements not found",(int)HttpStatusCode.NoContent);
+        if (responseValue.Count == 0) throw new ExceptionsForApi("Improvements not found",(int)HttpStatusCode.NotFound);
 
         return new Response<IEnumerable<ImprovementsDTO>>(responseValue);
     }

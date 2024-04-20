@@ -59,6 +59,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UserSwaggerExtensions();
+app.UseErrorHandlingMiddleware();
 app.UseHealthChecks("/health");
 app.UseSession();
 app.MapControllers();

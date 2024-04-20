@@ -26,7 +26,7 @@ public class GetAllPropertyTypeQueryHandler : IRequestHandler<GetAllPropertyType
     {
         var responseValue = _mapper.Map<List<PropertyTypeDTO>>(await _repository.GetAllAsync());
 
-        if (responseValue.Count == 0) throw new ExceptionsForApi("Property type not found",(int)HttpStatusCode.NoContent);
+        if (responseValue.Count == 0) throw new ExceptionsForApi("Property type not found",(int)HttpStatusCode.NotFound);
 
         return new Response<IEnumerable<PropertyTypeDTO>>(responseValue);
     }

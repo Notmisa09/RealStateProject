@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealStateApp.Core.Application.Dto.API.PropertyType;
 using RealStateApp.Core.Application.Features.PropertyType.Commands.CreatePropertyType;
+using RealStateApp.Core.Application.Features.PropertyType.Commands.DeletePropertyType;
 using RealStateApp.Core.Application.Features.PropertyType.Commands.UpdatePropertyType;
 using RealStateApp.Core.Application.Features.PropertyType.Queries.GetAllPropertyType;
 using RealStateApp.Core.Application.Features.PropertyType.Queries.GetByIdPropertyType;
@@ -32,13 +33,13 @@ public class PropertyTypeController : BaseApiController
         {
             return BadRequest("You must send the data correctly");
         }
-        var response = await Mediator.Send(command);
+        await Mediator.Send(command);
         return StatusCode(StatusCodes.Status201Created, "Successfully created Type of property");
     }
         
     [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -55,24 +56,24 @@ public class PropertyTypeController : BaseApiController
         {
             return BadRequest("You must send the data correctly");
         }
-        await Mediator.Send(command);
+        
+        return Ok(await Mediator.Send(command));
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [SwaggerOperation(
+        Summary = "Delete an improvement",
+        Description = "Receive the parameters to delete a type of property")]
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        await Mediator.Send(new DeletePropertyTypeCommand { Id = id });
         return NoContent();
     }
-    
-    // [Authorize(Roles = "Admin")]
-    // [HttpDelete("{id}")]
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // [Consumes(MediaTypeNames.Application.Json)]
-    // [SwaggerOperation(
-    //     Summary = "Delete an improvement",
-    //     Description = "Receive the parameters to delete an improvement")]
-    //
-    // public async Task<IActionResult> Delete(int id)
-    // {
-    //     await Mediator.Send(new DeleteImprovementsCommand { Id = id });
-    //     return NoContent();
-    // }
 
     #endregion
 

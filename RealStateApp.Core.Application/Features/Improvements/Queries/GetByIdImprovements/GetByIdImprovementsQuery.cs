@@ -34,7 +34,7 @@ public class GetByIdImprovementsQueryHandler : IRequestHandler<GetByIdImprovemen
         var responseValue = _mapper.Map<ImprovementsDTO>(await _repository.GetByIdAync(request.Id));
 
         return responseValue == null
-            ? throw new ExceptionsForApi("Improvements not found", (int)HttpStatusCode.NoContent)
+            ? throw new ExceptionsForApi("Improvements not found", (int)HttpStatusCode.NotFound)
             : new Response<ImprovementsDTO>(responseValue);
     }
 }

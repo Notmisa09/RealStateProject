@@ -11,11 +11,11 @@ namespace RealStateApp.Core.Application.Features.PropertyType.Commands.UpdatePro
 
 public class UpdatePropertyTypeCommand : IRequest<Response<PropertyTypeAddDTO>>
 {
-    [SwaggerParameter(Description = "Id Improvement")]
+    [SwaggerParameter(Description = "Id of the property type to modify")]
     public int Id { get; set; }
-    [SwaggerParameter(Description = "New name of Improvements")]
+    [SwaggerParameter(Description = "New name of property type")]
     public string PropertyTypeName { get; set; } = null!;
-    [SwaggerParameter(Description = "New description of Improvements")]
+    [SwaggerParameter(Description = "New description of property type")]
     public string Description { get; set; } = null!;
 }
 
@@ -34,7 +34,7 @@ public class UpdateImprovementsCommandHandler : IRequestHandler<UpdatePropertyTy
     {
         var propertyType = await _repository.GetByIdAync(command.Id);
 
-        if (propertyType is null) throw new ExceptionsForApi("Property type not found", (int)HttpStatusCode.NoContent);
+        if (propertyType is null) throw new ExceptionsForApi("Property type not found", (int)HttpStatusCode.NotFound);
 
         propertyType = _mapper.Map<Domain.Entities.PropertyType>(command);
 

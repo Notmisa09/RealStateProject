@@ -34,7 +34,7 @@ public class UpdateImprovementsCommandHandler : IRequestHandler<UpdateImprovemen
     {
         var improvements = await _repository.GetByIdAync(command.Id);
 
-        if (improvements is null) throw new ExceptionsForApi("Improvement not found",(int)HttpStatusCode.NoContent);
+        if (improvements is null) throw new ExceptionsForApi("Improvement not found",(int)HttpStatusCode.NotFound);
 
         improvements = _mapper.Map<Domain.Entities.Improvements>(command);
 
