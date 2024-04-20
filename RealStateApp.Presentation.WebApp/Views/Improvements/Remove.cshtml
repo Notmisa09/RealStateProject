@@ -6,18 +6,25 @@
 }
 
 <div class="container-fluid">
-    <div class="col-4 offset-4">
-        <div class="card">
-            <div class="card-body">
-                <form method="post" asp-controller="Improvements" asp-action="RemoveTrue">
-                    <div class="card-text">
-                        @Model.ImprovementName
-                        @Model.Description
-                    </div>
-                    <input type="hidden" asp-for="Id" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a asp-controller="Improvements" asp-action="Index" class="btn btn-warning">Go Back</a>
-                </form>
+    <div class="row">
+        <div class="col-md-4 offset-md-4 mt-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    Confirmar eliminación
+                    <hr />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ImprovementName</h5>
+                    <p class="card-text">Descripción: @Model.Description</p>
+                    <p class="card-text">¿Estás seguro que quieres eliminar esta mejora?</p>
+                    <form method="post" asp-controller="Improvements" asp-action="RemoveTrue">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="mb-3">
+                            <a asp-controller="Improvements" asp-action="Index" class="btn btn-warning">Cancelar</a>
+                            <button type="submit" name="confirmation" value="true" class="btn btn-danger">Sí, eliminar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

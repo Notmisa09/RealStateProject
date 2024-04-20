@@ -18,11 +18,6 @@
 
 <section id="carousel-section">
     <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="https://content.elmueble.com/medio/2022/08/03/ly-villa-costa-blanca-3_1d6d2821_2000x1334.jpg" class="d-block w-100" alt="...">
@@ -31,29 +26,11 @@
                     <p>Con casas de en sueño</p>
                 </div>
             </div>
-
-            <div class="carousel-item">
-                <img src="/img/HomeCarousel/Casa de lujo 2.jpeg" class="d-block w-100" alt="...">
-            </div>
-
-            <div class="carousel-item">
-                <img src="/img/HomeCarousel/Casa interior.jpeg" class="d-block w-100" alt="...">
-            </div>
-
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 </section>
 
 <h1 class="text-center dancing-script m-5">~Estas son nuestras propiedades~</h1>
-
 
 <div class="container-fluid">
     <div class="card">
@@ -63,11 +40,11 @@
                     <div class="col-md-2 mb-3">
                         <label class="form-label">Tipo de propiedad</label>
                         <select name="PropertyType" class="form-select">
-                        @foreach (var item in propType)
-                        {
+                            @foreach (var item in propType)
+                            {
                                 <option value="#">Choose an option</option>
                                 <option value="@item.Id">@item.PropertyTypeName</option>
-                        }
+                            }
                         </select>
                     </div>
 
@@ -90,7 +67,6 @@
                             {
                                 <option value="@i">@i</option>
                             }
-
                         </select>
                     </div>
 
@@ -108,23 +84,22 @@
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-4 offset-4 mt-4">
+                        <div class="input-group">
+                            <input name="PropertyCode" class="form-control" placeholder="Ingrese el código de propiedad" />
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
-    </div>
-
-    <div class="float-end col-md-2 mt-3">
-        <form asp-controller="Home" asp-action="PropertyFilter" method="post" class="row">
-            <div class="input-group mb-3">
-                <input name="PropertyCode" class="form-control" placeholder="Ingrese el codigo de propiedad" />
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </form>
     </div>
 </div>
 
 @if (Model.Any())
 {
-
     <section id="Property-section" class="mt-5">
         <div class="container-fluid mt-5">
             <div class="row">
@@ -194,7 +169,6 @@ else
 
 
 <style>
-
     .image-container {
         height: 200px;
         overflow: hidden;
@@ -206,7 +180,7 @@ else
             width: 100%;
         }
 
-    card {
+    .card {
         border-radius: 0px;
     }
 
@@ -225,10 +199,7 @@ else
         border: none;
     }
 
-
     .dancing-script {
         font-family: "Dancing Script", cursive;
-        align-items: center;
     }
-
 </style>

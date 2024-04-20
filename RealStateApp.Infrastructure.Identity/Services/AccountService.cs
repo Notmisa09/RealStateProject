@@ -43,8 +43,8 @@ namespace RealStateApp.Infrastructure.Identity.Services
             _emailService = emailService;
         }
 
-        //REMOVE USER
 
+        //REMOVE USER
         public async Task<ServiceResult> Remove(string Id)
         {
             ServiceResult result = new();
@@ -60,7 +60,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
             result.Error = "Usuario eliminado con exito";
             return result;
         }
-
 
         //UPDATE USER
         public async Task<ServiceResult> Update(RegisterRequest request)
@@ -100,7 +99,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
             }
             return respponse;
         }
-
+        
         //GETBYID
         public async Task<DtoAccount> GetUserById(string Id)
         {
@@ -112,7 +111,7 @@ namespace RealStateApp.Infrastructure.Identity.Services
                 LastName = user.LastName,
                 Email = user.Email,
                 IsActive = user.IsActive,
-                ImageURl = user.ImageURl,
+                ImageUrl = user.ImageURl,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 Password = user.PasswordHash,
@@ -120,7 +119,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
             };
             return dto;
         }
-
 
         //CHANGE USER STATUS
         public async Task<ServiceResult> ChangeUserStatus(RegisterRequest request)
@@ -145,7 +143,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
             }
             return response;
         }
-
 
         //GETALLUSERS
         public async Task<List<DtoAccount>> GetAllUsers()
@@ -286,7 +283,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
             response.RefreshTokwn = refreshToken.Token;
 
             return response;
-
         }
 
         //CREATE DEV 
