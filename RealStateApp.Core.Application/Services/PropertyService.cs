@@ -397,4 +397,5 @@ namespace RealStateApp.Core.Application.Services
             }).ToList();
         }
     }
+    #endregion
 }
