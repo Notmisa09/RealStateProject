@@ -11,6 +11,7 @@ using RealStateApp.Core.Application.Dto.Acccount.ResetPassword;
 using RealStateApp.Core.Application.Dto.Email;
 using RealStateApp.Core.Application.Dto.JWT;
 using RealStateApp.Core.Application.Enum;
+using RealStateApp.Core.Application.Helpers;
 using RealStateApp.Core.Application.Interfaces.IService;
 using RealStateApp.Core.Domain.Settings;
 using RealStateApp.Infrastructure.Identity.Entities;
@@ -82,6 +83,14 @@ namespace RealStateApp.Infrastructure.Identity.Services
             {
                 var Token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 await _userManager.ResetPasswordAsync(user, Token, request.Password);
+            }
+            if (request.ImageURL != null)
+            {
+                user.ImageURl = FileHelpers.UploadFile(request.formFile, request.Id, "User", true, user.ImageURl);
+            }
+            else
+            {
+                user.ImageURl = FileHelpers.UploadFile(request.formFile, request.Id, "User", false, user.ImageURl);
             }
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
@@ -161,7 +170,6 @@ namespace RealStateApp.Infrastructure.Identity.Services
             }
             return DtoUserList;
         }
-
 
         //RESETPASSWORD
         public async Task<ServiceResult> ResetPasswordAsync(ResetPasswordRequest request)

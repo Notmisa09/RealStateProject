@@ -31,17 +31,84 @@ namespace RealStateApp.Core.Application.Services
             user = _contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
         }
 
+        #region Gets
+
+        public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
+                .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+
+            return newlist;
+        }
+
+        public async Task<SaveUserViewModel> GetById(string Id)
+        {
+            var user = await _accountService.GetUserById(Id);
+            var vm = _mapper.Map<SaveUserViewModel>(user);
+            return vm;
+        }
+
+        //GETALL FOR ADMIN
+        public async Task<List<UserViewModel>> GetAdminUsers(string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.Id != user.Id)
+            .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+            return newlist;
+        }
+
+        //GET ALL USER IGNORING THE USERSTATUS 
+        public async Task<List<UserViewModel>> GetUsersIsActiveIgnore(string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles))
+            .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+
+            if (Roles == RolesEnum.Agent.ToString())
+            {
+                foreach (var item in newlist)
+                {
+                    item.PropertiesAmount = await _propertyService.PropertiesCount(item.Id);
+                }
+            }
+            return newlist;
+        }
+
+        public async Task<List<UserViewModel>> FilterForAgents(FilterUserViewModel vm, string Roles)
+        {
+            var list = await _accountService.GetAllUsers();
+            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
+                .OrderBy(x => x.FirstName).ToList();
+            var newlist = _mapper.Map<List<UserViewModel>>(list);
+
+            if (!string.IsNullOrEmpty(vm.AgentName))
+            {
+                newlist = newlist.Where(x => x.FirstName.Contains(vm.AgentName) || x.LastName.Contains(vm.AgentName)).ToList();
+            }
+            return newlist;
+        }
+
+        #endregion
+
+        #region Remove
         public async Task<ServiceResult> Remove(string Id)
         {
             var user = await _accountService.GetUserById(Id);
             var result = await _accountService.Remove(Id);
-            if(user.ImageUrl == null)
+            if (user.ImageUrl == null)
             {
                 FileHelpers.ElimProfileImage(user.ImageURl);
             }
             return result;
         }
-        
+        #endregion
+
+        #region Additional Mthods
+
         public async Task<ServiceResult> ChangeUserStatus(SaveUserViewModel vm)
         {
             var user = _mapper.Map<RegisterRequest>(vm);
@@ -73,66 +140,9 @@ namespace RealStateApp.Core.Application.Services
 
         }
 
-        public async Task<SaveUserViewModel> GetById(string Id)
-        {
-            var user = await _accountService.GetUserById(Id);
-            var vm = _mapper.Map<SaveUserViewModel>(user);
-            return vm;
-        }
+        #endregion
 
-
-        public async Task<List<UserViewModel>> FilterForAgents(FilterUserViewModel vm , string Roles)
-        {
-            var list = await _accountService.GetAllUsers();
-            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
-                .OrderBy(x => x.FirstName).ToList();
-            var newlist = _mapper.Map<List<UserViewModel>>(list);
-
-            if (!string.IsNullOrEmpty(vm.AgentName))
-            {
-                newlist = newlist.Where(x => x.FirstName.Contains(vm.AgentName) || x.LastName.Contains(vm.AgentName)).ToList();
-            }
-            return newlist;
-        }
-
-
-        public async Task<List<UserViewModel>> GeAllByUsers(string Roles)
-        {
-            var list = await _accountService.GetAllUsers();
-            list = list.Where(u => u.Roles.Contains(Roles) && u.IsActive == true)
-                .OrderBy(x => x.FirstName).ToList();
-            var newlist = _mapper.Map<List<UserViewModel>>(list);
-
-            return newlist;
-        }
-
-        //GETALL FOR ADMIN
-        public async Task<List<UserViewModel>> GetAdminUsers(string Roles)
-        {
-            var list = await _accountService.GetAllUsers();
-            list = list.Where(u => u.Roles.Contains(Roles) && u.Id != user.Id)
-            .OrderBy(x => x.FirstName).ToList();
-            var newlist = _mapper.Map<List<UserViewModel>>(list);
-            return newlist;
-        }
-
-        //GET ALL USER IGNORING THE USERSTATUS 
-        public async Task<List<UserViewModel>> GetUsersIsActiveIgnore(string Roles)
-        {
-            var list = await _accountService.GetAllUsers();
-            list = list.Where(u => u.Roles.Contains(Roles))
-            .OrderBy(x => x.FirstName).ToList();
-            var newlist = _mapper.Map<List<UserViewModel>>(list);
-
-            if(Roles == RolesEnum.Agent.ToString())
-            {
-                foreach (var item in newlist)
-                {
-                    item.PropertiesAmount = await _propertyService.PropertiesCount(item.Id);
-                }
-            }
-            return newlist;
-        }
+        #region  UseIdeneityMethods
 
         //LOGIN
         public async Task<AuthenticationResponse> LoginAync(LoginViewModel vm)
@@ -142,7 +152,7 @@ namespace RealStateApp.Core.Application.Services
             return userResponse;
 
         }
-        
+
         //LOGOUT
         public async Task SignOutAsync()
         {
@@ -154,7 +164,7 @@ namespace RealStateApp.Core.Application.Services
         {
             return await _accountService.ConfirmAccountAysnc(UserId, token);
         }
-        
+
         //FORGOTPASSWORDASYNC
         public async Task<ServiceResult> ForgotPasswordAsync(ForgotPasswordViewModel vm, string origin)
         {
@@ -193,5 +203,8 @@ namespace RealStateApp.Core.Application.Services
             ResetPasswordRequest resetRequest = _mapper.Map<ResetPasswordRequest>(vm);
             return await _accountService.ResetPasswordAsync(resetRequest);
         }
+
+        #endregion
+
     }
 }

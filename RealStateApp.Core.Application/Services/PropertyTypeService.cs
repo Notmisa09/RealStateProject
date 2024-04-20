@@ -18,6 +18,8 @@ namespace RealStateApp.Core.Application.Services
             _propertyRepository = propertyRepository;
         }
 
+        #region GetAllPropertiesCount
+
         public async Task<List<PropertyTypeViewModel>> GeallWithPropertiesAmount()
         {
             var properties = await _propertyRepository.GetAllAsync();
@@ -38,5 +40,7 @@ namespace RealStateApp.Core.Application.Services
             }
             return propertyTypelist;
         }
+
+        #endregion
     }
 }

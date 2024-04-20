@@ -49,6 +49,9 @@
                         Codigo: @item.PropertyCode
                         <span class="ms-3">Tipo de propiedad: <span class="badge rounded-pill bg-info">@item.PropertyTypeName</span></span>
                         <span class="ms-3">Tipo de venta: <span class="badge rounded-pill bg-info">@item.SellingTypeName</span></span>
+                        Precio: <span style="color:forestgreen; font-weight:bold">
+                            RD$ @item.Price
+                        </span>
                     </div>
 
                     <div class="col-10 offset-1">
@@ -78,7 +81,7 @@
                     <h4>Mejoras</h4>
                     @foreach (var mejoras in item.ImprovementsName)
                     {
-                        <h5>@mejoras</h5>
+                        <h5><span class="badge bg-warning">@mejoras</span></h5>
                     }
                 </div>
             </div>
